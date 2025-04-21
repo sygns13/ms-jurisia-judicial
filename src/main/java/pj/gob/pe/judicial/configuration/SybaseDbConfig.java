@@ -21,7 +21,7 @@ import java.util.Map;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        basePackages = "pj.gob.pe.repository.sybase",
+        basePackages = "pj.gob.pe.judicial.repository.sybase",
         entityManagerFactoryRef = "sybaseEntityManagerFactory",
         transactionManagerRef = "sybaseTransactionManager"
 )
