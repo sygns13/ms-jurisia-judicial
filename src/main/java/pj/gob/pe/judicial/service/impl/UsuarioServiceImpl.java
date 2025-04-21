@@ -3,6 +3,7 @@ package pj.gob.pe.judicial.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pj.gob.pe.judicial.dao.sybase.UsuarioDAO;
+import pj.gob.pe.judicial.model.sybase.dto.DataUsuarioDTO;
 import pj.gob.pe.judicial.model.sybase.dto.UsuarioDTO;
 import pj.gob.pe.judicial.service.UsuarioService;
 
@@ -13,7 +14,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     private UsuarioDAO usuarioDAO;
 
     @Override
-    public UsuarioDTO findByCredentials(String username, String password) throws Exception {
+    public DataUsuarioDTO findByCredentials(String username, String password) throws Exception {
         return usuarioDAO.findByCredentials(username, password);
     }
 }

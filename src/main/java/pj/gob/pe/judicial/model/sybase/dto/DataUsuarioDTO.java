@@ -37,5 +37,5 @@ public class DataUsuarioDTO implements Serializable {
     private String desper;
 
     @Column(name="c_instanciacheck")
-    private Integer instanciaCheck;
+    private Short instanciaCheck;
 }

@@ -87,15 +87,14 @@ public class UsuarioDAOImpl implements UsuarioDAO {
                                 "\tWHERE ui.l_activo = 'S' \n" +
                                 "\tAND trim(u.c_dni)=:password \n" +
                                 "\tAND trim(u.c_usuario)=:username \n" +
-                                "\t-- AND ui.c_instancia IN ('302', '080', '081', '082', '083', '084') \n" +
-                                "GROUP BY u.c_dni, u.c_ape_paterno, u.c_ape_materno, u.c_nombres, u.c_usuario"
+                                "\tGROUP BY u.c_dni, u.c_ape_paterno, u.c_ape_materno, u.c_nombres, u.c_usuario"
                 )
                 .setParameter("username", username)
                 .setParameter("password", password)
                 .getResultList();
 
         if (!resultList2.isEmpty()) {
-            Object[] row = resultList.get(0);
+            Object[] row = resultList2.get(0);
             dataUsuario = new DataUsuarioDTO(
                     (String) row[0],
                     (String) row[1],
@@ -103,7 +102,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
                     (String) row[3],
                     (String) row[4],
                     (String) row[5],
-                    (Integer) row[6]
+                    (Short) row[6]
             );
             return dataUsuario;
         }
