@@ -4,5 +4,5 @@ import pj.gob.pe.judicial.model.sybase.dto.UsuarioDTO;
 
 public interface UsuarioDAO {
 
-    UsuarioDTO findByCredentials(String username, String password) throws Exception;
+    DataUsuarioDTO findByCredentials(String username, String password) throws Exception;
 }
