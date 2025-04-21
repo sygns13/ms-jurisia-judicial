@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 
 @NamedNativeQueries({
         @NamedNativeQuery(
-                name = "UsuarioQuery",
+                name = "UsuarioDTO.findByCredentials",
                 query = " SELECT u.c_dni, " +
                         " u.c_ape_paterno, " +
                         " u.c_ape_materno, " +
