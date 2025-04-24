@@ -86,7 +86,8 @@ public class UsuarioDAOImpl implements UsuarioDAO {
                                 "\tFROM usuario u JOIN usuario_instancia ui ON u.c_usuario = ui.c_usuario JOIN perfil p ON p.codper = u.c_perfil \n" +
                                 "\tWHERE ui.l_activo = 'S' \n" +
                                 "\tAND trim(u.c_dni)=:password \n" +
-                                "\tAND trim(u.c_usuario)=:username \n" +
+                                "\tAND trim(u.c_usuario)=:username " +
+                                "\tAND ui.c_instancia IN ('302', '080', '081', '082', '083', '084') " +
                                 "\tGROUP BY u.c_dni, u.c_ape_paterno, u.c_ape_materno, u.c_nombres, u.c_usuario"
                 )
                 .setParameter("username", username)
