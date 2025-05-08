@@ -87,7 +87,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
                                 "\tWHERE ui.l_activo = 'S' \n" +
                                 "\tAND trim(u.c_dni)=:password \n" +
                                 "\tAND trim(u.c_usuario)=:username " +
-                                "\tAND ui.c_instancia IN ('302', '080', '081', '082', '083', '084') " +
+                                "\tAND ui.c_instancia IN ('301', '302', '702','701', '044') " +
                                 "\tGROUP BY u.c_dni, u.c_ape_paterno, u.c_ape_materno, u.c_nombres, u.c_usuario"
                 )
                 .setParameter("username", username)
