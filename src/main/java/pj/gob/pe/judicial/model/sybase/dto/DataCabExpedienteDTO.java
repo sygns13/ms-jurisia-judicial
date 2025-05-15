@@ -1,5 +1,6 @@
 package pj.gob.pe.judicial.model.sybase.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Schema(description = "Data Cabecera de Expediente SIJ Model")
 @Entity
@@ -50,4 +52,23 @@ public class DataCabExpedienteDTO implements Serializable {
 
     @Column(name="INSTANCIA")
     private String instancia;
+
+    @Column(name="X_DESC_MATERIA")
+    private String descMateria;
+
+    @Column(name="F_INICIO")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime fechaCreacion;
+
+    @Column(name="X_DESC_ESTADO")
+    private String descEstado;
+
+    @Column(name="C_UBICACION")
+    private String ubicacion;
+
+    @Column(name="DESC_UBICACION")
+    private String descUbicacion;
+
+    @Column(name="TIPO_EXPEDIENTE")
+    private String tipoExpediente;
 }
