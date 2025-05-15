@@ -25,9 +25,9 @@ public class SedeController {
 
     @Operation(summary = "Obtener sedes activas", description = "Obtener sedes activas")
     @GetMapping("/active")
-    public ResponseEntity<List<DataSedeDTO>> listarSedes() throws Exception{
+    public ResponseEntity<List<DataSedeDTO>> listarSedes(@RequestHeader("SessionId") String SessionId) throws Exception{
 
-        List<DataSedeDTO> sedes = sedeService.findActiveSedes();
+        List<DataSedeDTO> sedes = sedeService.findActiveSedes(SessionId);
 
         if(sedes == null) {
             throw new ModeloNotFoundException("Sedes no encontrada");

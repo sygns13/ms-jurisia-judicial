@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface InstanciaService {
 
-    List<DataInstanciaDTO> findActiveInstancias() throws Exception;
+    List<DataInstanciaDTO> findActiveInstancias(String SessionId) throws Exception;
 }

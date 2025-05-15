@@ -26,4 +26,7 @@ public class DataEspecialidadDTO implements Serializable {
 
     @Column(name="c_cod_especialidad")
     private String codigoCodEspecialidad;
+
+    @Column(name="c_instancia")
+    private String codigoInstancia;
 }

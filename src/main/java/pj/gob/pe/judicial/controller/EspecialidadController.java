@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pj.gob.pe.judicial.exception.ModeloNotFoundException;
@@ -24,9 +25,9 @@ public class EspecialidadController {
 
     @Operation(summary = "Obtener especialidades", description = "Obtener especialidades")
     @GetMapping()
-    public ResponseEntity<List<DataEspecialidadDTO>> listarEspecialidads() throws Exception{
+    public ResponseEntity<List<DataEspecialidadDTO>> listarEspecialidads(@RequestHeader("SessionId") String SessionId) throws Exception{
 
-        List<DataEspecialidadDTO> especialidades = especialidadService.findEspecialidades();
+        List<DataEspecialidadDTO> especialidades = especialidadService.findEspecialidades(SessionId);
 
         if(especialidades == null) {
             throw new ModeloNotFoundException("Especialidads no encontrada");

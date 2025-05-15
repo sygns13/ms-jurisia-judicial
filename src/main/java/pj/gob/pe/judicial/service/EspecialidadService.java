@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface EspecialidadService {
 
-    List<DataEspecialidadDTO> findEspecialidades() throws Exception;
+    List<DataEspecialidadDTO> findEspecialidades(String SessionId) throws Exception;
 }

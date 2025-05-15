@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface SedeService {
 
-    List<DataSedeDTO> findActiveSedes() throws Exception;
+    List<DataSedeDTO> findActiveSedes(String SessionId) throws Exception;
 }

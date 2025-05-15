@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import pj.gob.pe.judicial.dao.sybase.InstanciaDAO;
 import pj.gob.pe.judicial.model.sybase.dto.DataInstanciaDTO;
+import pj.gob.pe.judicial.utils.beans.UserLogin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,15 +22,24 @@ public class InstanciaDAOImpl implements InstanciaDAO {
 
 
     @Override
-    public List<DataInstanciaDTO> findActiveInstancias() throws Exception {
+    public List<DataInstanciaDTO> findActiveInstancias(UserLogin user) throws Exception {
 
         List<DataInstanciaDTO> listInstancias = new ArrayList<>();
 
         List<Object[]> resultList = entityManager.createNativeQuery(
-                "select c_instancia, c_distrito, c_provincia, c_org_jurisd, x_nom_instancia, n_instancia, x_ubicacion_fisica, x_corto, c_sede, c_ubigeo, l_ind_baja \n" +
-                        "from instancia\n" +
-                        "where l_ind_baja='N'"
-        ).getResultList();
+                " SELECT DISTINCT i.c_instancia, i.c_distrito, i.c_provincia, i.c_org_jurisd, i.x_nom_instancia, i.n_instancia, i.x_ubicacion_fisica, i.x_corto, i.c_sede, i.c_ubigeo, i.l_ind_baja \n" +
+                        " FROM usuario u \n" +
+                        " JOIN usuario_instancia ui ON u.c_usuario = ui.c_usuario \n" +
+                        " JOIN instancia i ON i.c_instancia = ui.c_instancia \n" +
+                        " JOIN sede s ON s.c_sede = i.c_sede \n" +
+                        "                                WHERE \n" +
+                        "                                ui.l_activo = 'S' AND \n" +
+                        "                                trim(u.c_dni)=:dni \n" +
+                        "                                AND trim(u.c_usuario)=:username "
+        )
+        .setParameter("dni", user.getDocumento())
+        .setParameter("username", user.getUsername())
+        .getResultList();
 
         if (!resultList.isEmpty()) {
             resultList.forEach(row -> {
