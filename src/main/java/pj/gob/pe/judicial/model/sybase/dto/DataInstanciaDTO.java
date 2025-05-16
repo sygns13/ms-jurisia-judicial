@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 @Schema(description = "Data de Instancias SIJ Model")
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

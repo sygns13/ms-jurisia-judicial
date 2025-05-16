@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Schema(description = "Usuario SIJ Model")
-@Entity
 @SqlResultSetMapping(
         name = "UsuarioFullMapping",
         entities = @EntityResult(

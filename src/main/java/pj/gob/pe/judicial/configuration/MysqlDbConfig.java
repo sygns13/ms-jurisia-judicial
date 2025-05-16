@@ -2,6 +2,7 @@ package pj.gob.pe.judicial.configuration;
 
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -22,7 +23,7 @@ import java.util.Map;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        basePackages = "pj.gob.pe.repository.mysql",
+        basePackages = "pj.gob.pe.judicial.repository.mysql",
         entityManagerFactoryRef = "mysqlEntityManagerFactory",
         transactionManagerRef = "mysqlTransactionManager"
 )
@@ -48,7 +49,7 @@ public class MysqlDbConfig {
 
         return builder
                 .dataSource(mysqlDataSource())
-                .packages("pj.gob.pe.model.entities.mysql")
+                .packages("pj.gob.pe.judicial.model.mysql.entities")
                 .persistenceUnit("mysql")
                 .properties(props)
                 .build();

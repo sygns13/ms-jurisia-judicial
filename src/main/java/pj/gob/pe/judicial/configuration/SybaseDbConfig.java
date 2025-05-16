@@ -43,7 +43,7 @@ public class SybaseDbConfig {
 
         return builder
                 .dataSource(sybaseDataSource())
-                .packages("pj.gob.pe.model.entities.sybase")
+                .packages("pj.gob.pe.judicial.model.sybase.dto")
                 .persistenceUnit("sybase")
                 .properties(props)
                 .build();

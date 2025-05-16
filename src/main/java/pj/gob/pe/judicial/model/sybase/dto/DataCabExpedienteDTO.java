@@ -12,7 +12,6 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Schema(description = "Data Cabecera de Expediente SIJ Model")
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
