@@ -49,6 +49,9 @@ public class DataCabExpedienteDTO implements Serializable {
     @Column(name="ESPECIALIDAD")
     private String especialidad;
 
+    @Column(name="C_INSTANCIA")
+    private String codigoInstancia;
+
     @Column(name="INSTANCIA")
     private String instancia;
 

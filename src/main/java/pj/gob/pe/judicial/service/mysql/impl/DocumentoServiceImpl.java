@@ -18,4 +18,9 @@ public class DocumentoServiceImpl implements DocumentoService {
     public List<Documento> listarAll() {
         return documentoRepository.findAll();
     }
+
+    @Override
+    public List<Documento> listarActivosNoBorrados() {
+        return documentoRepository.findActivosNoBorrados();
+    }
 }

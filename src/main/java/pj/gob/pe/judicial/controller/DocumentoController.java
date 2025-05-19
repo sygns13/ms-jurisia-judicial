@@ -29,7 +29,7 @@ public class DocumentoController {
 
         //this.SetClaims(Authorization);
 
-        List<Documento> resultado = documentoService.listarAll();
+        List<Documento> resultado = documentoService.listarActivosNoBorrados();
 
         return new ResponseEntity<>(resultado, HttpStatus.OK);
     }

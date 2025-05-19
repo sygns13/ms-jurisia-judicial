@@ -9,4 +9,6 @@ public interface TipoDocumentoService {
     List<TipoDocumento> listarAll();
 
     List<TipoDocumento> listarByInstancia(String instancia);
+
+    List<TipoDocumento> listarActivosNoBorrados();
 }

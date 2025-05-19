@@ -41,6 +41,7 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                                 "                                sed.x_desc_sede AS SEDE,   \n" +
                                 "                                org.x_nom_org_jurisd AS ORGANO,   \n" +
                                 "                                esp.x_desc_especialidad AS ESPECIALIDAD,   \n" +
+                                "                                inst.c_instancia as C_INSTANCIA, \n" +
                                 "                                inst.x_nom_instancia AS INSTANCIA, \n" +
                                 "                                ma.X_DESC_MATERIA AS X_DESC_MATERIA,\n" +
                                 "                                exp.F_INICIO AS F_INICIO,\n" +
@@ -102,11 +103,12 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                         String.valueOf(row[9]),
                         String.valueOf(row[10]),
                         String.valueOf(row[11]),
-                        row[12] != null ? ((Timestamp) row[12]).toLocalDateTime() : null,
-                        String.valueOf(row[13]),
+                        String.valueOf(row[12]),
+                        row[13] != null ? ((Timestamp) row[13]).toLocalDateTime() : null,
                         String.valueOf(row[14]),
                         String.valueOf(row[15]),
-                        String.valueOf(row[16])
+                        String.valueOf(row[16]),
+                        String.valueOf(row[17])
                 );
 
                 listCabExpedientes.add(expediente);

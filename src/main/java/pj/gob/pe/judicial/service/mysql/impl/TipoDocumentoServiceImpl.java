@@ -23,4 +23,9 @@ public class TipoDocumentoServiceImpl implements TipoDocumentoService {
     public List<TipoDocumento> listarByInstancia(String idInstancia) {
         return repo.findByInstancia(idInstancia);
     }
+
+    @Override
+    public List<TipoDocumento> listarActivosNoBorrados() {
+        return repo.findActivosNoBorrados();
+    }
 }

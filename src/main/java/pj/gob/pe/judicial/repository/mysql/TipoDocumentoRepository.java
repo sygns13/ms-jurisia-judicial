@@ -20,4 +20,11 @@ public interface TipoDocumentoRepository extends JpaRepository<TipoDocumento, Lo
     List<TipoDocumento> findByInstancia(
             @Param("id_instancia") String idInstancia
     );
+
+    @Query(
+            value = "select idTipoDocumento, idInstancia, descripcion, regUserId, regDate, regDatetime, regTimestamp, updUserId, " +
+                    "updDate, updDatetime, updTimestamp, activo, borrado from JURISDB_JUDICIAL.TipoDocumento where activo = 1 and borrado = 0;",
+            nativeQuery = true
+    )
+    List<TipoDocumento> findActivosNoBorrados();
 }

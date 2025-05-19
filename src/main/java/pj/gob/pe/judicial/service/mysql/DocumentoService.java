@@ -7,4 +7,6 @@ import java.util.List;
 public interface DocumentoService {
 
     List<Documento> listarAll();
+
+    List<Documento> listarActivosNoBorrados();
 }

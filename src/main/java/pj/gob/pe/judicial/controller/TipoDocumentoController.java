@@ -30,7 +30,7 @@ public class TipoDocumentoController {
 
         //this.SetClaims(Authorization);
 
-        List<TipoDocumento> resultado = tipoDocumentoService.listarAll();
+        List<TipoDocumento> resultado = tipoDocumentoService.listarActivosNoBorrados();
 
         return new ResponseEntity<>(resultado, HttpStatus.OK);
     }
