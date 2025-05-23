@@ -8,11 +8,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+import pj.gob.pe.judicial.exception.ModeloNotFoundException;
 import pj.gob.pe.judicial.model.mysql.entities.SectionTemplate;
 import pj.gob.pe.judicial.model.mysql.entities.Template;
+import pj.gob.pe.judicial.model.sybase.dto.DataExpedienteDTO;
 import pj.gob.pe.judicial.repository.mysql.DocumentoRepository;
 import pj.gob.pe.judicial.repository.mysql.SectionTemplateRepository;
 import pj.gob.pe.judicial.repository.mysql.TemplateRepository;
+import pj.gob.pe.judicial.service.ExpedienteService;
 import pj.gob.pe.judicial.service.GenDocumentoService;
 
 import java.io.ByteArrayOutputStream;
@@ -24,6 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GenDocumentoServiceImpl implements GenDocumentoService {
 
+    private final ExpedienteService expedienteService;
     private final TemplateRepository templateRepository;
     private final SectionTemplateRepository sectionTemplateRepository;
     private static final Logger logger = LoggerFactory.getLogger(GenDocumentoServiceImpl.class);
@@ -72,5 +76,36 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
         catch (Exception e) {
             throw new Exception("Error al generar el documento: " + e.getMessage(), e);
         }
+    }
+
+    @Override
+    public byte[] generateDocx(Long nUnico, String templateCode) throws Exception {
+
+        List<DataExpedienteDTO> expedienteDatos = expedienteService.getDataExpediente(nUnico);
+
+        if(expedienteDatos == null || expedienteDatos.size() == 0) {
+            throw new ModeloNotFoundException("Expediente no encontrados");
+        }
+
+        //Se obtiene el template de base de datos
+        Template template = templateRepository.findByCode(templateCode);
+
+        if(template == null){
+            throw new Exception("Error al obtener el template del documento:");
+        }
+
+        List<SectionTemplate> sections = sectionTemplateRepository.findTemplateSections(template.getId());
+
+        if(sections == null || sections.size() == 0) {
+            throw new ModeloNotFoundException("Secciones de Documento no encontrados");
+        }
+
+
+        return null;
+    }
+
+    private List<SectionTemplate> ReemplazarSeccionesTemplate1(List<SectionTemplate> sections, List<DataExpedienteDTO> expedienteDatos){
+
+        return sections;
     }
 }

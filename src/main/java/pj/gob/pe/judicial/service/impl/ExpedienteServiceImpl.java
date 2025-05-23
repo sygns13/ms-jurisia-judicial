@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pj.gob.pe.judicial.dao.sybase.ExpedienteDAO;
 import pj.gob.pe.judicial.model.sybase.dto.DataCabExpedienteDTO;
+import pj.gob.pe.judicial.model.sybase.dto.DataExpedienteDTO;
 import pj.gob.pe.judicial.service.ExpedienteService;
 import pj.gob.pe.judicial.utils.beans.InputCabExpediente;
 
@@ -18,5 +19,10 @@ public class ExpedienteServiceImpl implements ExpedienteService {
     @Override
     public List<DataCabExpedienteDTO> findCabExpedientes(InputCabExpediente input) throws Exception {
         return expedienteDAO.findCabExpedientes(input);
+    }
+
+    @Override
+    public List<DataExpedienteDTO> getDataExpediente(Long nUnico) throws Exception {
+        return expedienteDAO.getDataExpediente(nUnico);
     }
 }

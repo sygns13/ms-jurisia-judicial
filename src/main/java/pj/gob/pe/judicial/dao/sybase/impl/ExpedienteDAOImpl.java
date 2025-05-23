@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import pj.gob.pe.judicial.dao.sybase.ExpedienteDAO;
 import pj.gob.pe.judicial.model.sybase.dto.DataCabExpedienteDTO;
-import pj.gob.pe.judicial.model.sybase.dto.DataSedeDTO;
+import pj.gob.pe.judicial.model.sybase.dto.DataExpedienteDTO;
 import pj.gob.pe.judicial.utils.beans.InputCabExpediente;
 
 import java.math.BigDecimal;
@@ -116,5 +116,83 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
         }
 
         return listCabExpedientes;
+    }
+
+    @Override
+    public List<DataExpedienteDTO> getDataExpediente(Long nUnico) throws Exception {
+
+        List<DataExpedienteDTO> listDataExpediente = new ArrayList<>();
+
+        List<Object[]> resultList = entityManager.createNativeQuery(
+                        "SELECT DISTINCT \n" +
+                                "    e.n_unico as N_UNICO, \n" +
+                                "    e.X_FORMATO, \n" +
+                                "    i.x_nom_instancia, \n" +
+                                "    e.c_especialidad, \n" +
+                                "    ma.X_DESC_MATERIA, \n" +
+                                "    e.F_INICIO, \n" +
+                                "    em.X_DESC_ESTADO, \n" +
+                                "    eu.c_ubicacion, \n" +
+                                "    ue.x_desc_ubicacion, \n" +
+                                "    ui.c_usuario AS usuario_juez, \n" +
+                                "    u.x_nom_usuario AS juez, \n" +
+                                "    a.c_usuario AS usuario_secretario, \n" +
+                                "    us.x_nom_usuario AS secretario, \n" +
+                                "    CASE \n" +
+                                "        WHEN ie.l_ind_digital = 'N' THEN 'Físico' \n" +
+                                "        WHEN ie.l_ind_digital = 'S' THEN 'Electrónico' \n" +
+                                "    END AS tipo_expediente, \n" +
+                                "    ISNULL(p.x_ape_paterno, '') + ' ' + ISNULL(p.x_ape_materno, '') + ' ' + ISNULL(p.x_nombres, '') AS parte, \n" +
+                                "    tp.l_tipo_parte, \n" +
+                                "    tp.x_desc_parte \n" +
+                                "FROM expediente e \n" +
+                                "INNER JOIN parte p ON p.n_unico = e.n_unico AND p.l_activo = 'S' \n" +
+                                "INNER JOIN tipo_parte tp ON tp.l_tipo_parte = p.l_tipo_parte AND tp.l_activo = 'S' \n" +
+                                "INNER JOIN instancia i ON e.c_instancia = i.c_instancia \n" +
+                                "INNER JOIN usuario_instancia ui ON ui.c_instancia = i.c_instancia AND ui.l_activo = 'S' AND ui.l_titular = 'S' \n" +
+                                "INNER JOIN usuario u ON u.c_usuario = ui.c_usuario \n" +
+                                "INNER JOIN asignado_a a ON a.n_unico = e.n_unico AND a.l_ultimo = 'S' \n" +
+                                "INNER JOIN usuario us ON us.c_usuario = a.c_usuario \n" +
+                                "INNER JOIN expediente_estado ee ON ee.n_unico = e.n_unico AND ee.l_ultimo = 'S' \n" +
+                                "INNER JOIN estado_maestro em ON em.c_estado = ee.c_estado \n" +
+                                "INNER JOIN materia_expediente m ON m.n_unico = e.n_unico \n" +
+                                "INNER JOIN materia ma ON m.c_materia = ma.c_materia \n" +
+                                "INNER JOIN expediente_ubicacion eu ON eu.n_unico = e.n_unico AND eu.l_ultimo = 'S' \n" +
+                                "INNER JOIN ubicacion_expediente ue ON eu.c_ubicacion = ue.c_ubicacion \n" +
+                                "INNER JOIN instancia_expediente ie ON ie.n_unico = e.n_unico \n" +
+                                "WHERE \n" +
+                                "    e.n_unico = :numUnico \n" +
+                                "ORDER BY tp.l_tipo_parte"
+                )
+                .setParameter("numUnico", nUnico)
+                .getResultList();
+
+        if (!resultList.isEmpty()) {
+            resultList.forEach(row -> {
+                DataExpedienteDTO expediente = new DataExpedienteDTO(
+                        ((BigDecimal) row[0]).longValue(),
+                        String.valueOf(row[1]),
+                        String.valueOf(row[2]),
+                        String.valueOf(row[3]),
+                        String.valueOf(row[4]),
+                        row[5] != null ? ((Timestamp) row[5]).toLocalDateTime() : null,
+                        String.valueOf(row[6]),
+                        String.valueOf(row[7]),
+                        String.valueOf(row[8]),
+                        String.valueOf(row[9]),
+                        String.valueOf(row[10]),
+                        String.valueOf(row[11]),
+                        String.valueOf(row[12]),
+                        String.valueOf(row[13]),
+                        String.valueOf(row[14]),
+                        String.valueOf(row[15]),
+                        String.valueOf(row[16])
+                );
+
+                listDataExpediente.add(expediente);
+            });
+        }
+
+        return listDataExpediente;
     }
 }
