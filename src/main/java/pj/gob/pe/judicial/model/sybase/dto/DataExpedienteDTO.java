@@ -69,4 +69,7 @@ public class DataExpedienteDTO implements Serializable {
 
     @Column(name = "x_desc_parte")
     private String descParte;
+
+    @Column(name="DNI_PARTE")
+    private String dniParte;
 }

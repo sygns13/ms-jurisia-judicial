@@ -145,6 +145,7 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                                 "    ISNULL(p.x_ape_paterno, '') + ' ' + ISNULL(p.x_ape_materno, '') + ' ' + ISNULL(p.x_nombres, '') AS parte, \n" +
                                 "    tp.l_tipo_parte, \n" +
                                 "    tp.x_desc_parte \n" +
+                                "    p.x_doc_id as DNI_PARTE \n" +
                                 "FROM expediente e \n" +
                                 "INNER JOIN parte p ON p.n_unico = e.n_unico AND p.l_activo = 'S' \n" +
                                 "INNER JOIN tipo_parte tp ON tp.l_tipo_parte = p.l_tipo_parte AND tp.l_activo = 'S' \n" +
@@ -186,7 +187,8 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                         String.valueOf(row[13]),
                         String.valueOf(row[14]),
                         String.valueOf(row[15]),
-                        String.valueOf(row[16])
+                        String.valueOf(row[16]),
+                        String.valueOf(row[17])
                 );
 
                 listDataExpediente.add(expediente);

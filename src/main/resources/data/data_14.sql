@@ -28,7 +28,7 @@ insert into JURISDB_JUDICIAL.SectionTemplates(idTemplate, codigo, content, descr
 (14, 'section8', '${body.main.nombre.demandante},', '', 0, 1, 1, 0, 1, 0);
 
 insert into JURISDB_JUDICIAL.SectionTemplates(idTemplate, codigo, content, descripcion, isFinal, isBold, isSendIA, isSaltoLinea, activo, borrado) values
-(14, 'section9', 'identificada con DNI N°${body.main.dni.demandante}, cuya copia se adjunta a fojas 01 útil, para uso exclusivo de pago y cobro de pensiones de alimentos, debiendo comunicar su cumplimiento de este despacho; se requiere en los seguidos por la indicada demandante con Hilto${body.main.dni.demandado}, sobre alimentos.', '', 0, 0, 1, 0, 1, 0);
+(14, 'section9', 'identificada con DNI N°${body.main.dni.demandante}, cuya copia se adjunta a fojas 01 útil, para uso exclusivo de pago y cobro de pensiones de alimentos, debiendo comunicar su cumplimiento de este despacho; se requiere en los seguidos por la indicada demandante con ${body.main.dni.demandado}, sobre alimentos.', '', 0, 0, 1, 0, 1, 0);
 
 insert into JURISDB_JUDICIAL.SectionTemplates(idTemplate, codigo, content, descripcion, isFinal, isBold, isSendIA, isSaltoLinea, activo, borrado) values
 (14, 'section10', 'Exp. N°${body.main.expediente}.', '', 0, 1, 0, 1, 1, 0);
