@@ -17,6 +17,11 @@ import pj.gob.pe.judicial.repository.mysql.SectionTemplateRepository;
 import pj.gob.pe.judicial.repository.mysql.TemplateRepository;
 import pj.gob.pe.judicial.service.ExpedienteService;
 import pj.gob.pe.judicial.service.GenDocumentoService;
+import pj.gob.pe.judicial.service.externals.ConsultaiaService;
+import pj.gob.pe.judicial.utils.Constantes;
+import pj.gob.pe.judicial.utils.beans.InputDocument;
+import pj.gob.pe.judicial.utils.beans.ResponseDocument;
+import pj.gob.pe.judicial.utils.beans.ResponseDocumentHTML;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -32,6 +37,7 @@ import java.util.StringJoiner;
 public class GenDocumentoServiceImpl implements GenDocumentoService {
 
     private final ExpedienteService expedienteService;
+    private final ConsultaiaService consultaiaService;
     private final TemplateRepository templateRepository;
     private final SectionTemplateRepository sectionTemplateRepository;
     private static final Logger logger = LoggerFactory.getLogger(GenDocumentoServiceImpl.class);
@@ -83,6 +89,66 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
     }
 
     @Override
+    ResponseDocumentHTML generateDocxHTML(Long nUnico, String templateCode) throws Exception {
+
+        List<DataExpedienteDTO> expedienteDatos = expedienteService.getDataExpediente(nUnico);
+
+        if(expedienteDatos == null || expedienteDatos.size() == 0) {
+            throw new ModeloNotFoundException("Expediente no encontrados");
+        }
+
+        //Se obtiene el template de base de datos
+        Template template = templateRepository.findByCode(templateCode);
+
+        if(template == null){
+            throw new Exception("Error al obtener el template del documento:");
+        }
+
+        List<SectionTemplate> sections = sectionTemplateRepository.findTemplateSections(template.getId());
+
+        if(sections == null || sections.size() == 0) {
+            throw new ModeloNotFoundException("Secciones de Documento no encontrados");
+        }
+
+        switch (templateCode) {
+            case "template_auto_01":
+                sections = this.ReemplazarSeccionesTemplate1(sections, expedienteDatos);
+                break;
+            default:
+                // Código si no coincide ningún caso
+                break;
+        }
+
+        sections = this.SendSectionsIA(sections, nUnico, templateCode);
+
+        ResponseDocumentHTML responseDocumentHTML = new ResponseDocumentHTML();
+
+        String responseContentHTML = "";
+        boolean saltoLinea = true;
+
+        for(SectionTemplate section : sections) {
+
+            if(saltoLinea){
+                responseContentHTML += "<p style='margin-top: 1em; margin-bottom: 1em;'>";
+                saltoLinea = false;
+            }
+            responseContentHTML += section.getContent();
+            if(section.getIsSaltoLinea().equals(Constantes.REGISTRO_ACTIVO)){
+                responseContentHTML += "</p>";
+                saltoLinea = true;
+            }
+        }
+
+        responseDocumentHTML.setContentHTML(responseContentHTML);
+        responseDocumentHTML.setNUnico(nUnico);
+        responseDocumentHTML.setCodeTemplate(templateCode);
+        responseDocumentHTML.setSuccess(true);
+
+        return responseDocumentHTML;
+    }
+
+
+    @Override
     public byte[] generateDocx(Long nUnico, String templateCode) throws Exception {
 
         List<DataExpedienteDTO> expedienteDatos = expedienteService.getDataExpediente(nUnico);
@@ -113,7 +179,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
             break;
         }
 
-        sections = this.SendSectionsIA(sections, expedienteDatos);
+        sections = this.SendSectionsIA(sections, nUnico, templateCode);
 
         // 1. Cargar plantilla desde resources
         ClassPathResource resource = new ClassPathResource("templates/" + template.getCodigo()+".docx");
@@ -248,9 +314,18 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
         return sections;
     }
 
-    private List<SectionTemplate> SendSectionsIA(List<SectionTemplate> sections, List<DataExpedienteDTO> expedienteDatos){
+    private List<SectionTemplate> SendSectionsIA(List<SectionTemplate> sections, Long nUnico, String templateCode){
 
-        return sections;
+        InputDocument inputDocument = new InputDocument();
+
+        inputDocument.setIdUser(1L);
+        inputDocument.setCodeTemplate(templateCode);
+        inputDocument.setNUnico(nUnico);
+        inputDocument.setSectionTemplates(sections);
+
+        ResponseDocument responseDocument = consultaiaService.ProcessDocument(inputDocument);
+
+        return responseDocument.getSectionTemplates();
     }
 
     private List<SectionTemplate> ReemplazarSeccionesTemplate2(List<SectionTemplate> sections, List<DataExpedienteDTO> expedienteDatos){

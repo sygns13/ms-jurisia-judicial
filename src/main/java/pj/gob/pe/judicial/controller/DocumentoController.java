@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pj.gob.pe.judicial.exception.ModeloNotFoundException;
 import pj.gob.pe.judicial.model.mysql.entities.Documento;
 import pj.gob.pe.judicial.service.GenDocumentoService;
 import pj.gob.pe.judicial.service.mysql.DocumentoService;
+import pj.gob.pe.judicial.utils.beans.ResponseDocumentHTML;
 
 import java.util.List;
 
@@ -39,16 +41,30 @@ public class DocumentoController {
         return new ResponseEntity<>(resultado, HttpStatus.OK);
     }
 
-    @Operation(summary = "Generar Documento", description = "Generar Documento")
-    @GetMapping("/generar-documento/{nUnico}/{codigo}")
+    @Operation(summary = "Generar Documento DOCX", description = "Generar Documento DOCX")
+    @GetMapping("/generar-documento-docx/{nUnico}/{codigo}")
     public ResponseEntity<byte[]> generateDocx(@PathVariable("nUnico") Long  nUnico, @PathVariable("codigo") String  codigo) throws Exception {
 
 
-        byte[] documento = genDocumentoService.generateDocx(codigo);
+        byte[] documento = genDocumentoService.generateDocx(nUnico, codigo);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"test.docx\"")
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(documento);
+    }
+
+    @Operation(summary = "Generar Documento HTML", description = "Generar Documento HTML")
+    @GetMapping("/generar-documento-web/{nUnico}/{codigo}")
+    public ResponseEntity<ResponseDocumentHTML> generateHTMLDocx(@PathVariable("nUnico") Long  nUnico, @PathVariable("codigo") String  codigo) throws Exception {
+
+
+        ResponseDocumentHTML resultado = genDocumentoService.generateDocxHTML(nUnico, codigo);
+
+        if(resultado == null) {
+            throw new ModeloNotFoundException("Documento no Generado");
+        }
+
+        return new ResponseEntity<>(resultado, HttpStatus.OK);
     }
 }

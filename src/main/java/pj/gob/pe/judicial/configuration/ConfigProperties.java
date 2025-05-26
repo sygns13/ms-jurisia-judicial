@@ -10,11 +10,11 @@ import org.springframework.context.annotation.Configuration;
 @Setter
 public class ConfigProperties {
 
-    @Value("${api.openai.main.url}")
-    private String urlOpenAI;
+    @Value("${api.consultaia.url}")
+    private String urlConsultaia;
 
-    @Value("${api.openai.chat.path}")
-    private String pathChatGPT;
+    @Value("${api.consultaia.post.process.path}")
+    private String pathProcessDocument;
 
     @Value("${api.security.url}")
     private String urlSecurityAPI;
