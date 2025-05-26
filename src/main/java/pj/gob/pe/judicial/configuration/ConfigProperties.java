@@ -22,9 +22,6 @@ public class ConfigProperties {
     @Value("${api.security.get.session.path}")
     private String pathGetSession;
 
-    @Value("${api.openai.secret.key}")
-    private String secretKeyOpenAI;
-
     @Value("${spring.data.redis.prefix:jurisia_security}")
     private String REDIS_KEY_PREFIX;
 

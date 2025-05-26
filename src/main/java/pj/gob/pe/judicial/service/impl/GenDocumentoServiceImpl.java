@@ -19,6 +19,7 @@ import pj.gob.pe.judicial.service.ExpedienteService;
 import pj.gob.pe.judicial.service.GenDocumentoService;
 import pj.gob.pe.judicial.service.externals.ConsultaiaService;
 import pj.gob.pe.judicial.utils.Constantes;
+import pj.gob.pe.judicial.utils.beans.AuxDocument;
 import pj.gob.pe.judicial.utils.beans.InputDocument;
 import pj.gob.pe.judicial.utils.beans.ResponseDocument;
 import pj.gob.pe.judicial.utils.beans.ResponseDocumentHTML;
@@ -89,7 +90,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
     }
 
     @Override
-    ResponseDocumentHTML generateDocxHTML(Long nUnico, String templateCode) throws Exception {
+    public ResponseDocumentHTML generateDocxHTML(Long nUnico, String templateCode) throws Exception {
 
         List<DataExpedienteDTO> expedienteDatos = expedienteService.getDataExpediente(nUnico);
 
@@ -149,7 +150,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
 
 
     @Override
-    public byte[] generateDocx(Long nUnico, String templateCode) throws Exception {
+    public byte[] generateDocx(Long nUnico, String templateCode, AuxDocument auxDocument) throws Exception {
 
         List<DataExpedienteDTO> expedienteDatos = expedienteService.getDataExpediente(nUnico);
 
@@ -164,6 +165,8 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
             throw new Exception("Error al obtener el template del documento:");
         }
 
+        auxDocument.setNombreDoc(template.getNombreOut() + ".docx");
+
         List<SectionTemplate> sections = sectionTemplateRepository.findTemplateSections(template.getId());
 
         if(sections == null || sections.size() == 0) {
@@ -174,6 +177,48 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
             case "template_auto_01":
                 sections = this.ReemplazarSeccionesTemplate1(sections, expedienteDatos);
             break;
+            case "template_auto_02":
+                sections = this.ReemplazarSeccionesTemplate2(sections, expedienteDatos);
+                break;
+            case "template_auto_03":
+                sections = this.ReemplazarSeccionesTemplate3(sections, expedienteDatos);
+                break;
+            case "template_auto_04":
+                sections = this.ReemplazarSeccionesTemplate4(sections, expedienteDatos);
+                break;
+            case "template_auto_05":
+                sections = this.ReemplazarSeccionesTemplate5(sections, expedienteDatos);
+                break;
+            case "template_auto_06":
+                sections = this.ReemplazarSeccionesTemplate6(sections, expedienteDatos);
+                break;
+            case "template_auto_07":
+                sections = this.ReemplazarSeccionesTemplate7(sections, expedienteDatos);
+                break;
+            case "template_auto_08":
+                sections = this.ReemplazarSeccionesTemplate8(sections, expedienteDatos);
+                break;
+            case "template_auto_09":
+                sections = this.ReemplazarSeccionesTemplate9(sections, expedienteDatos);
+                break;
+            case "template_auto_10":
+                sections = this.ReemplazarSeccionesTemplate10(sections, expedienteDatos);
+                break;
+            case "template_auto_11":
+                sections = this.ReemplazarSeccionesTemplate11(sections, expedienteDatos);
+                break;
+            case "template_auto_12":
+                sections = this.ReemplazarSeccionesTemplate12(sections, expedienteDatos);
+                break;
+            case "template_auto_13":
+                sections = this.ReemplazarSeccionesTemplate13(sections, expedienteDatos);
+                break;
+            case "template_auto_14":
+                sections = this.ReemplazarSeccionesTemplate14(sections, expedienteDatos);
+                break;
+            case "template_auto_15":
+                sections = this.ReemplazarSeccionesTemplate15(sections, expedienteDatos);
+                break;
             default:
                 // Código si no coincide ningún caso
             break;

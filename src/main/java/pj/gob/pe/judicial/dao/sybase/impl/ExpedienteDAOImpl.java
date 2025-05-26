@@ -144,7 +144,7 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                                 "    END AS tipo_expediente, \n" +
                                 "    ISNULL(p.x_ape_paterno, '') + ' ' + ISNULL(p.x_ape_materno, '') + ' ' + ISNULL(p.x_nombres, '') AS parte, \n" +
                                 "    tp.l_tipo_parte, \n" +
-                                "    tp.x_desc_parte \n" +
+                                "    tp.x_desc_parte, \n" +
                                 "    p.x_doc_id as DNI_PARTE \n" +
                                 "FROM expediente e \n" +
                                 "INNER JOIN parte p ON p.n_unico = e.n_unico AND p.l_activo = 'S' \n" +

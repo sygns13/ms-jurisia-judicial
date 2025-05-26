@@ -31,7 +31,6 @@ public class ConsultaiaServiceImpl implements ConsultaiaService {
         return restClient.post()
                 .uri(pathProcessDocument)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + properties.getSecretKeyOpenAI())
                 .body(inputDocument)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, (request, response) -> {

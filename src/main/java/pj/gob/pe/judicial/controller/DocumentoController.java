@@ -15,6 +15,7 @@ import pj.gob.pe.judicial.exception.ModeloNotFoundException;
 import pj.gob.pe.judicial.model.mysql.entities.Documento;
 import pj.gob.pe.judicial.service.GenDocumentoService;
 import pj.gob.pe.judicial.service.mysql.DocumentoService;
+import pj.gob.pe.judicial.utils.beans.AuxDocument;
 import pj.gob.pe.judicial.utils.beans.ResponseDocumentHTML;
 
 import java.util.List;
@@ -45,11 +46,12 @@ public class DocumentoController {
     @GetMapping("/generar-documento-docx/{nUnico}/{codigo}")
     public ResponseEntity<byte[]> generateDocx(@PathVariable("nUnico") Long  nUnico, @PathVariable("codigo") String  codigo) throws Exception {
 
-
-        byte[] documento = genDocumentoService.generateDocx(nUnico, codigo);
+        AuxDocument auxDocument = new AuxDocument();
+        auxDocument.setNombreDoc("nombre.docx");
+        byte[] documento = genDocumentoService.generateDocx(nUnico, codigo, auxDocument);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"test.docx\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+auxDocument.getNombreDoc()+"\"")
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(documento);
     }
