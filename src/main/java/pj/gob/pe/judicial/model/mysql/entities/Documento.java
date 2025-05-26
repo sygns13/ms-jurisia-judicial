@@ -33,6 +33,10 @@ public class Documento {
     @Column(name = "descripcion", nullable = true, length = 150)
     private String descripcion;
 
+    @Schema(description = "Código del Template")
+    @Column(name = "codigoTemplate", nullable = true, length = 150)
+    private String codigoTemplate;
+
     @Schema(description = "Fecha de Creación del Registro")
     @JsonFormat(pattern="yyyy-MM-dd")
     @Column(name="regDate", nullable = true)

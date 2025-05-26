@@ -12,7 +12,7 @@ import java.util.List;
 public interface DocumentoRepository extends JpaRepository<Documento, Long> {
 
     @Query(
-            value = "select idDocumento, idTipoDocumento, descripcion, regUserId, regDate, regDatetime, regTimestamp, updUserId, updDate, updDatetime, updTimestamp, activo, borrado \n" +
+            value = "select idDocumento, idTipoDocumento, descripcion, codigoTemplate, regUserId, regDate, regDatetime, regTimestamp, updUserId, updDate, updDatetime, updTimestamp, activo, borrado \n" +
                     " from JURISDB_JUDICIAL.Documento where activo = 1 and borrado = 0;",
             nativeQuery = true
     )

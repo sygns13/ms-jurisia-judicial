@@ -1118,7 +1118,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
         LocalDate ahora = LocalDate.now();
 
         // Definir el formato deseado
-        DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd 'de' MMMM del yyyy", new Locale("es", "PE"));
+        DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd 'de' MMMM 'del' yyyy", new Locale("es", "PE"));
 
         String ciudad = "Huaraz";
         // Formatear la fecha
@@ -1179,7 +1179,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
         LocalDate ahora = LocalDate.now();
 
         // Definir el formato deseado
-        DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd 'de' MMMM del yyyy", new Locale("es", "PE"));
+        DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd 'de' MMMM 'del' yyyy", new Locale("es", "PE"));
 
         String ciudad = "Huaraz";
         // Formatear la fecha
@@ -1246,7 +1246,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
         LocalDate ahora = LocalDate.now();
 
         // Definir el formato deseado
-        DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd 'de' MMMM del yyyy", new Locale("es", "PE"));
+        DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd 'de' MMMM 'del' yyyy", new Locale("es", "PE"));
 
         String ciudad = "Huaraz";
         // Formatear la fecha
@@ -1312,7 +1312,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
         LocalDate ahora = LocalDate.now();
 
         // Definir el formato deseado
-        DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd 'de' MMMM del yyyy", new Locale("es", "PE"));
+        DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd 'de' MMMM 'del' yyyy", new Locale("es", "PE"));
 
         String ciudad = "Huaraz";
         // Formatear la fecha
