@@ -91,24 +91,24 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
         if (!resultList.isEmpty()) {
             resultList.forEach(row -> {
                 DataCabExpedienteDTO expediente = new DataCabExpedienteDTO(
-                        ((BigDecimal) row[0]).longValue(),
-                        String.valueOf(row[1]),
-                        String.valueOf(row[2]),
-                        String.valueOf(row[3]),
-                        ((Integer) row[4]).longValue(),
-                        ((Integer) row[5]).longValue(),
-                        String.valueOf(row[6]),
-                        String.valueOf(row[7]),
-                        String.valueOf(row[8]),
-                        String.valueOf(row[9]),
-                        String.valueOf(row[10]),
-                        String.valueOf(row[11]),
-                        String.valueOf(row[12]),
+                        row[0] != null ? ((BigDecimal) row[0]).longValue() : null,
+                        row[1] != null ? String.valueOf(row[1]) : null,
+                        row[2] != null ? String.valueOf(row[2]) : null,
+                        row[3] != null ? String.valueOf(row[3]) : null,
+                        row[4] != null ? ((Integer) row[4]).longValue() : null,
+                        row[5] != null ? ((Integer) row[5]).longValue() : null,
+                        row[6] != null ? String.valueOf(row[6]) : null,
+                        row[7] != null ? String.valueOf(row[7]) : null,
+                        row[8] != null ? String.valueOf(row[8]) : null,
+                        row[9] != null ? String.valueOf(row[9]) : null,
+                        row[10] != null ? String.valueOf(row[10]) : null,
+                        row[11] != null ? String.valueOf(row[11]) : null,
+                        row[12] != null ? String.valueOf(row[12]) : null,
                         row[13] != null ? ((Timestamp) row[13]).toLocalDateTime() : null,
-                        String.valueOf(row[14]),
-                        String.valueOf(row[15]),
-                        String.valueOf(row[16]),
-                        String.valueOf(row[17])
+                        row[14] != null ? String.valueOf(row[14]) : null,
+                        row[15] != null ? String.valueOf(row[15]) : null,
+                        row[16] != null ? String.valueOf(row[16]) : null,
+                        row[17] != null ? String.valueOf(row[17]) : null
                 );
 
                 listCabExpedientes.add(expediente);
@@ -171,24 +171,24 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
         if (!resultList.isEmpty()) {
             resultList.forEach(row -> {
                 DataExpedienteDTO expediente = new DataExpedienteDTO(
-                        ((BigDecimal) row[0]).longValue(),
-                        String.valueOf(row[1]),
-                        String.valueOf(row[2]),
-                        String.valueOf(row[3]),
-                        String.valueOf(row[4]),
+                        row[0] != null ? ((BigDecimal) row[0]).longValue() : null,
+                        row[1] != null ? String.valueOf(row[1]) : null,
+                        row[2] != null ? String.valueOf(row[2]) : null,
+                        row[3] != null ? String.valueOf(row[3]) : null,
+                        row[4] != null ? String.valueOf(row[4]) : null,
                         row[5] != null ? ((Timestamp) row[5]).toLocalDateTime() : null,
-                        String.valueOf(row[6]),
-                        String.valueOf(row[7]),
-                        String.valueOf(row[8]),
-                        String.valueOf(row[9]),
-                        String.valueOf(row[10]),
-                        String.valueOf(row[11]),
-                        String.valueOf(row[12]),
-                        String.valueOf(row[13]),
-                        String.valueOf(row[14]),
-                        String.valueOf(row[15]),
-                        String.valueOf(row[16]),
-                        String.valueOf(row[17])
+                        row[6] != null ? String.valueOf(row[6]) : null,
+                        row[7] != null ? String.valueOf(row[7]) : null,
+                        row[8] != null ? String.valueOf(row[8]) : null,
+                        row[9] != null ? String.valueOf(row[9]) : null,
+                        row[10] != null ? String.valueOf(row[10]) : null,
+                        row[11] != null ? String.valueOf(row[11]) : null,
+                        row[12] != null ? String.valueOf(row[12]) : null,
+                        row[13] != null ? String.valueOf(row[13]) : null,
+                        row[14] != null ? String.valueOf(row[14]) : null,
+                        row[15] != null ? String.valueOf(row[15]) : null,
+                        row[16] != null ? String.valueOf(row[16]) : null,
+                        row[17] != null ? String.valueOf(row[17]) : null
                 );
 
                 listDataExpediente.add(expediente);
