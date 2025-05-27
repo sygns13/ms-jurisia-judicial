@@ -133,7 +133,17 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
                 responseContentHTML += "<p style='margin-top: 1em; margin-bottom: 1em;'>";
                 saltoLinea = false;
             }
+
+            if(section.getIsBold().equals(Constantes.REGISTRO_ACTIVO)){
+                responseContentHTML += "<b>";
+            }
+
             responseContentHTML += section.getContent();
+
+            if(section.getIsBold().equals(Constantes.REGISTRO_ACTIVO)){
+                responseContentHTML += "</b>";
+            }
+
             if(section.getIsSaltoLinea().equals(Constantes.REGISTRO_ACTIVO)){
                 responseContentHTML += "</p>";
                 saltoLinea = true;
