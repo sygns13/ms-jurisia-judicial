@@ -70,7 +70,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
             VariablePrepare.prepare(document);
             VariablePrepare.prepare(document);
 
-            logger.debug("XML DESPUÉS de VariablePrepare: {}", mainDocumentPart.getXML());
+            //logger.debug("XML DESPUÉS de VariablePrepare: {}", mainDocumentPart.getXML());
 
             HashMap<String, String> variables = new HashMap<>();
             sections.forEach(sectionTemplate -> {
@@ -293,7 +293,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
             VariablePrepare.prepare(document);
             VariablePrepare.prepare(document);
 
-            logger.debug("XML DESPUÉS de VariablePrepare: {}", mainDocumentPart.getXML());
+            //logger.debug("XML DESPUÉS de VariablePrepare: {}", mainDocumentPart.getXML());
 
             HashMap<String, String> variables = new HashMap<>();
             sections.forEach(sectionTemplate -> {
