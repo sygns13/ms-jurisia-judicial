@@ -115,6 +115,48 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
             case "template_auto_01":
                 sections = this.ReemplazarSeccionesTemplate1(sections, expedienteDatos);
                 break;
+            case "template_auto_02":
+                sections = this.ReemplazarSeccionesTemplate2(sections, expedienteDatos);
+                break;
+            case "template_auto_03":
+                sections = this.ReemplazarSeccionesTemplate3(sections, expedienteDatos);
+                break;
+            case "template_auto_04":
+                sections = this.ReemplazarSeccionesTemplate4(sections, expedienteDatos);
+                break;
+            case "template_auto_05":
+                sections = this.ReemplazarSeccionesTemplate5(sections, expedienteDatos);
+                break;
+            case "template_auto_06":
+                sections = this.ReemplazarSeccionesTemplate6(sections, expedienteDatos);
+                break;
+            case "template_auto_07":
+                sections = this.ReemplazarSeccionesTemplate7(sections, expedienteDatos);
+                break;
+            case "template_auto_08":
+                sections = this.ReemplazarSeccionesTemplate8(sections, expedienteDatos);
+                break;
+            case "template_auto_09":
+                sections = this.ReemplazarSeccionesTemplate9(sections, expedienteDatos);
+                break;
+            case "template_auto_10":
+                sections = this.ReemplazarSeccionesTemplate10(sections, expedienteDatos);
+                break;
+            case "template_auto_11":
+                sections = this.ReemplazarSeccionesTemplate11(sections, expedienteDatos);
+                break;
+            case "template_auto_12":
+                sections = this.ReemplazarSeccionesTemplate12(sections, expedienteDatos);
+                break;
+            case "template_auto_13":
+                sections = this.ReemplazarSeccionesTemplate13(sections, expedienteDatos);
+                break;
+            case "template_auto_14":
+                sections = this.ReemplazarSeccionesTemplate14(sections, expedienteDatos);
+                break;
+            case "template_auto_15":
+                sections = this.ReemplazarSeccionesTemplate15(sections, expedienteDatos);
+                break;
             default:
                 // Código si no coincide ningún caso
                 break;
