@@ -145,7 +145,14 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                                 "    ISNULL(p.x_ape_paterno, '') + ' ' + ISNULL(p.x_ape_materno, '') + ' ' + ISNULL(p.x_nombres, '') AS parte, \n" +
                                 "    tp.l_tipo_parte, \n" +
                                 "    tp.x_desc_parte, \n" +
-                                "    p.x_doc_id as DNI_PARTE \n" +
+                                "    p.x_doc_id as DNI_PARTE \n " +
+                                "    e.c_sede, \n" +
+                                "    e.c_instancia, \n" +
+                                "    SUBSTRING(e.n_unico, 1, 4) as c_year, \n" +
+                                "    SUBSTRING(e.n_unico, 5, 9) as c_num, \n" +
+                                "    m.c_materia, \n" +
+                                "    se.x_desc_sede, \n" +
+                                "    esp.x_desc_especialidad \n" +
                                 "FROM expediente e \n" +
                                 "INNER JOIN parte p ON p.n_unico = e.n_unico AND p.l_activo = 'S' \n" +
                                 "INNER JOIN tipo_parte tp ON tp.l_tipo_parte = p.l_tipo_parte AND tp.l_activo = 'S' \n" +
@@ -161,6 +168,8 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                                 "INNER JOIN expediente_ubicacion eu ON eu.n_unico = e.n_unico AND eu.l_ultimo = 'S' \n" +
                                 "INNER JOIN ubicacion_expediente ue ON eu.c_ubicacion = ue.c_ubicacion \n" +
                                 "INNER JOIN instancia_expediente ie ON ie.n_unico = e.n_unico \n" +
+                                "INNER JOIN sede se ON se.c_sede = e.c_sede \n" +
+                                "INNER JOIN especialidad esp ON esp.c_especialidad = e.c_especialidad \n" +
                                 "WHERE \n" +
                                 "    e.n_unico = :numUnico \n" +
                                 "ORDER BY tp.l_tipo_parte"
@@ -188,7 +197,14 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                         row[14] != null ? String.valueOf(row[14]) : null,
                         row[15] != null ? String.valueOf(row[15]) : null,
                         row[16] != null ? String.valueOf(row[16]) : null,
-                        row[17] != null ? String.valueOf(row[17]) : null
+                        row[17] != null ? String.valueOf(row[17]) : null,
+                        row[18] != null ? String.valueOf(row[18]) : null,
+                        row[19] != null ? String.valueOf(row[19]) : null,
+                        row[20] != null ? String.valueOf(row[20]) : null,
+                        row[21] != null ? String.valueOf(row[21]) : null,
+                        row[22] != null ? String.valueOf(row[22]) : null,
+                        row[23] != null ? String.valueOf(row[23]) : null,
+                        row[24] != null ? String.valueOf(row[24]) : null
                 );
 
                 listDataExpediente.add(expediente);

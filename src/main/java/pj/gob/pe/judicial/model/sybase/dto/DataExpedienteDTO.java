@@ -72,4 +72,25 @@ public class DataExpedienteDTO implements Serializable {
 
     @Column(name="DNI_PARTE")
     private String dniParte;
+
+    @Column(name="c_sede")
+    private String codSede;
+
+    @Column(name="c_instancia")
+    private String codInstancia;
+
+    @Column(name="c_year")
+    private String year;
+
+    @Column(name="c_num")
+    private String numero;
+
+    @Column(name="c_materia")
+    private String codMateria;
+
+    @Column(name="x_desc_sede")
+    private String nombreSede;
+
+    @Column(name="x_desc_especialidad")
+    private String nombreEspecialidad;
 }

@@ -7,22 +7,26 @@ import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import pj.gob.pe.judicial.exception.ModeloNotFoundException;
+import pj.gob.pe.judicial.exception.ValidationSessionServiceException;
+import pj.gob.pe.judicial.model.beans.CabDocumentoGenerado;
+import pj.gob.pe.judicial.model.mysql.entities.Documento;
 import pj.gob.pe.judicial.model.mysql.entities.SectionTemplate;
 import pj.gob.pe.judicial.model.mysql.entities.Template;
+import pj.gob.pe.judicial.model.mysql.entities.TipoDocumento;
 import pj.gob.pe.judicial.model.sybase.dto.DataExpedienteDTO;
 import pj.gob.pe.judicial.repository.mysql.DocumentoRepository;
 import pj.gob.pe.judicial.repository.mysql.SectionTemplateRepository;
 import pj.gob.pe.judicial.repository.mysql.TemplateRepository;
+import pj.gob.pe.judicial.repository.mysql.TipoDocumentoRepository;
 import pj.gob.pe.judicial.service.ExpedienteService;
 import pj.gob.pe.judicial.service.GenDocumentoService;
 import pj.gob.pe.judicial.service.externals.ConsultaiaService;
+import pj.gob.pe.judicial.service.externals.SecurityService;
 import pj.gob.pe.judicial.utils.Constantes;
-import pj.gob.pe.judicial.utils.beans.AuxDocument;
-import pj.gob.pe.judicial.utils.beans.InputDocument;
-import pj.gob.pe.judicial.utils.beans.ResponseDocument;
-import pj.gob.pe.judicial.utils.beans.ResponseDocumentHTML;
+import pj.gob.pe.judicial.utils.beans.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -41,6 +45,11 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
     private final ConsultaiaService consultaiaService;
     private final TemplateRepository templateRepository;
     private final SectionTemplateRepository sectionTemplateRepository;
+    private final SecurityService securityService;
+    private final DocumentoRepository documentoRepository;
+    private final TipoDocumentoRepository tipoDocumentoRepository;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
+
     private static final Logger logger = LoggerFactory.getLogger(GenDocumentoServiceImpl.class);
 
     @Override
@@ -90,7 +99,21 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
     }
 
     @Override
-    public ResponseDocumentHTML generateDocxHTML(Long nUnico, String templateCode) throws Exception {
+    public ResponseDocumentHTML generateDocxHTML(Long nUnico, String templateCode, String SessionId, Long idDocumento) throws Exception {
+
+        String errorValidacion = "";
+
+        if(SessionId == null || SessionId.isEmpty()){
+            errorValidacion = "La sessión remitida es inválida";
+            throw new ValidationSessionServiceException(errorValidacion);
+        }
+
+        ResponseLogin responseLogin = securityService.GetSessionData(SessionId);
+
+        if(responseLogin == null || !responseLogin.isSuccess() || !responseLogin.isItemFound() || responseLogin.getUser() == null){
+            errorValidacion = "La sessión remitida es inválida";
+            throw new ValidationSessionServiceException(errorValidacion);
+        }
 
         List<DataExpedienteDTO> expedienteDatos = expedienteService.getDataExpediente(nUnico);
 
@@ -162,7 +185,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
                 break;
         }
 
-        sections = this.SendSectionsIA(sections, nUnico, templateCode);
+        sections = this.SendSectionsIA(sections, nUnico, templateCode, responseLogin);
 
         ResponseDocumentHTML responseDocumentHTML = new ResponseDocumentHTML();
 
@@ -197,12 +220,30 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
         responseDocumentHTML.setCodeTemplate(templateCode);
         responseDocumentHTML.setSuccess(true);
 
+        //Enviar a Kafka
+        //Enviar a Kafka
+        CabDocumentoGenerado documentToKafka = this.generarDocumentoToKafka(expedienteDatos, template, responseLogin, "web", idDocumento);
+        kafkaTemplate.send("judicial-documentos-generado", "key2", documentToKafka);
+
         return responseDocumentHTML;
     }
 
-
     @Override
-    public byte[] generateDocx(Long nUnico, String templateCode, AuxDocument auxDocument) throws Exception {
+    public byte[] generateDocx(Long nUnico, String templateCode, AuxDocument auxDocument, String SessionId, Long idDocumento) throws Exception {
+
+        String errorValidacion = "";
+
+        if(SessionId == null || SessionId.isEmpty()){
+            errorValidacion = "La sessión remitida es inválida";
+            throw new ValidationSessionServiceException(errorValidacion);
+        }
+
+        ResponseLogin responseLogin = securityService.GetSessionData(SessionId);
+
+        if(responseLogin == null || !responseLogin.isSuccess() || !responseLogin.isItemFound() || responseLogin.getUser() == null){
+            errorValidacion = "La sessión remitida es inválida";
+            throw new ValidationSessionServiceException(errorValidacion);
+        }
 
         List<DataExpedienteDTO> expedienteDatos = expedienteService.getDataExpediente(nUnico);
 
@@ -276,7 +317,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
             break;
         }
 
-        sections = this.SendSectionsIA(sections, nUnico, templateCode);
+        sections = this.SendSectionsIA(sections, nUnico, templateCode, responseLogin);
 
         // 1. Cargar plantilla desde resources
         ClassPathResource resource = new ClassPathResource("templates/" + template.getCodigo()+".docx");
@@ -303,6 +344,10 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
             mainDocumentPart.variableReplace(variables);
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             document.save(outputStream);
+
+            //Enviar a Kafka
+            CabDocumentoGenerado documentToKafka = this.generarDocumentoToKafka(expedienteDatos, template, responseLogin, "doc", idDocumento);
+            kafkaTemplate.send("judicial-documentos-generado", "key2", documentToKafka);
 
             return outputStream.toByteArray();
 
@@ -411,11 +456,11 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
         return sections;
     }
 
-    private List<SectionTemplate> SendSectionsIA(List<SectionTemplate> sections, Long nUnico, String templateCode){
+    private List<SectionTemplate> SendSectionsIA(List<SectionTemplate> sections, Long nUnico, String templateCode, ResponseLogin responseLogin){
 
         InputDocument inputDocument = new InputDocument();
 
-        inputDocument.setIdUser(1L);
+        inputDocument.setIdUser(responseLogin.getUser().getIdUser());
         inputDocument.setCodeTemplate(templateCode);
         inputDocument.setNUnico(nUnico);
         inputDocument.setSectionTemplates(sections);
@@ -1383,5 +1428,98 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
         }
 
         return sections;
+    }
+
+    private CabDocumentoGenerado generarDocumentoToKafka(List<DataExpedienteDTO> expedienteDatos, Template template, ResponseLogin responseLogin, String typeDoc, Long idDocumento){
+
+        String materia = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getDescMateria() : "";
+        String codSede = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getCodSede() : "";
+        String codInstancia = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getCodInstancia() : "";
+        String codEspecialidad = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getEspecialidad() : "";
+        String codMateria = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getCodMateria() : "";
+        String sede = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getNombreSede() : "";
+        String instancia = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getNombreInstancia() : "";
+        String especialidad = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getNombreEspecialidad() : "";
+        Long nUnico = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getNUnico() : 0L;
+        String numeroExp = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getNumero() : "";
+        String yearExp = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getYear() : "";
+        String xFormato = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getFormato() : "";
+        String ubicacion = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getDescUbicacion() : "";
+        String juez = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getNombreJuez() : "";
+        String estado = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getDescEstado() : "";
+
+        Documento doc = documentoRepository.getById(idDocumento);
+        TipoDocumento tipoDoc = tipoDocumentoRepository.getById(doc.getIdTipoDocumento());
+
+        String demandantes;
+        String demandados;
+        String dniDemandados;
+        String dniDemandantes;
+
+        StringJoiner dtes = new StringJoiner(" , ");
+        StringJoiner ddos = new StringJoiner(" , ");
+        StringJoiner dnisDDO = new StringJoiner(" , ");
+        StringJoiner dnisDTE = new StringJoiner(" , ");
+        for (DataExpedienteDTO dto : expedienteDatos) {
+            if (dto.getTipoParteCodigo() == null || dto.getNombreParte() == null) continue;
+
+            String nombreParte = dto.getNombreParte().trim();
+            String dniParte = dto.getDniParte().trim();
+
+            switch (dto.getTipoParteCodigo()) {
+                case "DTE":
+                    dtes.add(nombreParte);
+                    dnisDDO.add(dniParte);
+                    break;
+                case "DDO":
+                    ddos.add(nombreParte);
+                    dnisDTE.add(dniParte);
+                    break;
+                default:
+                    // Ignorar otros tipos
+                    break;
+            }
+        }
+        demandantes = dtes.toString();
+        demandados = ddos.toString();
+        dniDemandados = dnisDDO.toString();
+        dniDemandantes = dnisDTE.toString();
+
+        // Obtener la fecha actual
+        LocalDate ahora = LocalDate.now();
+
+        CabDocumentoGenerado cabDocumentoGenerado = new CabDocumentoGenerado();
+
+        cabDocumentoGenerado.setId(null); // ID será generado por la base de datos
+        cabDocumentoGenerado.setUserId(responseLogin.getUser().getIdUser());
+        cabDocumentoGenerado.setTypedoc(typeDoc);
+        cabDocumentoGenerado.setCodSede(codSede);
+        cabDocumentoGenerado.setCodInstancia(codInstancia);
+        cabDocumentoGenerado.setCodEspecialidad(codEspecialidad);
+        cabDocumentoGenerado.setCodMateria(codMateria);
+        cabDocumentoGenerado.setSede(sede);
+        cabDocumentoGenerado.setInstancia(instancia);
+        cabDocumentoGenerado.setEspecialidad(especialidad);
+        cabDocumentoGenerado.setMateria(materia);
+        cabDocumentoGenerado.setCodNumero(numeroExp);
+        cabDocumentoGenerado.setCodYear(yearExp);
+        cabDocumentoGenerado.setIdDocumento(doc.getIdDocumento());
+        cabDocumentoGenerado.setIdTipoDocumento(tipoDoc.getIdTipoDocumento());
+        cabDocumentoGenerado.setTipoDocumento(tipoDoc.getDescripcion());
+        cabDocumentoGenerado.setDocumento(doc.getDescripcion());
+        cabDocumentoGenerado.setNUnico(nUnico);
+        cabDocumentoGenerado.setXFormato(xFormato);
+        cabDocumentoGenerado.setUbicacion(ubicacion);
+        cabDocumentoGenerado.setJuez(juez);
+        cabDocumentoGenerado.setEstado(estado);
+        cabDocumentoGenerado.setDniDemandante(dniDemandantes);
+        cabDocumentoGenerado.setDemandante(demandantes);
+        cabDocumentoGenerado.setDniDemandado(dniDemandados);
+        cabDocumentoGenerado.setDemandado(demandados);
+        cabDocumentoGenerado.setTemplateCode(template.getCodigo());
+        cabDocumentoGenerado.setTemplateID(template.getId());
+        cabDocumentoGenerado.setTemplateNombreOut(template.getNombreOut());
+
+        return cabDocumentoGenerado;
     }
 }

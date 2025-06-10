@@ -7,7 +7,7 @@ public interface GenDocumentoService {
 
     byte[] generateDocx(String templateCode) throws Exception;
 
-    byte[] generateDocx(Long nUnico, String templateCode, AuxDocument auxDocument) throws Exception;
+    byte[] generateDocx(Long nUnico, String templateCode, AuxDocument auxDocument, String SessionId, Long idDocumento) throws Exception;
 
-    ResponseDocumentHTML generateDocxHTML(Long nUnico, String templateCode) throws Exception;
+    ResponseDocumentHTML generateDocxHTML(Long nUnico, String templateCode, String SessionId, Long idDocumento) throws Exception;
 }

@@ -7,10 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pj.gob.pe.judicial.exception.ModeloNotFoundException;
 import pj.gob.pe.judicial.model.mysql.entities.Documento;
 import pj.gob.pe.judicial.service.GenDocumentoService;
@@ -43,12 +40,14 @@ public class DocumentoController {
     }
 
     @Operation(summary = "Generar Documento DOCX", description = "Generar Documento DOCX")
-    @GetMapping("/generar-documento-docx/{nUnico}/{codigo}")
-    public ResponseEntity<byte[]> generateDocx(@PathVariable("nUnico") Long  nUnico, @PathVariable("codigo") String  codigo) throws Exception {
+    @GetMapping("/generar-documento-docx/{nUnico}/{codigo}/{idDocumento}")
+    public ResponseEntity<byte[]> generateDocx(
+            @RequestHeader("SessionId") String SessionId,
+            @PathVariable("nUnico") Long  nUnico, @PathVariable("codigo") String  codigo, @PathVariable("idDocumento") Long  idDocumento) throws Exception {
 
         AuxDocument auxDocument = new AuxDocument();
         auxDocument.setNombreDoc("nombre.docx");
-        byte[] documento = genDocumentoService.generateDocx(nUnico, codigo, auxDocument);
+        byte[] documento = genDocumentoService.generateDocx(nUnico, codigo, auxDocument, SessionId, idDocumento);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+auxDocument.getNombreDoc()+"\"")
@@ -57,11 +56,13 @@ public class DocumentoController {
     }
 
     @Operation(summary = "Generar Documento HTML", description = "Generar Documento HTML")
-    @GetMapping("/generar-documento-web/{nUnico}/{codigo}")
-    public ResponseEntity<ResponseDocumentHTML> generateHTMLDocx(@PathVariable("nUnico") Long  nUnico, @PathVariable("codigo") String  codigo) throws Exception {
+    @GetMapping("/generar-documento-web/{nUnico}/{codigo}/{idDocumento}")
+    public ResponseEntity<ResponseDocumentHTML> generateHTMLDocx(
+            @RequestHeader("SessionId") String SessionId,
+            @PathVariable("nUnico") Long  nUnico, @PathVariable("codigo") String  codigo, @PathVariable("idDocumento") Long  idDocumento) throws Exception {
 
 
-        ResponseDocumentHTML resultado = genDocumentoService.generateDocxHTML(nUnico, codigo);
+        ResponseDocumentHTML resultado = genDocumentoService.generateDocxHTML(nUnico, codigo, SessionId, idDocumento);
 
         if(resultado == null) {
             throw new ModeloNotFoundException("Documento no Generado");
