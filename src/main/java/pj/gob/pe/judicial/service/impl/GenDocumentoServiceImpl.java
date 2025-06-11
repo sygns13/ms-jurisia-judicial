@@ -31,6 +31,8 @@ import pj.gob.pe.judicial.utils.beans.*;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
@@ -1253,7 +1255,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
             if (dto.getTipoParteCodigo() == null || dto.getNombreParte() == null) continue;
 
             String nombreParte = dto.getNombreParte().trim();
-            String dniParte = dto.getDniParte().trim();
+            String dniParte = dto.getDniParte() != null ? dto.getDniParte().trim() : "";
 
             switch (dto.getTipoParteCodigo()) {
                 case "DTE":
@@ -1318,7 +1320,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
             if (dto.getTipoParteCodigo() == null || dto.getNombreParte() == null) continue;
 
             String nombreParte = dto.getNombreParte().trim();
-            String dniParte = dto.getDniParte().trim();
+            String dniParte = dto.getDniParte() != null ? dto.getDniParte().trim() : "";
 
             switch (dto.getTipoParteCodigo()) {
                 case "DTE":
@@ -1384,7 +1386,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
             if (dto.getTipoParteCodigo() == null || dto.getNombreParte() == null) continue;
 
             String nombreParte = dto.getNombreParte().trim();
-            String dniParte = dto.getDniParte().trim();
+            String dniParte = dto.getDniParte() != null ? dto.getDniParte().trim() : "";
 
             switch (dto.getTipoParteCodigo()) {
                 case "DTE":
@@ -1464,7 +1466,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
             if (dto.getTipoParteCodigo() == null || dto.getNombreParte() == null) continue;
 
             String nombreParte = dto.getNombreParte().trim();
-            String dniParte = dto.getDniParte().trim();
+            String dniParte = dto.getDniParte() != null ? dto.getDniParte().trim() : "";
 
             switch (dto.getTipoParteCodigo()) {
                 case "DTE":
@@ -1486,7 +1488,8 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
         dniDemandantes = dnisDTE.toString();
 
         // Obtener la fecha actual
-        LocalDate ahora = LocalDate.now();
+        //LocalDate ahora = LocalDate.now();
+        LocalDateTime ahora = LocalDateTime.now();
 
         CabDocumentoGenerado cabDocumentoGenerado = new CabDocumentoGenerado();
 
@@ -1519,6 +1522,10 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
         cabDocumentoGenerado.setTemplateCode(template.getCodigo());
         cabDocumentoGenerado.setTemplateID(template.getId());
         cabDocumentoGenerado.setTemplateNombreOut(template.getNombreOut());
+
+        cabDocumentoGenerado.setRegDate(ahora.toLocalDate());
+        cabDocumentoGenerado.setRegDatetime(ahora);
+        cabDocumentoGenerado.setRegTimestamp(ahora.toEpochSecond(ZoneOffset.UTC));
 
         return cabDocumentoGenerado;
     }

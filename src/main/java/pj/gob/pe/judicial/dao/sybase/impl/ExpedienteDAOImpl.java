@@ -145,7 +145,7 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                                 "    ISNULL(p.x_ape_paterno, '') + ' ' + ISNULL(p.x_ape_materno, '') + ' ' + ISNULL(p.x_nombres, '') AS parte, \n" +
                                 "    tp.l_tipo_parte, \n" +
                                 "    tp.x_desc_parte, \n" +
-                                "    p.x_doc_id as DNI_PARTE \n " +
+                                "    p.x_doc_id as DNI_PARTE, \n " +
                                 "    e.c_sede, \n" +
                                 "    e.c_instancia, \n" +
                                 "    SUBSTRING(e.n_unico, 1, 4) as c_year, \n" +
