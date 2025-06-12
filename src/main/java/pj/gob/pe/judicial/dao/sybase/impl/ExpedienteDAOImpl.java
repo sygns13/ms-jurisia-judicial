@@ -149,7 +149,7 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                                 "    e.c_sede, \n" +
                                 "    e.c_instancia, \n" +
                                 "    SUBSTRING(e.n_unico, 1, 4) as c_year, \n" +
-                                "    SUBSTRING(e.n_unico, 5, 9) as c_num, \n" +
+                                "    SUBSTRING(e.n_unico, 5, 5) as c_num, \n" +
                                 "    m.c_materia, \n" +
                                 "    se.x_desc_sede, \n" +
                                 "    esp.x_desc_especialidad \n" +
