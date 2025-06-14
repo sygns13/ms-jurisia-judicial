@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -46,6 +47,27 @@ public class CabDocumentoGenerado {
     private String templateCode;
     private Long templateID;
     private String templateNombreOut;
+
+    private String model;
+    private String roleSystem;
+    private BigDecimal temperature;
+    private String object;
+    private String modelResponse;
+    private String roleResponse;
+    private Integer logprobs;
+    private String finishReason;
+    private Integer promptTokens;
+    private Integer completionTokens;
+    private Integer totalTokens;
+    private Integer cachedTokens;
+    private Integer audioTokens;
+    private Integer completionReasoningTokens;
+    private Integer completionAudioTokens;
+    private Integer completionAceptedTokens;
+    private Integer completionRejectedTokens;
+    private String serviceTier;
+    private Integer configurationsId;
+    private String sessionUID;
 
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate regDate;

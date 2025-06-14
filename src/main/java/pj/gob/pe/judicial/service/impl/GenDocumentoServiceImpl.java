@@ -217,7 +217,8 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
                 break;
         }
 
-        sections = this.SendSectionsIA(sections, nUnico, templateCode, responseLogin);
+        ResponseDocument responseDocument = this.SendSectionsIA(sections, nUnico, templateCode, responseLogin);
+        sections = responseDocument.getSectionTemplates();
 
         ResponseDocumentHTML responseDocumentHTML = new ResponseDocumentHTML();
 
@@ -255,6 +256,29 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
         //Enviar a Kafka
         //Enviar a Kafka
         CabDocumentoGenerado documentToKafka = this.generarDocumentoToKafka(expedienteDatos, template, responseLogin, "web", idDocumento);
+
+        //Set datos de respuesta del modelo de IA
+        documentToKafka.setModel(responseDocument.getModel());
+        documentToKafka.setRoleSystem(responseDocument.getRoleSystem());
+        documentToKafka.setTemperature(responseDocument.getTemperature());
+        documentToKafka.setObject(responseDocument.getObject());
+        documentToKafka.setModelResponse(responseDocument.getModelResponse());
+        documentToKafka.setRoleResponse(responseDocument.getRoleResponse());
+        documentToKafka.setLogprobs(responseDocument.getLogprobs());
+        documentToKafka.setFinishReason(responseDocument.getFinishReason());
+        documentToKafka.setPromptTokens(responseDocument.getPromptTokens());
+        documentToKafka.setCompletionTokens(responseDocument.getCompletionTokens());
+        documentToKafka.setTotalTokens(responseDocument.getTotalTokens());
+        documentToKafka.setCachedTokens(responseDocument.getCachedTokens());
+        documentToKafka.setAudioTokens(responseDocument.getAudioTokens());
+        documentToKafka.setCompletionReasoningTokens(responseDocument.getCompletionReasoningTokens());
+        documentToKafka.setCompletionAudioTokens(responseDocument.getCompletionAudioTokens());
+        documentToKafka.setCompletionAceptedTokens(responseDocument.getCompletionAceptedTokens());
+        documentToKafka.setCompletionRejectedTokens(responseDocument.getCompletionRejectedTokens());
+        documentToKafka.setServiceTier(responseDocument.getServiceTier());
+        documentToKafka.setConfigurationsId(responseDocument.getConfigurationsId());
+        documentToKafka.setSessionUID(responseDocument.getSessionUID());
+
         kafkaTemplate.send("judicial-documentos-generado", "key2", documentToKafka);
 
         return responseDocumentHTML;
@@ -379,7 +403,8 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
             break;
         }
 
-        sections = this.SendSectionsIA(sections, nUnico, templateCode, responseLogin);
+        ResponseDocument responseDocument = this.SendSectionsIA(sections, nUnico, templateCode, responseLogin);
+        sections = responseDocument.getSectionTemplates();
 
         // 1. Cargar plantilla desde resources
         ClassPathResource resource = new ClassPathResource("templates/" + template.getCodigo()+".docx");
@@ -409,6 +434,29 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
 
             //Enviar a Kafka
             CabDocumentoGenerado documentToKafka = this.generarDocumentoToKafka(expedienteDatos, template, responseLogin, "doc", idDocumento);
+
+            //Set datos de respuesta del modelo de IA
+            documentToKafka.setModel(responseDocument.getModel());
+            documentToKafka.setRoleSystem(responseDocument.getRoleSystem());
+            documentToKafka.setTemperature(responseDocument.getTemperature());
+            documentToKafka.setObject(responseDocument.getObject());
+            documentToKafka.setModelResponse(responseDocument.getModelResponse());
+            documentToKafka.setRoleResponse(responseDocument.getRoleResponse());
+            documentToKafka.setLogprobs(responseDocument.getLogprobs());
+            documentToKafka.setFinishReason(responseDocument.getFinishReason());
+            documentToKafka.setPromptTokens(responseDocument.getPromptTokens());
+            documentToKafka.setCompletionTokens(responseDocument.getCompletionTokens());
+            documentToKafka.setTotalTokens(responseDocument.getTotalTokens());
+            documentToKafka.setCachedTokens(responseDocument.getCachedTokens());
+            documentToKafka.setAudioTokens(responseDocument.getAudioTokens());
+            documentToKafka.setCompletionReasoningTokens(responseDocument.getCompletionReasoningTokens());
+            documentToKafka.setCompletionAudioTokens(responseDocument.getCompletionAudioTokens());
+            documentToKafka.setCompletionAceptedTokens(responseDocument.getCompletionAceptedTokens());
+            documentToKafka.setCompletionRejectedTokens(responseDocument.getCompletionRejectedTokens());
+            documentToKafka.setServiceTier(responseDocument.getServiceTier());
+            documentToKafka.setConfigurationsId(responseDocument.getConfigurationsId());
+            documentToKafka.setSessionUID(responseDocument.getSessionUID());
+
             kafkaTemplate.send("judicial-documentos-generado", "key2", documentToKafka);
 
             return outputStream.toByteArray();
@@ -518,7 +566,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
         return sections;
     }
 
-    private List<SectionTemplate> SendSectionsIA(List<SectionTemplate> sections, Long nUnico, String templateCode, ResponseLogin responseLogin){
+    private ResponseDocument SendSectionsIA(List<SectionTemplate> sections, Long nUnico, String templateCode, ResponseLogin responseLogin){
 
         InputDocument inputDocument = new InputDocument();
 
@@ -529,7 +577,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
 
         ResponseDocument responseDocument = consultaiaService.ProcessDocument(inputDocument);
 
-        return responseDocument.getSectionTemplates();
+        return responseDocument;
     }
 
     private List<SectionTemplate> ReemplazarSeccionesTemplate2(List<SectionTemplate> sections, List<DataExpedienteDTO> expedienteDatos){
