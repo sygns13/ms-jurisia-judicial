@@ -1551,8 +1551,8 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
         String demandantes;
         String demandados;
 
-        StringJoiner dtes = new StringJoiner(" , ");
-        StringJoiner ddos = new StringJoiner(" , ");
+        StringJoiner dtes = new StringJoiner(", ");
+        StringJoiner ddos = new StringJoiner(", ");
         for (DataExpedienteDTO dto : expedienteDatos) {
             if (dto.getTipoParteCodigo() == null || dto.getNombreParte() == null) continue;
 
@@ -1565,11 +1565,9 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
                 case "DDO":
                     ddos.add(nombreParte);
                     break;
-                default:
-                    // Ignorar otros tipos
-                    break;
             }
         }
+
         demandantes = dtes.toString();
         demandados = ddos.toString();
 
@@ -1597,7 +1595,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
         for (SectionTemplate section : sections) {
             section.setContent(section.getContent().replace("${title.corte}", corte));
             section.setContent(section.getContent().replace("${title.juzgado}", juzgado));
-            section.setContent(section.getContent().replace("${top.nombreanio}", nombreanio));
+            section.setContent(section.getContent().replace("${title.nombreanio}", nombreanio));
             section.setContent(section.getContent().replace("${top.ciudad}", ciudad));
             section.setContent(section.getContent().replace("${top.fecha}", fechaLetter));
 
@@ -1608,7 +1606,6 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
             section.setContent(section.getContent().replace("${body.main.demandante}", demandantes));
             section.setContent(section.getContent().replace("${body.main.demandado}", demandados));
             section.setContent(section.getContent().replace("${body.main.resolucion}", resolucionNro));
-
         }
 
         return sections;
@@ -1657,7 +1654,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
         for (SectionTemplate section : sections) {
             section.setContent(section.getContent().replace("${title.corte}", corte));
             section.setContent(section.getContent().replace("${title.juzgado}", juzgado));
-            section.setContent(section.getContent().replace("${top.nombreanio}", nombreanio));
+            section.setContent(section.getContent().replace("${title.nombreanio}", nombreanio));
             section.setContent(section.getContent().replace("${top.ciudad}", ciudad));
             section.setContent(section.getContent().replace("${top.fecha}", fecha));
             section.setContent(section.getContent().replace("${title.oficio}", oficioNro));
@@ -1715,7 +1712,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
         for (SectionTemplate section : sections) {
             section.setContent(section.getContent().replace("${title.corte}", corte));
             section.setContent(section.getContent().replace("${title.juzgado}", juzgado));
-            section.setContent(section.getContent().replace("${top.nombreanio}", nombreanio));
+            section.setContent(section.getContent().replace("${title.nombreanio}", nombreanio));
             section.setContent(section.getContent().replace("${top.ciudad}", ciudad));
             section.setContent(section.getContent().replace("${top.fecha}", fecha));
             section.setContent(section.getContent().replace("${title.oficio}", oficioNro));
@@ -1771,7 +1768,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
         for (SectionTemplate section : sections) {
             section.setContent(section.getContent().replace("${title.corte}", corte));
             section.setContent(section.getContent().replace("${title.juzgado}", juzgado));
-            section.setContent(section.getContent().replace("${top.nombreanio}", nombreanio));
+            section.setContent(section.getContent().replace("${title.nombreanio}", nombreanio));
             section.setContent(section.getContent().replace("${top.ciudad}", ciudad));
             section.setContent(section.getContent().replace("${top.fecha}", fecha));
             section.setContent(section.getContent().replace("${title.oficio}", oficioNro));
@@ -1827,7 +1824,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
         for (SectionTemplate section : sections) {
             section.setContent(section.getContent().replace("${title.corte}", corte));
             section.setContent(section.getContent().replace("${title.juzgado}", juzgado));
-            section.setContent(section.getContent().replace("${top.nombreanio}", nombreanio));
+            section.setContent(section.getContent().replace("${title.nombreanio}", nombreanio));
             section.setContent(section.getContent().replace("${top.ciudad}", ciudad));
             section.setContent(section.getContent().replace("${top.fecha}", fecha));
             section.setContent(section.getContent().replace("${title.oficio}", oficioNro));
@@ -1883,7 +1880,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
         for (SectionTemplate section : sections) {
             section.setContent(section.getContent().replace("${title.corte}", corte));
             section.setContent(section.getContent().replace("${title.juzgado}", juzgado));
-            section.setContent(section.getContent().replace("${top.nombreanio}", nombreanio));
+            section.setContent(section.getContent().replace("${title.nombreanio}", nombreanio));
             section.setContent(section.getContent().replace("${top.ciudad}", ciudad));
             section.setContent(section.getContent().replace("${top.fecha}", fecha));
             section.setContent(section.getContent().replace("${title.oficio}", oficioNro));
