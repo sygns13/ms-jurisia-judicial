@@ -7,4 +7,6 @@ import java.util.List;
 public interface EspecialidadService {
 
     List<DataEspecialidadDTO> findEspecialidades(String SessionId) throws Exception;
+
+    List<DataEspecialidadDTO> findAllEspecialidades() throws Exception;
 }

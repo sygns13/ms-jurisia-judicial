@@ -62,4 +62,42 @@ public class InstanciaDAOImpl implements InstanciaDAO {
         }
         return listInstancias;
     }
+
+    @Override
+    public List<DataInstanciaDTO> findAllActiveInstancias() throws Exception {
+
+        List<DataInstanciaDTO> listInstancias = new ArrayList<>();
+
+        List<Object[]> resultList = entityManager.createNativeQuery(
+                        " SELECT DISTINCT i.c_instancia, i.c_distrito, i.c_provincia, i.c_org_jurisd, i.x_nom_instancia, i.n_instancia, i.x_ubicacion_fisica, i.x_corto, i.c_sede, i.c_ubigeo, i.l_ind_baja \n" +
+                                " FROM usuario u \n" +
+                                " JOIN usuario_instancia ui ON u.c_usuario = ui.c_usuario \n" +
+                                " JOIN instancia i ON i.c_instancia = ui.c_instancia \n" +
+                                " JOIN sede s ON s.c_sede = i.c_sede \n" +
+                                "                                WHERE \n" +
+                                "                                ui.l_activo = 'S' \n"
+                )
+                .getResultList();
+
+        if (!resultList.isEmpty()) {
+            resultList.forEach(row -> {
+                DataInstanciaDTO instancia = new DataInstanciaDTO(
+                        String.valueOf(row[0]),
+                        String.valueOf(row[1]),
+                        String.valueOf(row[2]),
+                        String.valueOf(row[3]),
+                        String.valueOf(row[4]),
+                        ((Integer) row[5]).longValue(),
+                        String.valueOf(row[6]),
+                        String.valueOf(row[7]),
+                        String.valueOf(row[8]),
+                        String.valueOf(row[9]),
+                        String.valueOf(row[10])
+                );
+
+                listInstancias.add(instancia);
+            });
+        }
+        return listInstancias;
+    }
 }

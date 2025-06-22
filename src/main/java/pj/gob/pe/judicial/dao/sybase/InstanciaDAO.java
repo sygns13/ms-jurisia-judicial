@@ -8,4 +8,6 @@ import java.util.List;
 public interface InstanciaDAO {
 
     List<DataInstanciaDTO> findActiveInstancias(UserLogin user) throws Exception;
+
+    List<DataInstanciaDTO> findAllActiveInstancias() throws Exception;
 }

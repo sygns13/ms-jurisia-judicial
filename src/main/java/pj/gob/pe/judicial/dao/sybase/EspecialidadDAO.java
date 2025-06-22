@@ -10,4 +10,6 @@ public interface EspecialidadDAO {
 
     List<DataEspecialidadDTO> findEspecialidades(UserLogin user) throws Exception;
 
+    List<DataEspecialidadDTO> findAllEspecialidades() throws Exception;
+
 }

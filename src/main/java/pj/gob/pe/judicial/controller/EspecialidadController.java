@@ -35,4 +35,17 @@ public class EspecialidadController {
 
         return new ResponseEntity<List<DataEspecialidadDTO>>(especialidades, HttpStatus.OK);
     }
+
+    @Operation(summary = "Obtener todas las especialidades", description = "Obtener todas las  especialidades")
+    @GetMapping("/all")
+    public ResponseEntity<List<DataEspecialidadDTO>> listarAllEspecialidads() throws Exception{
+
+        List<DataEspecialidadDTO> especialidades = especialidadService.findAllEspecialidades();
+
+        if(especialidades == null) {
+            throw new ModeloNotFoundException("Especialidads no encontrada");
+        }
+
+        return new ResponseEntity<List<DataEspecialidadDTO>>(especialidades, HttpStatus.OK);
+    }
 }

@@ -38,4 +38,9 @@ public class EspecialidadServiceImpl implements EspecialidadService {
 
         return especialidadDAO.findEspecialidades(responseLogin.getUser());
     }
+
+    @Override
+    public List<DataEspecialidadDTO> findAllEspecialidades() throws Exception {
+        return especialidadDAO.findAllEspecialidades();
+    }
 }

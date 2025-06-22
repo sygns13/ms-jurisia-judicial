@@ -35,4 +35,17 @@ public class InstanciaController {
 
         return new ResponseEntity<List<DataInstanciaDTO>>(instancias, HttpStatus.OK);
     }
+
+    @Operation(summary = "Obtener todas las instancias activas", description = "Obtener todas las instancias activas")
+    @GetMapping("/all")
+    public ResponseEntity<List<DataInstanciaDTO>> listarAllInstancias() throws Exception{
+
+        List<DataInstanciaDTO> instancias = instanciaService.findAllActiveInstancias();
+
+        if(instancias == null) {
+            throw new ModeloNotFoundException("Instancias no encontrada");
+        }
+
+        return new ResponseEntity<List<DataInstanciaDTO>>(instancias, HttpStatus.OK);
+    }
 }

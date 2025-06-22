@@ -38,4 +38,9 @@ public class InstanciaServiceImpl implements InstanciaService {
 
         return instanciaDAO.findActiveInstancias(responseLogin.getUser());
     }
+
+    @Override
+    public List<DataInstanciaDTO> findAllActiveInstancias() throws Exception {
+        return instanciaDAO.findAllActiveInstancias();
+    }
 }
