@@ -6,8 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import pj.gob.pe.judicial.dao.sybase.ExpedienteDAO;
-import pj.gob.pe.judicial.model.sybase.dto.DataCabExpedienteDTO;
-import pj.gob.pe.judicial.model.sybase.dto.DataExpedienteDTO;
+import pj.gob.pe.judicial.model.sybase.dto.*;
 import pj.gob.pe.judicial.utils.beans.InputCabExpediente;
 
 import java.math.BigDecimal;
@@ -213,4 +212,191 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
 
         return listDataExpediente;
     }
+
+    @Override
+    public List<CabExpedienteChatDTO> findByNumeroExpediente(String numeroExpediente) {
+
+        List<CabExpedienteChatDTO> listDataExpediente = new ArrayList<>();
+
+        List<Object[]> resultList = entityManager.createNativeQuery(
+                        "  SELECT \n" +
+                                "    e.n_unico, \n" +
+                                "    e.x_formato, \n" +
+                                "    ie.n_incidente, \n" +
+                                "    CASE \n" +
+                                "        WHEN ie.l_ind_digital = 'N' THEN 'Físico' \n" +
+                                "        WHEN ie.l_ind_digital = 'S' THEN 'Digital' \n" +
+                                "        ELSE 'Desconocido' \n" +
+                                "    END AS tipo_expediente, \n" +
+                                "    e.c_especialidad, \n" +
+                                "    ie.c_instancia, \n" +
+                                "    i.x_nom_instancia, \n" +
+                                "    o.x_nom_org_jurisd, \n" +
+                                "    s.x_desc_sede, \n" +
+                                "    e.l_anulado, \n" +
+                                "    ie.l_ultimo \n" +
+                                "FROM expediente e \n" +
+                                "JOIN instancia_expediente ie ON e.n_unico = ie.n_unico \n" +
+                                "JOIN instancia i ON ie.c_instancia = i.c_instancia \n" +
+                                "JOIN sede s ON i.c_sede = s.c_sede \n" +
+                                "JOIN organo_jurisdiccional o ON i.c_org_jurisd = o.c_org_jurisd \n" +
+                                "WHERE \n" +
+                                "        e.l_anulado = 'N'\n" +
+                                "    AND ie.l_ultimo = 'S'\n" +
+                                "    AND i.l_ind_baja = 'N'\n" +
+                                "    AND i.c_instancia in('301','302','701','702','044')--Alcance 02 juzgados de familia y 03 juzgados de paz letrado de Huaraz \n" +
+                                "    AND e.x_formato = :numeroExpediente"
+                ).setParameter("numeroExpediente", numeroExpediente)
+                .getResultList();
+
+        for (Object[] row : resultList) {
+            CabExpedienteChatDTO expediente = new CabExpedienteChatDTO(
+                    row[0] != null ? ((BigDecimal) row[0]).longValue() : null,
+                    row[1] != null ? String.valueOf(row[1]) : null,
+                    row[2] != null ? ((Integer) row[2]).longValue() : null,
+                    row[3] != null ? String.valueOf(row[3]) : null,
+                    row[4] != null ? String.valueOf(row[4]) : null,
+                    row[5] != null ? String.valueOf(row[5]) : null,
+                    row[6] != null ? String.valueOf(row[6]) : null,
+                    row[7] != null ? String.valueOf(row[7]) : null,
+                    row[8] != null ? String.valueOf(row[8]) : null,
+                    row[9] != null ? String.valueOf(row[9]) : null,
+                    row[10] != null ? String.valueOf(row[10]) : null
+            );
+            listDataExpediente.add(expediente);
+        }
+
+        return listDataExpediente;
+    }
+
+    @Override
+    public List<DataTipoParteDTO> findPartesByNUnico(Long nUnico) {
+
+        List<DataTipoParteDTO> lista = new ArrayList<>();
+
+        List<Object[]> resultList = entityManager.createNativeQuery(
+                        "SELECT " +
+                                "p.c_tipo_persona, " +
+                                "tp.x_desc_tipo_persona, " +
+                                "p.l_tipo_parte, " +
+                                "pt.x_desc_parte, " +
+                                "p.x_ape_paterno, " +
+                                "p.x_ape_materno, " +
+                                "p.x_nombres, " +
+                                "p.x_doc_id, " +
+                                "tdi.c_tipo, " +
+                                "tdi.x_tipo_doc, " +
+                                "tdi.x_abrevi, " +
+                                "p.l_activo, " +
+                                "p.n_unico " +
+                                "FROM parte p " +
+                                "JOIN tipo_persona tp ON tp.c_tipo_persona = p.c_tipo_persona " +
+                                "JOIN tipo_parte pt ON pt.l_tipo_parte = p.l_tipo_parte " +
+                                "JOIN tipo_documento_identidad tdi ON tdi.c_tipo = p.c_tipo_doc " +
+                                "WHERE p.l_activo = 'S' " +
+                                "AND pt.l_activo = 'S' " +
+                                "AND pt.c_especialidad = (SELECT c_especialidad FROM expediente WHERE n_unico = :nUnico) " +
+                                "AND p.n_unico = :nUnico"
+                )
+                .setParameter("nUnico", nUnico)
+                .getResultList();
+
+        for (Object[] row : resultList) {
+            DataTipoParteDTO dto = new DataTipoParteDTO(
+                    row[0] != null ? row[0].toString() : null,
+                    row[1] != null ? row[1].toString() : null,
+                    row[2] != null ? row[2].toString() : null,
+                    row[3] != null ? row[3].toString() : null,
+                    row[4] != null ? row[4].toString() : null,
+                    row[5] != null ? row[5].toString() : null,
+                    row[6] != null ? row[6].toString() : null,
+                    row[7] != null ? row[7].toString() : null,
+                    row[8] != null ? row[8].toString() : null,
+                    row[9] != null ? row[9].toString() : null,
+                    row[10] != null ? row[10].toString() : null,
+                    row[11] != null ? row[11].toString() : null,
+                    row[12] != null ? ((java.math.BigDecimal) row[12]).longValue() : null
+            );
+
+            lista.add(dto);
+        }
+
+        return lista;
+    }
+
+    @Override
+    public List<ResumenExpedienteParteDTO> getResumenExpedienteYPartes(Long nUnico) {
+
+        List<ResumenExpedienteParteDTO> lista = new ArrayList<>();
+
+        List<Object[]> resultList = entityManager.createNativeQuery(
+                        "SELECT DISTINCT " +
+                                "e.X_FORMATO, " +
+                                "i.x_nom_instancia, " +
+                                "e.c_especialidad, " +
+                                "ma.X_DESC_MATERIA, " +
+                                "e.F_INICIO, " +
+                                "em.X_DESC_ESTADO, " +
+                                "eu.c_ubicacion, " +
+                                "ue.x_desc_ubicacion, " +
+                                "ui.c_usuario AS usuario_juez, " +
+                                "u.x_nom_usuario AS juez, " +
+                                "a.c_usuario AS usuario_secretario, " +
+                                "us.x_nom_usuario AS secretario, " +
+                                "CASE " +
+                                "WHEN ie.l_ind_digital = 'N' THEN 'Físico' " +
+                                "WHEN ie.l_ind_digital = 'S' THEN 'Electrónico' " +
+                                "ELSE 'Desconocido' " +
+                                "END AS tipo_expediente, " +
+                                "ISNULL(p.x_ape_paterno, '') + ' ' + ISNULL(p.x_ape_materno, '') + ' ' + ISNULL(p.x_nombres, '') AS parte, " +
+                                "tp.l_tipo_parte, " +
+                                "tp.x_desc_parte " +
+                                "FROM expediente e " +
+                                "INNER JOIN parte p ON p.n_unico = e.n_unico AND p.l_activo = 'S' " +
+                                "INNER JOIN tipo_parte tp ON tp.l_tipo_parte = p.l_tipo_parte AND tp.l_activo = 'S' " +
+                                "INNER JOIN instancia i ON e.c_instancia = i.c_instancia " +
+                                "INNER JOIN usuario_instancia ui ON ui.c_instancia = i.c_instancia AND ui.l_activo = 'S' AND ui.l_titular = 'S' " +
+                                "INNER JOIN usuario u ON u.c_usuario = ui.c_usuario " +
+                                "INNER JOIN asignado_a a ON a.n_unico = e.n_unico AND a.l_ultimo = 'S' " +
+                                "INNER JOIN usuario us ON us.c_usuario = a.c_usuario " +
+                                "INNER JOIN expediente_estado ee ON ee.n_unico = e.n_unico AND ee.l_ultimo = 'S' " +
+                                "INNER JOIN estado_maestro em ON em.c_estado = ee.c_estado " +
+                                "INNER JOIN materia_expediente m ON m.n_unico = e.n_unico " +
+                                "INNER JOIN materia ma ON m.c_materia = ma.c_materia " +
+                                "INNER JOIN expediente_ubicacion eu ON eu.n_unico = e.n_unico AND eu.l_ultimo = 'S' " +
+                                "INNER JOIN ubicacion_expediente ue ON eu.c_ubicacion = ue.c_ubicacion " +
+                                "INNER JOIN instancia_expediente ie ON ie.n_unico = e.n_unico " +
+                                "WHERE e.c_instancia in('301','302','701','702','044') " +
+                                "AND e.n_unico = :nUnico " +
+                                "ORDER BY tp.l_tipo_parte"
+                )
+                .setParameter("nUnico", nUnico)
+                .getResultList();
+
+        for (Object[] row : resultList) {
+            ResumenExpedienteParteDTO dto = new ResumenExpedienteParteDTO(
+                    row[0] != null ? row[0].toString() : null,
+                    row[1] != null ? row[1].toString() : null,
+                    row[2] != null ? row[2].toString() : null,
+                    row[3] != null ? row[3].toString() : null,
+                    row[4] != null ? ((Timestamp) row[4]).toLocalDateTime() : null,
+                    row[5] != null ? row[5].toString() : null,
+                    row[6] != null ? row[6].toString() : null,
+                    row[7] != null ? row[7].toString() : null,
+                    row[8] != null ? row[8].toString() : null,
+                    row[9] != null ? row[9].toString() : null,
+                    row[10] != null ? row[10].toString() : null,
+                    row[11] != null ? row[11].toString() : null,
+                    row[12] != null ? row[12].toString() : null,
+                    row[13] != null ? row[13].toString() : null,
+                    row[14] != null ? row[14].toString() : null,
+                    row[15] != null ? row[15].toString() : null
+            );
+            lista.add(dto);
+        }
+
+        return lista;
+    }
+
+
 }

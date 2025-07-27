@@ -67,8 +67,23 @@ api:
     post:
       process:
         path: /v1/chatgpt/documento
+  apichatbot:
+    url: https://tan-goose-839396.hostingersite.com
+    get:
+      pending:
+        path: /api/v1/consultas-pendientes
+    post:
+      info:
+        path: /api/v1/update-consulta
   security:
     url: http://localhost:8010
     get:
       session:
         path: /v1/auth/session/:sessionId
+
+sij:
+  proxy:
+    config:
+      enabled: true
+      host: 172.17.16.213
+      port: 8988

@@ -27,4 +27,22 @@ public class ConfigProperties {
 
     @Value("${spring.data.redis.ttl:3600}")
     private long REDIS_TTL;
+
+    @Value("${api.apichatbot.url}")
+    private String urlApiChatBot;
+
+    @Value("${api.apichatbot.get.pending.path}")
+    private String pathGetPendings;
+
+    @Value("${api.apichatbot.post.info.path}")
+    private String pathInfoExpedientes;
+
+    @Value("${sij.proxy.config.enabled:false}")
+    private Boolean proxyEnabled;
+
+    @Value("${sij.proxy.config.host}")
+    private String proxyURL;
+
+    @Value("${sij.proxy.config.port}")
+    private Integer proxyPort;
 }
