@@ -56,10 +56,6 @@ public class Instancia {
     @Column(name = "nombreCorto", length = 10)
     private String nombreCorto;
 
-    @Schema(description = "ID de la Sede a la que pertenece la Instancia")
-    @Column(name = "idSede", length = 10)
-    private String idSede;
-
     @Column(name = "codUbigeo", length = 10)
     private String codUbigeo;
 
