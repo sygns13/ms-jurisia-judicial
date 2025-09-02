@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import pj.gob.pe.judicial.exception.ModeloNotFoundException;
 import pj.gob.pe.judicial.model.sybase.dto.DataSedeDTO;
 import pj.gob.pe.judicial.model.sybase.dto.DataUsuarioDTO;
+import pj.gob.pe.judicial.model.sybase.dto.SedeBaseDTO;
 import pj.gob.pe.judicial.service.SedeService;
 import pj.gob.pe.judicial.utils.beans.InputUsuario;
 
@@ -34,5 +35,18 @@ public class SedeController {
         }
 
         return new ResponseEntity<List<DataSedeDTO>>(sedes, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Obtener maestro de sedes activas", description = "Obtener maestro de sedes activas")
+    @GetMapping("/master-sij")
+    public ResponseEntity<List<SedeBaseDTO>> getMasterSedes(@RequestHeader("SessionId") String SessionId) throws Exception{
+
+        List<SedeBaseDTO> sedes = sedeService.getMasterSedes(SessionId);
+
+        if(sedes == null) {
+            throw new ModeloNotFoundException("Sedes no encontrada");
+        }
+
+        return new ResponseEntity<List<SedeBaseDTO>>(sedes, HttpStatus.OK);
     }
 }

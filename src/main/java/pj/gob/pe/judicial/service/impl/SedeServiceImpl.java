@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import pj.gob.pe.judicial.dao.sybase.SedeDAO;
 import pj.gob.pe.judicial.exception.ValidationSessionServiceException;
 import pj.gob.pe.judicial.model.sybase.dto.DataSedeDTO;
+import pj.gob.pe.judicial.model.sybase.dto.SedeBaseDTO;
 import pj.gob.pe.judicial.service.SedeService;
 import pj.gob.pe.judicial.service.externals.SecurityService;
 import pj.gob.pe.judicial.utils.beans.ResponseLogin;
@@ -38,5 +39,25 @@ public class SedeServiceImpl implements SedeService {
         }
 
         return sedeDAO.findActiveSedes(responseLogin.getUser());
+    }
+
+    @Override
+    public List<SedeBaseDTO> getMasterSedes(String SessionId) throws Exception {
+
+        String errorValidacion = "";
+
+        if(SessionId == null || SessionId.isEmpty()){
+            errorValidacion = "La sessión remitida es inválida";
+            throw new ValidationSessionServiceException(errorValidacion);
+        }
+
+        ResponseLogin responseLogin = securityService.GetSessionData(SessionId);
+
+        if(responseLogin == null || !responseLogin.isSuccess() || !responseLogin.isItemFound() || responseLogin.getUser() == null){
+            errorValidacion = "La sessión remitida es inválida";
+            throw new ValidationSessionServiceException(errorValidacion);
+        }
+
+        return sedeDAO.getMasterSedes();
     }
 }
