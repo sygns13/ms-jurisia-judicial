@@ -5,7 +5,7 @@ import pj.gob.pe.judicial.model.mysql.entities.Sede;
 import java.util.List;
 import java.util.Optional;
 
-public interface SedeService {
+public interface SedeMySqlService {
 
     List<Sede> getAllSedes();
 

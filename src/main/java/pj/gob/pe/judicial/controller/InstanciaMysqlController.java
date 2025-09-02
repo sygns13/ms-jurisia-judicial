@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pj.gob.pe.judicial.model.mysql.entities.Instancia;
-import pj.gob.pe.judicial.service.mysql.InstanciaService;
+import pj.gob.pe.judicial.service.mysql.InstanciaMySqlService;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class InstanciaMysqlController {
 
-    private final InstanciaService instanciaService;
+    private final InstanciaMySqlService instanciaService;
 
     // Endpoint para obtener todas las instancias
     @GetMapping

@@ -5,7 +5,7 @@ import pj.gob.pe.judicial.model.mysql.entities.Instancia;
 import java.util.List;
 import java.util.Optional;
 
-public interface InstanciaService {
+public interface InstanciaMySqlService {
 
     List<Instancia> getAllInstancias();
 

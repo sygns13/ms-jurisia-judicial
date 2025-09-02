@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pj.gob.pe.judicial.model.mysql.entities.Instancia;
 import pj.gob.pe.judicial.repository.mysql.InstanciaRepository;
-import pj.gob.pe.judicial.service.mysql.InstanciaService;
+import pj.gob.pe.judicial.service.mysql.InstanciaMySqlService;
 import pj.gob.pe.judicial.utils.Constantes;
 
 import java.time.LocalDateTime;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class InstanciaServiceImpl implements InstanciaService {
+public class InstanciaMySqlServiceImpl implements InstanciaMySqlService {
 
     @Autowired
     private InstanciaRepository instanciaRepository;

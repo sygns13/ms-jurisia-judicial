@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import pj.gob.pe.judicial.model.mysql.entities.Instancia;
 import pj.gob.pe.judicial.model.mysql.entities.Sede;
 import pj.gob.pe.judicial.repository.mysql.SedeRepository;
-import pj.gob.pe.judicial.service.mysql.SedeService;
+import pj.gob.pe.judicial.service.mysql.SedeMySqlService;
 import pj.gob.pe.judicial.utils.Constantes;
 
 import java.time.LocalDateTime;
@@ -18,7 +18,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
-public class SedeServiceImpl implements SedeService {
+public class SedeMySqlServiceImpl implements SedeMySqlService {
 
     @Autowired
     private SedeRepository sedeRepository;
