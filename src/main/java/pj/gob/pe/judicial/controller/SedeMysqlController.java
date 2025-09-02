@@ -18,38 +18,38 @@ public class SedeMysqlController {
 
     // Endpoint para obtener todas las sedes
     @GetMapping
-    public List<Sede> getAllSedes() {
-        return sedeMySqlService.getAllSedes();
+    public List<Sede> getAllSedes(@RequestHeader("SessionId") String SessionId) {
+        return sedeMySqlService.getAllSedes(SessionId);
     }
 
     // Endpoint para obtener una sede por su ID
     @GetMapping("/{id}")
-    public ResponseEntity<Sede> getSedeById(@PathVariable String id) {
-        return sedeMySqlService.getSedeById(id)
+    public ResponseEntity<Sede> getSedeById(@RequestHeader("SessionId") String SessionId, @PathVariable String id) {
+        return sedeMySqlService.getSedeById(SessionId, id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     // Endpoint para crear una nueva sede
     @PostMapping
-    public ResponseEntity<Sede> createSede(@RequestBody Sede sede) {
-        Sede nuevaSede = sedeMySqlService.createSede(sede);
+    public ResponseEntity<Sede> createSede(@RequestHeader("SessionId") String SessionId, @RequestBody Sede sede) {
+        Sede nuevaSede = sedeMySqlService.createSede(SessionId, sede);
         return new ResponseEntity<>(nuevaSede, HttpStatus.CREATED);
     }
 
     // Endpoint para actualizar una sede existente
     @PutMapping("/{id}")
-    public ResponseEntity<Sede> updateSede(@PathVariable String id, @RequestBody Sede sedeDetails) {
-        return sedeMySqlService.updateSede(id, sedeDetails)
+    public ResponseEntity<Sede> updateSede(@RequestHeader("SessionId") String SessionId, @PathVariable String id, @RequestBody Sede sedeDetails) {
+        return sedeMySqlService.updateSede(SessionId, id, sedeDetails)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     // Endpoint para eliminar una sede
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSede(@PathVariable String id) {
+    public ResponseEntity<Void> deleteSede(@RequestHeader("SessionId") String SessionId, @PathVariable String id) {
         // Se podría verificar si la sede existe antes de intentar borrar
-        sedeMySqlService.deleteSede(id);
+        sedeMySqlService.deleteSede(SessionId, id);
         return ResponseEntity.noContent().build();
     }
 
@@ -63,8 +63,8 @@ public class SedeMysqlController {
      * @return ResponseEntity con un mensaje de éxito.
      */
     @PostMapping("/upsert")
-    public ResponseEntity<Void> upsertSedes(@RequestBody List<Sede> sedes) {
-        sedeMySqlService.upsertSedes(sedes);
+    public ResponseEntity<Void> upsertSedes(@RequestHeader("SessionId") String SessionId, @RequestBody List<Sede> sedes) {
+        sedeMySqlService.upsertSedes(SessionId, sedes);
         return ResponseEntity.ok().build();
     }
 

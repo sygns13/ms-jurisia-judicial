@@ -18,37 +18,37 @@ public class InstanciaMysqlController {
 
     // Endpoint para obtener todas las instancias
     @GetMapping
-    public List<Instancia> getAllInstancias() {
-        return instanciaService.getAllInstancias();
+    public List<Instancia> getAllInstancias(@RequestHeader("SessionId") String SessionId) {
+        return instanciaService.getAllInstancias(SessionId);
     }
 
     // Endpoint para obtener una instancia por su ID
     @GetMapping("/{id}")
-    public ResponseEntity<Instancia> getInstanciaById(@PathVariable String id) {
-        return instanciaService.getInstanciaById(id)
+    public ResponseEntity<Instancia> getInstanciaById(@RequestHeader("SessionId") String SessionId, @PathVariable String id) {
+        return instanciaService.getInstanciaById(SessionId, id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     // Endpoint para crear una nueva instancia
     @PostMapping
-    public ResponseEntity<Instancia> createInstancia(@RequestBody Instancia instancia) {
-        Instancia nuevaInstancia = instanciaService.createInstancia(instancia);
+    public ResponseEntity<Instancia> createInstancia(@RequestHeader("SessionId") String SessionId, @RequestBody Instancia instancia) {
+        Instancia nuevaInstancia = instanciaService.createInstancia(SessionId, instancia);
         return new ResponseEntity<>(nuevaInstancia, HttpStatus.CREATED);
     }
 
     // Endpoint para actualizar una instancia existente
     @PutMapping("/{id}")
-    public ResponseEntity<Instancia> updateInstancia(@PathVariable String id, @RequestBody Instancia instanciaDetails) {
-        return instanciaService.updateInstancia(id, instanciaDetails)
+    public ResponseEntity<Instancia> updateInstancia(@RequestHeader("SessionId") String SessionId, @PathVariable String id, @RequestBody Instancia instanciaDetails) {
+        return instanciaService.updateInstancia(SessionId, id, instanciaDetails)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     // Endpoint para eliminar una instancia
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteInstancia(@PathVariable String id) {
-        instanciaService.deleteInstancia(id);
+    public ResponseEntity<Void> deleteInstancia(@RequestHeader("SessionId") String SessionId, @PathVariable String id) {
+        instanciaService.deleteInstancia(SessionId, id);
         return ResponseEntity.noContent().build();
     }
 }

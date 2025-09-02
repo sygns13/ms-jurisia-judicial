@@ -7,20 +7,20 @@ import java.util.Optional;
 
 public interface SedeMySqlService {
 
-    List<Sede> getAllSedes();
+    List<Sede> getAllSedes(String SessionId);
 
-    Optional<Sede> getSedeById(String id);
+    Optional<Sede> getSedeById(String SessionId, String id);
 
-    Sede createSede(Sede sede);
+    Sede createSede(String SessionId, Sede sede);
 
-    Optional<Sede> updateSede(String id, Sede sedeDetails);
+    Optional<Sede> updateSede(String SessionId, String id, Sede sedeDetails);
 
-    void deleteSede(String id);
+    void deleteSede(String SessionId, String id);
 
     /**
      * Sincroniza la base de datos con la lista de sedes proporcionada.
      * Realiza operaciones de creación, actualización y eliminación según sea necesario.
      * @param sedes Lista de sedes para realizar el upsert.
      */
-    void upsertSedes(List<Sede> sedes);
+    void upsertSedes(String SessionId, List<Sede> sedes);
 }
