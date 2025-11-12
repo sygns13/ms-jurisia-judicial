@@ -29,6 +29,7 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
         String nroexp = String.format("%05d", input.getNumero());
         String n_unico = String.valueOf(input.getAnio()) + nroexp;
 
+        /*
         List<Object[]> resultList = entityManager.createNativeQuery(
                         "select distinct exp.n_unico as N_UNICO,   \n" +
                                 "                                SUBSTRING(exp.n_unico, 1, 4) as ANIO,    \n" +
@@ -86,6 +87,49 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                 .setParameter("especialidad", input.getEspecialidad())
                 .setParameter("numUnico", n_unico)
                 .getResultList();
+         */
+
+        List<Object[]> resultList = entityManager.createNativeQuery(
+                        "SELECT DISTINCT \n" +
+                                "    e.n_unico, \n" +
+                                "    SUBSTRING(e.n_unico, 1, 4) as ANIO, \n" +
+                                "    SUBSTRING(e.n_unico, 5, 5) as EXPNRO, \n" +
+                                "    e.X_FORMATO, \n" +
+                                "    ma.c_materia, \n" +
+                                "    e.c_especialidad, \n" +
+                                "    i.c_instancia, \n" +
+                                "    i.x_nom_instancia, \n" +
+                                "    ma.X_DESC_MATERIA, \n" +
+                                "    e.F_INICIO, \n" +
+                                "    em.X_DESC_ESTADO, \n" +
+                                "    eu.c_ubicacion, \n" +
+                                "    ue.x_desc_ubicacion, \n" +
+                                "    CASE \n" +
+                                "        WHEN ie.l_ind_digital = 'N' THEN 'Físico' \n" +
+                                "        WHEN ie.l_ind_digital = 'S' THEN 'Digital' \n" +
+                                "        ELSE 'Desconocido' \n" +
+                                "    END AS tipo_expediente \n" +
+                                "FROM expediente e \n" +
+                                "INNER JOIN instancia i ON e.c_instancia = i.c_instancia \n" +
+                                "INNER JOIN expediente_estado ee ON ee.n_unico = e.n_unico AND ee.l_ultimo = 'S' and ee.n_incidente=e.n_incidente \n" +
+                                "INNER JOIN estado_maestro em ON em.c_estado = ee.c_estado \n" +
+                                "INNER JOIN materia_expediente m ON m.n_unico = e.n_unico \n" +
+                                "INNER JOIN materia ma ON m.c_materia = ma.c_materia \n" +
+                                "INNER JOIN expediente_ubicacion eu ON eu.n_unico = e.n_unico AND eu.l_ultimo = 'S' and eu.n_incidente=e.n_incidente \n" +
+                                "INNER JOIN ubicacion_expediente ue ON eu.c_ubicacion = ue.c_ubicacion \n" +
+                                "INNER JOIN instancia_expediente ie ON ie.n_unico = e.n_unico and ie.l_ultimo='S' \n" +
+                                "WHERE\n" +
+                                "    e.c_instancia in('301','302','701','702','044') AND \n" +
+                                "    ee.l_ultimo='S'     \n" +
+                                "AND e.l_anulado='N'    \n" +
+                                "AND e.c_instancia= :instancia    \n" +
+                                "AND e.c_especialidad= :especialidad     \n" +
+                                "AND SUBSTRING(e.n_unico, 1, 9)= :numUnico"
+                )
+                .setParameter("instancia", input.getInstancia())
+                .setParameter("especialidad", input.getEspecialidad())
+                .setParameter("numUnico", n_unico)
+                .getResultList();
 
         if (!resultList.isEmpty()) {
             resultList.forEach(row -> {
@@ -94,20 +138,20 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                         row[1] != null ? String.valueOf(row[1]) : null,
                         row[2] != null ? String.valueOf(row[2]) : null,
                         row[3] != null ? String.valueOf(row[3]) : null,
-                        row[4] != null ? ((Integer) row[4]).longValue() : null,
-                        row[5] != null ? ((Integer) row[5]).longValue() : null,
+                        0L,
+                        0L,
+                        row[4] != null ? String.valueOf(row[4]) : null,
+                        "",
+                        "",
+                        row[5] != null ? String.valueOf(row[5]) : null,
                         row[6] != null ? String.valueOf(row[6]) : null,
                         row[7] != null ? String.valueOf(row[7]) : null,
                         row[8] != null ? String.valueOf(row[8]) : null,
-                        row[9] != null ? String.valueOf(row[9]) : null,
+                        row[9] != null ? ((Timestamp) row[9]).toLocalDateTime() : null,
                         row[10] != null ? String.valueOf(row[10]) : null,
                         row[11] != null ? String.valueOf(row[11]) : null,
                         row[12] != null ? String.valueOf(row[12]) : null,
-                        row[13] != null ? ((Timestamp) row[13]).toLocalDateTime() : null,
-                        row[14] != null ? String.valueOf(row[14]) : null,
-                        row[15] != null ? String.valueOf(row[15]) : null,
-                        row[16] != null ? String.valueOf(row[16]) : null,
-                        row[17] != null ? String.valueOf(row[17]) : null
+                        row[13] != null ? String.valueOf(row[13]) : null
                 );
 
                 listCabExpedientes.add(expediente);
