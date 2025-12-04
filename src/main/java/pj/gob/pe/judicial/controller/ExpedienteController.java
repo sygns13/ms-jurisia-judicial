@@ -39,7 +39,8 @@ public class ExpedienteController {
     @GetMapping("/getData/{nUnico}")
     public ResponseEntity<List<DataExpedienteDTO>> listarExpedientes(@PathVariable("nUnico") Long  nUnico) throws Exception{
 
-        List<DataExpedienteDTO> expedientes = expedienteService.getDataExpediente(nUnico);
+        String numIncidenteDefault = "0";
+        List<DataExpedienteDTO> expedientes = expedienteService.getDataExpediente(nUnico, numIncidenteDefault);
 
         if(expedientes == null) {
             throw new ModeloNotFoundException("Expedientes no encontrados");

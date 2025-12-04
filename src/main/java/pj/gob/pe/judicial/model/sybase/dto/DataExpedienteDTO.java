@@ -93,4 +93,7 @@ public class DataExpedienteDTO implements Serializable {
 
     @Column(name="x_desc_especialidad")
     private String nombreEspecialidad;
+
+    @Column(name="n_incidente")
+    private String numIncidente;
 }

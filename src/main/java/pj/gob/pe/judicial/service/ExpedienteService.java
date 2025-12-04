@@ -9,7 +9,7 @@ public interface ExpedienteService {
 
     List<DataCabExpedienteDTO> findCabExpedientes(InputCabExpediente input) throws Exception;
 
-    List<DataExpedienteDTO> getDataExpediente(Long nUnico) throws Exception;
+    List<DataExpedienteDTO> getDataExpediente(Long nUnico,String numIncidente) throws Exception;
 
     List<CabExpedienteChatDTO> getDataExpedientePorNumero(String numeroExpediente);
 

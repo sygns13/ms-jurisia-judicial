@@ -101,7 +101,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
     }
 
     @Override
-    public ResponseDocumentHTML generateDocxHTML(Long nUnico, String templateCode, String SessionId, Long idDocumento) throws Exception {
+    public ResponseDocumentHTML generateDocxHTML(Long nUnico, String numIncidente, String templateCode, String SessionId, Long idDocumento) throws Exception {
 
         String errorValidacion = "";
 
@@ -117,7 +117,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
             throw new ValidationSessionServiceException(errorValidacion);
         }
 
-        List<DataExpedienteDTO> expedienteDatos = expedienteService.getDataExpediente(nUnico);
+        List<DataExpedienteDTO> expedienteDatos = expedienteService.getDataExpediente(nUnico, numIncidente);
 
         if(expedienteDatos == null || expedienteDatos.size() == 0) {
             throw new ModeloNotFoundException("Expediente no encontrados");
@@ -285,7 +285,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
     }
 
     @Override
-    public byte[] generateDocx(Long nUnico, String templateCode, AuxDocument auxDocument, String SessionId, Long idDocumento) throws Exception {
+    public byte[] generateDocx(Long nUnico, String numIncidente, String templateCode, AuxDocument auxDocument, String SessionId, Long idDocumento) throws Exception {
 
         String errorValidacion = "";
 
@@ -301,7 +301,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
             throw new ValidationSessionServiceException(errorValidacion);
         }
 
-        List<DataExpedienteDTO> expedienteDatos = expedienteService.getDataExpediente(nUnico);
+        List<DataExpedienteDTO> expedienteDatos = expedienteService.getDataExpediente(nUnico, numIncidente);
 
         if(expedienteDatos == null || expedienteDatos.size() == 0) {
             throw new ModeloNotFoundException("Expediente no encontrados");

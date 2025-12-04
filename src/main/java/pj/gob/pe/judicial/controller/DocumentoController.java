@@ -40,14 +40,14 @@ public class DocumentoController {
     }
 
     @Operation(summary = "Generar Documento DOCX", description = "Generar Documento DOCX")
-    @GetMapping("/generar-documento-docx/{nUnico}/{codigo}/{idDocumento}")
+    @GetMapping("/generar-documento-docx/{nUnico}/{numIncidente}/{codigo}/{idDocumento}")
     public ResponseEntity<byte[]> generateDocx(
             @RequestHeader("SessionId") String SessionId,
-            @PathVariable("nUnico") Long  nUnico, @PathVariable("codigo") String  codigo, @PathVariable("idDocumento") Long  idDocumento) throws Exception {
+            @PathVariable("nUnico") Long  nUnico, @PathVariable("numIncidente") String  numIncidente, @PathVariable("codigo") String  codigo, @PathVariable("idDocumento") Long  idDocumento) throws Exception {
 
         AuxDocument auxDocument = new AuxDocument();
         auxDocument.setNombreDoc("nombre.docx");
-        byte[] documento = genDocumentoService.generateDocx(nUnico, codigo, auxDocument, SessionId, idDocumento);
+        byte[] documento = genDocumentoService.generateDocx(nUnico, numIncidente, codigo, auxDocument, SessionId, idDocumento);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+auxDocument.getNombreDoc()+"\"")
@@ -56,13 +56,13 @@ public class DocumentoController {
     }
 
     @Operation(summary = "Generar Documento HTML", description = "Generar Documento HTML")
-    @GetMapping("/generar-documento-web/{nUnico}/{codigo}/{idDocumento}")
+    @GetMapping("/generar-documento-web/{nUnico}/{numIncidente}/{codigo}/{idDocumento}")
     public ResponseEntity<ResponseDocumentHTML> generateHTMLDocx(
             @RequestHeader("SessionId") String SessionId,
-            @PathVariable("nUnico") Long  nUnico, @PathVariable("codigo") String  codigo, @PathVariable("idDocumento") Long  idDocumento) throws Exception {
+            @PathVariable("nUnico") Long  nUnico, @PathVariable("numIncidente") String  numIncidente, @PathVariable("codigo") String  codigo, @PathVariable("idDocumento") Long  idDocumento) throws Exception {
 
 
-        ResponseDocumentHTML resultado = genDocumentoService.generateDocxHTML(nUnico, codigo, SessionId, idDocumento);
+        ResponseDocumentHTML resultado = genDocumentoService.generateDocxHTML(nUnico, numIncidente, codigo, SessionId, idDocumento);
 
         if(resultado == null) {
             throw new ModeloNotFoundException("Documento no Generado");

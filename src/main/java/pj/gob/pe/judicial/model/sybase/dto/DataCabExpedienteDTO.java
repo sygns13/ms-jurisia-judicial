@@ -73,4 +73,7 @@ public class DataCabExpedienteDTO implements Serializable {
 
     @Column(name="TIPO_EXPEDIENTE")
     private String tipoExpediente;
+
+    @Column(name="n_incidente")
+    private String numIncidente;
 }

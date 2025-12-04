@@ -108,7 +108,8 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                                 "        WHEN ie.l_ind_digital = 'N' THEN 'Físico' \n" +
                                 "        WHEN ie.l_ind_digital = 'S' THEN 'Digital' \n" +
                                 "        ELSE 'Desconocido' \n" +
-                                "    END AS tipo_expediente \n" +
+                                "    END AS tipo_expediente, \n" +
+                                "    SUBSTRING(e.X_FORMATO,12,1) as n_incidente \n" +
                                 "FROM expediente e \n" +
                                 "INNER JOIN instancia i ON e.c_instancia = i.c_instancia \n" +
                                 "INNER JOIN expediente_estado ee ON ee.n_unico = e.n_unico AND ee.l_ultimo = 'S' and ee.n_incidente=e.n_incidente \n" +
@@ -151,7 +152,8 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                         row[10] != null ? String.valueOf(row[10]) : null,
                         row[11] != null ? String.valueOf(row[11]) : null,
                         row[12] != null ? String.valueOf(row[12]) : null,
-                        row[13] != null ? String.valueOf(row[13]) : null
+                        row[13] != null ? String.valueOf(row[13]) : null,
+                        row[14] != null ? String.valueOf(row[14]) : null
                 );
 
                 listCabExpedientes.add(expediente);
@@ -162,12 +164,12 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
     }
 
     @Override
-    public List<DataExpedienteDTO> getDataExpediente(Long nUnico) throws Exception {
+    public List<DataExpedienteDTO> getDataExpediente(Long nUnico, String numIncidente) throws Exception {
 
         List<DataExpedienteDTO> listDataExpediente = new ArrayList<>();
 
         List<Object[]> resultList = entityManager.createNativeQuery(
-                        "SELECT DISTINCT \n" +
+                        " SELECT DISTINCT \n" +
                                 "    e.n_unico as N_UNICO, \n" +
                                 "    e.X_FORMATO, \n" +
                                 "    i.x_nom_instancia, \n" +
@@ -188,36 +190,67 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                                 "    ISNULL(p.x_ape_paterno, '') + ' ' + ISNULL(p.x_ape_materno, '') + ' ' + ISNULL(p.x_nombres, '') AS parte, \n" +
                                 "    tp.l_tipo_parte, \n" +
                                 "    tp.x_desc_parte, \n" +
-                                "    p.x_doc_id as DNI_PARTE, \n " +
+                                "    p.x_doc_id as DNI_PARTE, \n" +
                                 "    e.c_sede, \n" +
                                 "    e.c_instancia, \n" +
                                 "    SUBSTRING(e.n_unico, 1, 4) as c_year, \n" +
                                 "    SUBSTRING(e.n_unico, 5, 5) as c_num, \n" +
                                 "    m.c_materia, \n" +
                                 "    se.x_desc_sede, \n" +
-                                "    esp.x_desc_especialidad \n" +
+                                "    esp.x_desc_especialidad, \n" +
+                                "    SUBSTRING(e.X_FORMATO,12,1) as n_incidente \n" +
                                 "FROM expediente e \n" +
-                                "INNER JOIN parte p ON p.n_unico = e.n_unico AND p.l_activo = 'S' \n" +
-                                "INNER JOIN tipo_parte tp ON tp.l_tipo_parte = p.l_tipo_parte AND tp.l_activo = 'S' \n" +
-                                "INNER JOIN instancia i ON e.c_instancia = i.c_instancia \n" +
-                                "INNER JOIN usuario_instancia ui ON ui.c_instancia = i.c_instancia AND ui.l_activo = 'S' AND ui.l_titular = 'S' \n" +
-                                "INNER JOIN usuario u ON u.c_usuario = ui.c_usuario \n" +
-                                "INNER JOIN asignado_a a ON a.n_unico = e.n_unico AND a.l_ultimo = 'S' \n" +
-                                "INNER JOIN usuario us ON us.c_usuario = a.c_usuario \n" +
-                                "INNER JOIN expediente_estado ee ON ee.n_unico = e.n_unico AND ee.l_ultimo = 'S' \n" +
-                                "INNER JOIN estado_maestro em ON em.c_estado = ee.c_estado \n" +
-                                "INNER JOIN materia_expediente m ON m.n_unico = e.n_unico \n" +
-                                "INNER JOIN materia ma ON m.c_materia = ma.c_materia \n" +
-                                "INNER JOIN expediente_ubicacion eu ON eu.n_unico = e.n_unico AND eu.l_ultimo = 'S' \n" +
-                                "INNER JOIN ubicacion_expediente ue ON eu.c_ubicacion = ue.c_ubicacion \n" +
-                                "INNER JOIN instancia_expediente ie ON ie.n_unico = e.n_unico \n" +
-                                "INNER JOIN sede se ON se.c_sede = e.c_sede \n" +
-                                "INNER JOIN especialidad esp ON esp.c_especialidad = e.c_especialidad \n" +
+                                "INNER JOIN parte p \n" +
+                                "        ON p.n_unico = e.n_unico \n" +
+                                "       AND p.l_activo = 'S' \n" +
+                                "INNER JOIN tipo_parte tp \n" +
+                                "        ON tp.l_tipo_parte = p.l_tipo_parte \n" +
+                                "       AND tp.l_activo = 'S' \n" +
+                                "INNER JOIN instancia i \n" +
+                                "        ON e.c_instancia = i.c_instancia \n" +
+                                "INNER JOIN usuario_instancia ui \n" +
+                                "        ON ui.c_instancia = i.c_instancia \n" +
+                                "       AND ui.l_activo   = 'S' \n" +
+                                "       AND ui.l_titular  = 'S' \n" +
+                                "INNER JOIN usuario u \n" +
+                                "        ON u.c_usuario = ui.c_usuario \n" +
+                                "INNER JOIN asignado_a a \n" +
+                                "        ON a.n_unico = e.n_unico \n" +
+                                "       AND a.l_ultimo = 'S' \n" +
+                                "INNER JOIN usuario us \n" +
+                                "        ON us.c_usuario = a.c_usuario \n" +
+                                "INNER JOIN expediente_estado ee \n" +
+                                "        ON ee.n_unico     = e.n_unico \n" +
+                                "       AND ee.n_incidente = e.n_incidente \n" +
+                                "       AND ee.l_ultimo    = 'S' \n" +
+                                "INNER JOIN estado_maestro em \n" +
+                                "        ON em.c_estado = ee.c_estado \n" +
+                                "INNER JOIN materia_expediente m \n" +
+                                "        ON m.n_unico = e.n_unico \n" +
+                                "INNER JOIN materia ma \n" +
+                                "        ON m.c_materia = ma.c_materia \n" +
+                                "INNER JOIN expediente_ubicacion eu \n" +
+                                "        ON eu.n_unico     = e.n_unico \n" +
+                                "       AND eu.n_incidente = e.n_incidente \n" +
+                                "       AND eu.l_ultimo    = 'S' \n" +
+                                "INNER JOIN ubicacion_expediente ue \n" +
+                                "        ON ue.c_ubicacion = eu.c_ubicacion \n" +
+                                "INNER JOIN instancia_expediente ie \n" +
+                                "        ON ie.n_unico     = e.n_unico \n" +
+                                "       AND ie.n_incidente = e.n_incidente \n" +
+                                "       AND ie.l_ultimo    = 'S' \n" +
+                                "INNER JOIN sede se \n" +
+                                "        ON se.c_sede = e.c_sede \n" +
+                                "INNER JOIN especialidad esp \n" +
+                                "        ON esp.c_especialidad = e.c_especialidad \n" +
                                 "WHERE \n" +
                                 "    e.n_unico = :numUnico \n" +
+                                "    AND e.n_incidente = :numIncidente1 and p.n_incidente = :numIncidente2 and p.l_activo='S' \n" +
                                 "ORDER BY tp.l_tipo_parte"
                 )
                 .setParameter("numUnico", nUnico)
+                .setParameter("numIncidente1", numIncidente)
+                .setParameter("numIncidente2", numIncidente)
                 .getResultList();
 
         if (!resultList.isEmpty()) {
@@ -247,7 +280,8 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                         row[21] != null ? String.valueOf(row[21]) : null,
                         row[22] != null ? String.valueOf(row[22]) : null,
                         row[23] != null ? String.valueOf(row[23]) : null,
-                        row[24] != null ? String.valueOf(row[24]) : null
+                        row[24] != null ? String.valueOf(row[24]) : null,
+                        row[25] != null ? String.valueOf(row[25]) : null
                 );
 
                 listDataExpediente.add(expediente);

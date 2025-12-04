@@ -21,8 +21,8 @@ public class ExpedienteServiceImpl implements ExpedienteService {
     }
 
     @Override
-    public List<DataExpedienteDTO> getDataExpediente(Long nUnico) throws Exception {
-        return expedienteDAO.getDataExpediente(nUnico);
+    public List<DataExpedienteDTO> getDataExpediente(Long nUnico,String numIncidente) throws Exception {
+        return expedienteDAO.getDataExpediente(nUnico, numIncidente);
     }
 
     @Override
