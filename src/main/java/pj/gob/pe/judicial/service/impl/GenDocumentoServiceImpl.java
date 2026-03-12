@@ -212,6 +212,21 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
             case "template_auto_25":
                 sections = this.ReemplazarSeccionesTemplate25(sections, expedienteDatos);
                 break;
+            case "template_auto_26":
+                sections = this.ReemplazarSeccionesTemplate26(sections, expedienteDatos);
+                break;
+            case "template_auto_27":
+                sections = this.ReemplazarSeccionesTemplate27(sections, expedienteDatos);
+                break;
+            case "template_auto_28":
+                sections = this.ReemplazarSeccionesTemplate28(sections, expedienteDatos);
+                break;
+            case "template_auto_29":
+                sections = this.ReemplazarSeccionesTemplate29(sections, expedienteDatos);
+                break;
+            case "template_auto_30":
+                sections = this.ReemplazarSeccionesTemplate30(sections, expedienteDatos);
+                break;
             default:
                 // Código si no coincide ningún caso
                 break;
@@ -397,6 +412,21 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
                 break;
             case "template_auto_25":
                 sections = this.ReemplazarSeccionesTemplate25(sections, expedienteDatos);
+                break;
+            case "template_auto_26":
+                sections = this.ReemplazarSeccionesTemplate26(sections, expedienteDatos);
+                break;
+            case "template_auto_27":
+                sections = this.ReemplazarSeccionesTemplate27(sections, expedienteDatos);
+                break;
+            case "template_auto_28":
+                sections = this.ReemplazarSeccionesTemplate28(sections, expedienteDatos);
+                break;
+            case "template_auto_29":
+                sections = this.ReemplazarSeccionesTemplate29(sections, expedienteDatos);
+                break;
+            case "template_auto_30":
+                sections = this.ReemplazarSeccionesTemplate30(sections, expedienteDatos);
                 break;
             default:
                 // Código si no coincide ningún caso
@@ -2174,7 +2204,322 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
 
         return sections;
     }
+    private List<SectionTemplate> ReemplazarSeccionesTemplate26(List<SectionTemplate> sections, List<DataExpedienteDTO> expedienteDatos) {
 
+        String juzgado = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getNombreInstancia() : "";
+        String expediente = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getFormato() : "";
+        String materia = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getDescMateria() : "";
+        String juez = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getNombreJuez() : "";
+        String especialista = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getNombreSecretario() : "";
+
+        String plazoDias = "...";
+        String oficioNro = "...";
+        String fechainspeccion = "...";
+        String horainspeccion = "...";
+        String horatxtinspeccion = "...";
+        String predioinspeccion = "...";
+        String direccioninspeccion = "...";
+        String corte = "CORTE SUPERIOR DE JUSTICIA DE ANCASH";
+        String nombreanio = "AÑO DE LA RECUPERACIÓN Y CONSOLIDACIÓN DE LA ECONOMÍA PERUANA";
+
+        String demandantes;
+        String demandados;
+
+        StringJoiner dtes = new StringJoiner(", ");
+        StringJoiner ddos = new StringJoiner(", ");
+
+        for (DataExpedienteDTO dto : expedienteDatos) {
+            if (dto.getTipoParteCodigo() == null || dto.getNombreParte() == null) continue;
+            String nombreParte = dto.getNombreParte().trim();
+
+            switch (dto.getTipoParteCodigo()) {
+                case "DTE":
+                    dtes.add(nombreParte);
+                    break;
+                case "DDO":
+                    ddos.add(nombreParte);
+                    break;
+            }
+        }
+
+        demandantes = dtes.toString();
+        demandados = ddos.toString();
+
+        LocalDate ahora = LocalDate.now();
+        DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd 'de' MMMM 'del' yyyy", new Locale("es", "PE"));
+        String fechaLetter = ahora.format(fecha);
+
+        String ciudad = "Huaraz";
+
+        for (SectionTemplate section : sections) {
+            section.setContent(section.getContent().replace("${title.corte}", corte));
+            section.setContent(section.getContent().replace("${title.juzgado}", juzgado));
+            section.setContent(section.getContent().replace("${title.nombreanio}", nombreanio));
+            section.setContent(section.getContent().replace("${top.ciudad}", ciudad));
+            section.setContent(section.getContent().replace("${top.fecha}", fechaLetter));
+            section.setContent(section.getContent().replace("${title.oficio}", oficioNro));
+            section.setContent(section.getContent().replace("${title.fechainspeccion}", fechainspeccion));
+            section.setContent(section.getContent().replace("${title.horainspeccion}", horainspeccion));
+            section.setContent(section.getContent().replace("${title.horatxtinspeccion}", horatxtinspeccion));
+            section.setContent(section.getContent().replace("${title.predioinspeccion}", predioinspeccion));
+            section.setContent(section.getContent().replace("${title.direccioninspeccion}", direccioninspeccion));
+            section.setContent(section.getContent().replace("${title.demandante}", demandantes));
+            section.setContent(section.getContent().replace("${title.expediente}", expediente));
+            section.setContent(section.getContent().replace("${title.juez}", juez));
+
+        }
+
+        return sections;
+    }
+    private List<SectionTemplate> ReemplazarSeccionesTemplate27(List<SectionTemplate> sections, List<DataExpedienteDTO> expedienteDatos) {
+
+        String juzgado = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getNombreInstancia() : "";
+        String expediente = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getFormato() : "";
+        String materia = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getDescMateria() : "";
+        String juez = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getNombreJuez() : "";
+        String especialista = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getNombreSecretario() : "";
+
+        String plazoDias = "...";
+        String oficioNro = "...";
+        String resolucioneleva = "...";
+        String fecharesolucioneleva = "...";
+        String resolucionapela = "...";
+        String corte = "CORTE SUPERIOR DE JUSTICIA DE ANCASH";
+        String nombreanio = "AÑO DE LA RECUPERACIÓN Y CONSOLIDACIÓN DE LA ECONOMÍA PERUANA";
+
+        String demandantes;
+        String demandados;
+
+        StringJoiner dtes = new StringJoiner(", ");
+        StringJoiner ddos = new StringJoiner(", ");
+
+        for (DataExpedienteDTO dto : expedienteDatos) {
+            if (dto.getTipoParteCodigo() == null || dto.getNombreParte() == null) continue;
+            String nombreParte = dto.getNombreParte().trim();
+
+            switch (dto.getTipoParteCodigo()) {
+                case "DTE":
+                    dtes.add(nombreParte);
+                    break;
+                case "DDO":
+                    ddos.add(nombreParte);
+                    break;
+            }
+        }
+
+        demandantes = dtes.toString();
+        demandados = ddos.toString();
+
+        LocalDate ahora = LocalDate.now();
+        DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd 'de' MMMM 'del' yyyy", new Locale("es", "PE"));
+        String fechaLetter = ahora.format(fecha);
+
+        String ciudad = "Huaraz";
+
+        for (SectionTemplate section : sections) {
+            section.setContent(section.getContent().replace("${title.corte}", corte));
+            section.setContent(section.getContent().replace("${title.juzgado}", juzgado));
+            section.setContent(section.getContent().replace("${title.nombreanio}", nombreanio));
+            section.setContent(section.getContent().replace("${top.ciudad}", ciudad));
+            section.setContent(section.getContent().replace("${top.fecha}", fechaLetter));
+            section.setContent(section.getContent().replace("${title.oficio}", oficioNro));
+            section.setContent(section.getContent().replace("${title.expediente}", expediente));
+            section.setContent(section.getContent().replace("${title.resolucioneleva}", resolucioneleva));
+            section.setContent(section.getContent().replace("${title.fecharesolucioneleva}", fecharesolucioneleva));
+            section.setContent(section.getContent().replace("${title.resolucionapela}", resolucionapela));
+            section.setContent(section.getContent().replace("${title.juez}", juez));
+
+        }
+
+        return sections;
+    }
+    private List<SectionTemplate> ReemplazarSeccionesTemplate28(List<SectionTemplate> sections, List<DataExpedienteDTO> expedienteDatos) {
+
+        String juzgado = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getNombreInstancia() : "";
+        String expediente = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getFormato() : "";
+        String materia = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getDescMateria() : "";
+        String juez = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getNombreJuez() : "";
+        String especialista = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getNombreSecretario() : "";
+
+        String plazoDias = "...";
+        String oficioNro = "...";
+        String resolucioneleva = "...";
+        String fecharesolucioneleva = "...";
+        String resolucionapela = "...";
+        String corte = "CORTE SUPERIOR DE JUSTICIA DE ANCASH";
+        String nombreanio = "AÑO DE LA RECUPERACIÓN Y CONSOLIDACIÓN DE LA ECONOMÍA PERUANA";
+
+        String demandantes;
+        String demandados;
+
+        StringJoiner dtes = new StringJoiner(", ");
+        StringJoiner ddos = new StringJoiner(", ");
+
+        for (DataExpedienteDTO dto : expedienteDatos) {
+            if (dto.getTipoParteCodigo() == null || dto.getNombreParte() == null) continue;
+            String nombreParte = dto.getNombreParte().trim();
+
+            switch (dto.getTipoParteCodigo()) {
+                case "DTE":
+                    dtes.add(nombreParte);
+                    break;
+                case "DDO":
+                    ddos.add(nombreParte);
+                    break;
+            }
+        }
+
+        demandantes = dtes.toString();
+        demandados = ddos.toString();
+
+        LocalDate ahora = LocalDate.now();
+        DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd 'de' MMMM 'del' yyyy", new Locale("es", "PE"));
+        String fechaLetter = ahora.format(fecha);
+
+        String ciudad = "Huaraz";
+
+        for (SectionTemplate section : sections) {
+            section.setContent(section.getContent().replace("${title.corte}", corte));
+            section.setContent(section.getContent().replace("${title.juzgado}", juzgado));
+            section.setContent(section.getContent().replace("${title.nombreanio}", nombreanio));
+            section.setContent(section.getContent().replace("${top.ciudad}", ciudad));
+            section.setContent(section.getContent().replace("${top.fecha}", fechaLetter));
+            section.setContent(section.getContent().replace("${title.oficio}", oficioNro));
+            section.setContent(section.getContent().replace("${title.expediente}", expediente));
+            section.setContent(section.getContent().replace("${title.resolucioneleva}", resolucioneleva));
+            section.setContent(section.getContent().replace("${title.fecharesolucioneleva}", fecharesolucioneleva));
+            section.setContent(section.getContent().replace("${title.resolucionapela}", resolucionapela));
+            section.setContent(section.getContent().replace("${title.juez}", juez));
+
+        }
+
+        return sections;
+    }
+    private List<SectionTemplate> ReemplazarSeccionesTemplate29(List<SectionTemplate> sections, List<DataExpedienteDTO> expedienteDatos) {
+
+        String juzgado = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getNombreInstancia() : "";
+        String expediente = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getFormato() : "";
+        String materia = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getDescMateria() : "";
+        String juez = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getNombreJuez() : "";
+        String especialista = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getNombreSecretario() : "";
+
+        String plazoDias = "...";
+        String oficioNro = "...";
+        String nroperitos = "...";
+        String especialidadperito = "...";
+        String corte = "CORTE SUPERIOR DE JUSTICIA DE ANCASH";
+        String nombreanio = "AÑO DE LA RECUPERACIÓN Y CONSOLIDACIÓN DE LA ECONOMÍA PERUANA";
+
+        String demandantes;
+        String demandados;
+
+        StringJoiner dtes = new StringJoiner(", ");
+        StringJoiner ddos = new StringJoiner(", ");
+
+        for (DataExpedienteDTO dto : expedienteDatos) {
+            if (dto.getTipoParteCodigo() == null || dto.getNombreParte() == null) continue;
+            String nombreParte = dto.getNombreParte().trim();
+
+            switch (dto.getTipoParteCodigo()) {
+                case "DTE":
+                    dtes.add(nombreParte);
+                    break;
+                case "DDO":
+                    ddos.add(nombreParte);
+                    break;
+            }
+        }
+
+        demandantes = dtes.toString();
+        demandados = ddos.toString();
+
+        LocalDate ahora = LocalDate.now();
+        DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd 'de' MMMM 'del' yyyy", new Locale("es", "PE"));
+        String fechaLetter = ahora.format(fecha);
+
+        String ciudad = "Huaraz";
+
+        for (SectionTemplate section : sections) {
+            section.setContent(section.getContent().replace("${title.corte}", corte));
+            section.setContent(section.getContent().replace("${title.juzgado}", juzgado));
+            section.setContent(section.getContent().replace("${title.nombreanio}", nombreanio));
+            section.setContent(section.getContent().replace("${top.ciudad}", ciudad));
+            section.setContent(section.getContent().replace("${top.fecha}", fechaLetter));
+            section.setContent(section.getContent().replace("${title.oficio}", oficioNro));
+            section.setContent(section.getContent().replace("${title.nroperitos}", nroperitos));
+            section.setContent(section.getContent().replace("${title.especialidadperito}", especialidadperito));
+            section.setContent(section.getContent().replace("${title.demandante}", demandantes));
+            section.setContent(section.getContent().replace("${title.expediente}", expediente));
+            section.setContent(section.getContent().replace("${title.juez}", juez));
+
+        }
+
+        return sections;
+    }
+    private List<SectionTemplate> ReemplazarSeccionesTemplate30(List<SectionTemplate> sections, List<DataExpedienteDTO> expedienteDatos) {
+
+        String juzgado = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getNombreInstancia() : "";
+        String expediente = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getFormato() : "";
+        String materia = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getDescMateria() : "";
+        String juez = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getNombreJuez() : "";
+        String especialista = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getNombreSecretario() : "";
+        String fiscalia = "";
+
+        String plazoDias = "...";
+        String oficioNro = "...";
+        String carpetafiscal = "...";
+        String resolucionprevia = "...";
+        String resolucionesprevia = "...";
+        String corte = "CORTE SUPERIOR DE JUSTICIA DE ANCASH";
+        String nombreanio = "AÑO DE LA RECUPERACIÓN Y CONSOLIDACIÓN DE LA ECONOMÍA PERUANA";
+
+        String demandantes;
+        String demandados;
+
+        StringJoiner dtes = new StringJoiner(", ");
+        StringJoiner ddos = new StringJoiner(", ");
+
+        for (DataExpedienteDTO dto : expedienteDatos) {
+            if (dto.getTipoParteCodigo() == null || dto.getNombreParte() == null) continue;
+            String nombreParte = dto.getNombreParte().trim();
+
+            switch (dto.getTipoParteCodigo()) {
+                case "DTE":
+                    dtes.add(nombreParte);
+                    break;
+                case "DDO":
+                    ddos.add(nombreParte);
+                    break;
+            }
+        }
+
+        demandantes = dtes.toString();
+        demandados = ddos.toString();
+
+        LocalDate ahora = LocalDate.now();
+        DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd 'de' MMMM 'del' yyyy", new Locale("es", "PE"));
+        String fechaLetter = ahora.format(fecha);
+
+        String ciudad = "Huaraz";
+
+        for (SectionTemplate section : sections) {
+            section.setContent(section.getContent().replace("${title.corte}", corte));
+            section.setContent(section.getContent().replace("${title.juzgado}", juzgado));
+            section.setContent(section.getContent().replace("${title.nombreanio}", nombreanio));
+            section.setContent(section.getContent().replace("${top.ciudad}", ciudad));
+            section.setContent(section.getContent().replace("${top.fecha}", fechaLetter));
+            section.setContent(section.getContent().replace("${title.oficio}", oficioNro));
+            section.setContent(section.getContent().replace("${title.fiscalia}", fiscalia));
+            section.setContent(section.getContent().replace("${title.carpetafiscal}", carpetafiscal));
+            section.setContent(section.getContent().replace("${title.expediente}", expediente));
+            section.setContent(section.getContent().replace("${title.resolucionprevia}", resolucionprevia));
+            section.setContent(section.getContent().replace("${title.resolucionesprevia}", resolucionesprevia));
+            section.setContent(section.getContent().replace("${title.juez}", juez));
+
+        }
+
+        return sections;
+    }
 
     private CabDocumentoGenerado generarDocumentoToKafka(List<DataExpedienteDTO> expedienteDatos, Template template, ResponseLogin responseLogin, String typeDoc, Long idDocumento){
 

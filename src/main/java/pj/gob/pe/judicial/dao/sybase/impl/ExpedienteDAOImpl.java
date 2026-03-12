@@ -111,7 +111,6 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                                 "    END AS tipo_expediente, \n" +
                                 "    SUBSTRING(e.X_FORMATO,12,1) as n_incidente \n" +
                                 "FROM expediente e \n" +
-                                "INNER JOIN instancia i ON e.c_instancia = i.c_instancia \n" +
                                 "INNER JOIN expediente_estado ee ON ee.n_unico = e.n_unico AND ee.l_ultimo = 'S' and ee.n_incidente=e.n_incidente \n" +
                                 "INNER JOIN estado_maestro em ON em.c_estado = ee.c_estado \n" +
                                 "INNER JOIN materia_expediente m ON m.n_unico = e.n_unico \n" +
@@ -119,13 +118,16 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                                 "INNER JOIN expediente_ubicacion eu ON eu.n_unico = e.n_unico AND eu.l_ultimo = 'S' and eu.n_incidente=e.n_incidente \n" +
                                 "INNER JOIN ubicacion_expediente ue ON eu.c_ubicacion = ue.c_ubicacion \n" +
                                 "INNER JOIN instancia_expediente ie ON ie.n_unico = e.n_unico and ie.l_ultimo='S' \n" +
+                                "INNER JOIN instancia i ON ie.c_instancia = i.c_instancia \n" +
                                 "WHERE\n" +
-                                "    e.c_instancia in('301','302','701','702','044') AND \n" +
+                                "    ie.c_instancia in('301','302','701','702','044','118') AND \n" +
                                 "    ee.l_ultimo='S'     \n" +
                                 "AND e.l_anulado='N'    \n" +
-                                "AND e.c_instancia= :instancia    \n" +
-                                "AND e.c_especialidad= :especialidad     \n" +
-                                "AND SUBSTRING(e.n_unico, 1, 9)= :numUnico"
+                                "AND ie.l_ind_digital IN ('S','N')    \n" +
+                                "AND ie.c_instancia= :instancia    \n" +
+                                "AND ie.c_especialidad= :especialidad     \n" +
+                                "AND SUBSTRING(e.n_unico, 1, 9)= :numUnico   \n" +
+                                "ORDER BY SUBSTRING(e.X_FORMATO,12,1) ASC"
                 )
                 .setParameter("instancia", input.getInstancia())
                 .setParameter("especialidad", input.getEspecialidad())
@@ -206,14 +208,6 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                                 "INNER JOIN tipo_parte tp \n" +
                                 "        ON tp.l_tipo_parte = p.l_tipo_parte \n" +
                                 "       AND tp.l_activo = 'S' \n" +
-                                "INNER JOIN instancia i \n" +
-                                "        ON e.c_instancia = i.c_instancia \n" +
-                                "INNER JOIN usuario_instancia ui \n" +
-                                "        ON ui.c_instancia = i.c_instancia \n" +
-                                "       AND ui.l_activo   = 'S' \n" +
-                                "       AND ui.l_titular  = 'S' \n" +
-                                "INNER JOIN usuario u \n" +
-                                "        ON u.c_usuario = ui.c_usuario \n" +
                                 "INNER JOIN asignado_a a \n" +
                                 "        ON a.n_unico = e.n_unico \n" +
                                 "       AND a.l_ultimo = 'S' \n" +
@@ -239,6 +233,14 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                                 "        ON ie.n_unico     = e.n_unico \n" +
                                 "       AND ie.n_incidente = e.n_incidente \n" +
                                 "       AND ie.l_ultimo    = 'S' \n" +
+                                "INNER JOIN instancia i \n" +
+                                "        ON ie.c_instancia = i.c_instancia \n" +
+                                "INNER JOIN usuario_instancia ui \n" +
+                                "        ON ui.c_instancia = ie.c_instancia \n" +
+                                "       AND ui.l_activo   = 'S' \n" +
+                                "       AND ui.l_titular  = 'S' \n" +
+                                "INNER JOIN usuario u \n" +
+                                "        ON u.c_usuario = ui.c_usuario \n" +
                                 "INNER JOIN sede se \n" +
                                 "        ON se.c_sede = e.c_sede \n" +
                                 "INNER JOIN especialidad esp \n" +
@@ -322,7 +324,7 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                                 "        e.l_anulado = 'N'\n" +
                                 "    AND ie.l_ultimo = 'S'\n" +
                                 "    AND i.l_ind_baja = 'N'\n" +
-                                "    AND i.c_instancia in('301','302','701','702','044')--Alcance 02 juzgados de familia y 03 juzgados de paz letrado de Huaraz \n" +
+                                "    AND i.c_instancia in('301','302','701','702','044','118')--Alcance 02 juzgados de familia y 03 juzgados de paz letrado de Huaraz y civil transitorio huaraz \n" +
                                 "    AND e.x_formato = :numeroExpediente"
                 ).setParameter("numeroExpediente", numeroExpediente)
                 .getResultList();
@@ -432,9 +434,6 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                                 "FROM expediente e " +
                                 "INNER JOIN parte p ON p.n_unico = e.n_unico AND p.l_activo = 'S' " +
                                 "INNER JOIN tipo_parte tp ON tp.l_tipo_parte = p.l_tipo_parte AND tp.l_activo = 'S' " +
-                                "INNER JOIN instancia i ON e.c_instancia = i.c_instancia " +
-                                "INNER JOIN usuario_instancia ui ON ui.c_instancia = i.c_instancia AND ui.l_activo = 'S' AND ui.l_titular = 'S' " +
-                                "INNER JOIN usuario u ON u.c_usuario = ui.c_usuario " +
                                 "INNER JOIN asignado_a a ON a.n_unico = e.n_unico AND a.l_ultimo = 'S' " +
                                 "INNER JOIN usuario us ON us.c_usuario = a.c_usuario " +
                                 "INNER JOIN expediente_estado ee ON ee.n_unico = e.n_unico AND ee.l_ultimo = 'S' " +
@@ -444,7 +443,10 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                                 "INNER JOIN expediente_ubicacion eu ON eu.n_unico = e.n_unico AND eu.l_ultimo = 'S' " +
                                 "INNER JOIN ubicacion_expediente ue ON eu.c_ubicacion = ue.c_ubicacion " +
                                 "INNER JOIN instancia_expediente ie ON ie.n_unico = e.n_unico " +
-                                "WHERE e.c_instancia in('301','302','701','702','044') " +
+                                "INNER JOIN instancia i ON ie.c_instancia = i.c_instancia " +
+                                "INNER JOIN usuario_instancia ui ON ui.c_instancia = ie.c_instancia AND ui.l_activo = 'S' AND ui.l_titular = 'S' " +
+                                "INNER JOIN usuario u ON u.c_usuario = ui.c_usuario " +
+                                "WHERE e.c_instancia in('301','302','701','702','044','118') " +
                                 "AND e.n_unico = :nUnico " +
                                 "ORDER BY tp.l_tipo_parte"
                 )
