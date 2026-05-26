@@ -89,4 +89,18 @@ public class ExpedienteController {
     }
 
 
+//    ---------------------EXPEDIENTES POR CALIFICAR-----------------------
+@Operation(summary = "Obtener Cabeceras de expedientes a calificar", description = "Obtener Cabeceras de expedientes")
+@PostMapping("/listar/cabecerascalificar")
+public ResponseEntity<List<DataCabExpedienteCalificarDTO>> listarExpedientesCalificar(@Valid @RequestBody InputCabExpediente input) throws Exception{
+
+    List<DataCabExpedienteCalificarDTO> expedientes = expedienteService.findCabExpedientesCalificar(input);
+
+    if(expedientes == null) {
+        throw new ModeloNotFoundException("Expedientes no encontrados");
+    }
+
+    return new ResponseEntity<List<DataCabExpedienteCalificarDTO>>(expedientes, HttpStatus.OK);
+}
+
 }

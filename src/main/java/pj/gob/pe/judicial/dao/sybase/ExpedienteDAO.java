@@ -9,6 +9,8 @@ public interface ExpedienteDAO {
 
     List<DataCabExpedienteDTO> findCabExpedientes(InputCabExpediente input) throws Exception;
 
+    List<DataCabExpedienteCalificarDTO> findCabExpedientesCalificar(InputCabExpediente input) throws Exception;
+
     List<DataExpedienteDTO> getDataExpediente(Long nUnico, String numIncidente) throws Exception;
 
     List<CabExpedienteChatDTO> findByNumeroExpediente(String numeroExpediente);

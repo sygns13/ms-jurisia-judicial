@@ -166,6 +166,107 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
     }
 
     @Override
+    public List<DataCabExpedienteCalificarDTO> findCabExpedientesCalificar(InputCabExpediente input) throws Exception {
+
+        List<DataCabExpedienteCalificarDTO> listCabExpedientes = new ArrayList<>();
+        String nroexp = String.format("%05d", input.getNumero());
+        String n_unico = String.valueOf(input.getAnio()) + nroexp;
+
+        List<Object[]> resultList = entityManager.createNativeQuery(
+                        "SELECT DISTINCT \n" +
+                                "    e.n_unico as N_UNICO, \n" +
+                                "    SUBSTRING(e.n_unico, 1, 4) as ANIO, \n" +
+                                "    SUBSTRING(e.n_unico, 5, 5) as EXPNRO, \n" +
+                                "    e.X_FORMATO, \n" +
+                                "    ma.c_materia AS C_MATERIA, \n" +
+                                "    e.c_especialidad AS C_ESPECIALIDAD, \n" +
+                                "    i.c_instancia AS C_INSTANCIA, \n" +
+                                "    i.x_nom_instancia AS X_NOM_INSTANCIA, \n" +
+                                "    ma.X_DESC_MATERIA, \n" +
+                                "    e.F_INICIO, \n" +
+                                "    em.X_DESC_ESTADO, \n" +
+                                "    eu.c_ubicacion AS C_UBICACION, \n" +
+                                "    ue.x_desc_ubicacion AS X_DESC_UBICACION, \n" +
+                                "    CASE \n" +
+                                "        WHEN ie.l_ind_digital = 'N' THEN 'Fisico' \n" +
+                                "        WHEN ie.l_ind_digital = 'S' THEN 'Digital' \n" +
+                                "        ELSE 'Desconocido' \n" +
+                                "    END AS TIPO_EXPEDIENTE, \n" +
+                                "    sf.x_ip AS X_IP, \n" +
+                                "    sf.c_usuario AS C_USUARIO, \n" +
+                                "    sf.c_clave AS C_CLAVE, \n" +
+                                "    dd.x_ruta_archivo AS X_RUTA_ARCHIVO, \n" +
+                                "    dd.x_nombre_archivo AS X_NOMBRE_ARCHIVO, \n" +
+                                "    'ftp://' + sf.c_usuario + ':' + sf.c_clave + '@' + sf.x_ip + '/' + dd.x_ruta_archivo + '/' as RUTA_COMPLETA, \n" +
+                                "    SUBSTRING(e.X_FORMATO,12,1) as N_INCIDENTE \n" +
+                                "FROM expediente e \n" +
+                                "INNER JOIN expediente_estado ee ON ee.n_unico = e.n_unico AND ee.l_ultimo = 'S' AND ee.c_estado = '092' AND ee.n_incidente = e.n_incidente \n" +
+                                "INNER JOIN estado_maestro em ON em.c_estado = ee.c_estado \n" +
+                                "INNER JOIN materia_expediente m ON m.n_unico = e.n_unico \n" +
+                                "INNER JOIN materia ma ON m.c_materia = ma.c_materia \n" +
+                                "INNER JOIN expediente_ubicacion eu ON eu.n_unico = e.n_unico AND eu.l_ultimo = 'S' AND eu.n_incidente = e.n_incidente \n" +
+                                "INNER JOIN ubicacion_expediente ue ON eu.c_ubicacion = ue.c_ubicacion \n" +
+                                "INNER JOIN instancia_expediente ie ON ie.n_unico = e.n_unico AND ie.l_ultimo = 'S' \n" +
+                                "INNER JOIN instancia i ON ie.c_instancia = i.c_instancia \n" +
+                                "INNER JOIN documento_digital dd ON e.n_unico = dd.n_unico AND dd.l_tipo_doc = 'EXP' AND e.n_incidente = dd.n_incidente \n" +
+                                "INNER JOIN servidor_ftp sf ON sf.n_item = dd.n_servicio_ftp AND sf.n_correlativo_ftp = dd.n_correlativo_ftp AND sf.l_activo = 'S' \n" +
+                                "WHERE ie.c_instancia = :instancia \n" +
+                                "  AND e.l_anulado = 'N' \n" +
+                                "  AND ie.l_ind_digital IN ('S','N') \n" +
+                                "  AND ie.c_especialidad = :especialidad \n" +
+                                "  AND SUBSTRING(e.n_unico, 1, 9) = :numUnico \n" +
+                                "ORDER BY SUBSTRING(e.X_FORMATO, 12, 1) ASC"
+                )
+                .setParameter("instancia", input.getInstancia())
+                .setParameter("especialidad", input.getEspecialidad())
+                .setParameter("numUnico", n_unico)
+                .getResultList();
+
+        if (!resultList.isEmpty()) {
+            resultList.forEach(row -> {
+                DataCabExpedienteCalificarDTO dto = new DataCabExpedienteCalificarDTO();
+
+                dto.setNUnico(row[0] != null ? ((Number) row[0]).longValue() : null);
+                dto.setAnio(row[1] != null ? String.valueOf(row[1]) : null);
+                dto.setExpNro(row[2] != null ? String.valueOf(row[2]) : null);
+                dto.setXFormato(row[3] != null ? String.valueOf(row[3]) : null);
+                dto.setCMateria(row[4] != null ? String.valueOf(row[4]) : null);
+                dto.setCEspecialidad(row[5] != null ? String.valueOf(row[5]) : null);
+                dto.setCInstancia(row[6] != null ? String.valueOf(row[6]) : null);
+                dto.setXNomInstancia(row[7] != null ? String.valueOf(row[7]) : null);
+                dto.setXDescMateria(row[8] != null ? String.valueOf(row[8]) : null);
+
+                if (row[9] != null) {
+                    if (row[9] instanceof Timestamp) {
+                        dto.setFInicio(((Timestamp) row[9]).toLocalDateTime());
+                    } else {
+                        dto.setFInicio(((java.util.Date) row[9]).toInstant()
+                                .atZone(java.time.ZoneId.systemDefault())
+                                .toLocalDateTime());
+                    }
+                } else {
+                    dto.setFInicio(null);
+                }
+
+                dto.setXDescEstado(row[10] != null ? String.valueOf(row[10]) : null);
+                dto.setCUbicacion(row[11] != null ? String.valueOf(row[11]) : null);
+                dto.setXDescUbicacion(row[12] != null ? String.valueOf(row[12]) : null);
+                dto.setTipoExpediente(row[13] != null ? String.valueOf(row[13]) : null);
+                dto.setXIp(row[14] != null ? String.valueOf(row[14]) : null);
+                dto.setCUsuario(row[15] != null ? String.valueOf(row[15]) : null);
+                dto.setCClave(row[16] != null ? String.valueOf(row[16]) : null);
+                dto.setXRutaArchivo(row[17] != null ? String.valueOf(row[17]) : null);
+                dto.setXNombreArchivo(row[18] != null ? String.valueOf(row[18]) : null);
+                dto.setRutaCompleta(row[19] != null ? String.valueOf(row[19]) : null);
+                dto.setNIncidente(row[20] != null ? String.valueOf(row[20]) : null);
+
+                listCabExpedientes.add(dto);
+            });
+        }
+
+        return listCabExpedientes;
+    }
+    @Override
     public List<DataExpedienteDTO> getDataExpediente(Long nUnico, String numIncidente) throws Exception {
 
         List<DataExpedienteDTO> listDataExpediente = new ArrayList<>();

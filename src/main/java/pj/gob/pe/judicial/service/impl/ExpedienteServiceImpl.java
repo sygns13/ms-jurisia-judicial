@@ -21,6 +21,11 @@ public class ExpedienteServiceImpl implements ExpedienteService {
     }
 
     @Override
+    public List<DataCabExpedienteCalificarDTO> findCabExpedientesCalificar(InputCabExpediente input) throws Exception {
+        return expedienteDAO.findCabExpedientesCalificar(input);
+    }
+
+    @Override
     public List<DataExpedienteDTO> getDataExpediente(Long nUnico,String numIncidente) throws Exception {
         return expedienteDAO.getDataExpediente(nUnico, numIncidente);
     }
