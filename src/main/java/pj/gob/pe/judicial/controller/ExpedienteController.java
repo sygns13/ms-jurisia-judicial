@@ -11,6 +11,10 @@ import pj.gob.pe.judicial.exception.ModeloNotFoundException;
 import pj.gob.pe.judicial.model.sybase.dto.*;
 import pj.gob.pe.judicial.service.ExpedienteService;
 import pj.gob.pe.judicial.utils.beans.InputCabExpediente;
+import pj.gob.pe.judicial.utils.beans.InputCabExpedienteCalifica;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import pj.gob.pe.judicial.utils.beans.InputObtenerPdf;
 
 import java.util.List;
 
@@ -90,17 +94,31 @@ public class ExpedienteController {
 
 
 //    ---------------------EXPEDIENTES POR CALIFICAR-----------------------
-@Operation(summary = "Obtener Cabeceras de expedientes a calificar", description = "Obtener Cabeceras de expedientes")
-@PostMapping("/listar/cabecerascalificar")
-public ResponseEntity<List<DataCabExpedienteCalificarDTO>> listarExpedientesCalificar(@Valid @RequestBody InputCabExpediente input) throws Exception{
-
-    List<DataCabExpedienteCalificarDTO> expedientes = expedienteService.findCabExpedientesCalificar(input);
-
-    if(expedientes == null) {
-        throw new ModeloNotFoundException("Expedientes no encontrados");
+    @Operation(summary = "Obtener Cabeceras de expedientes a calificar", description = "Obtener Cabeceras de expedientes")
+    @PostMapping("/listar/cabecerascalificar")
+    public ResponseEntity<List<DataCabExpedienteCalificarDTO>> listarExpedientesCalificar(
+            @RequestHeader("SessionId") String SessionId,
+            @Valid @RequestBody InputCabExpedienteCalifica input) throws Exception {
+        List<DataCabExpedienteCalificarDTO> expedientes =
+                expedienteService.findCabExpedientesCalificar(SessionId, input);
+        if (expedientes == null) {
+            throw new ModeloNotFoundException("Expedientes no encontrados");
+        }
+        return new ResponseEntity<>(expedientes, HttpStatus.OK);
     }
 
-    return new ResponseEntity<List<DataCabExpedienteCalificarDTO>>(expedientes, HttpStatus.OK);
-}
+    @Operation(summary = "Obtener PDF de expediente desde FTP", description = "Descarga un archivo PDF desde el servidor FTP")
+    @PostMapping(value = "/obtener-pdf", produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<byte[]> obtenerPdf(@RequestBody InputObtenerPdf input) throws Exception {
+
+        byte[] pdfBytes = expedienteService.obtenerPdfDesdeFtp(input);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + input.getXnombreArchivo() + "\"");
+        headers.setContentLength(pdfBytes.length);
+
+        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+    }
 
 }

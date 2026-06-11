@@ -6,6 +6,8 @@ import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.List;
+import java.util.ArrayList;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -80,4 +82,6 @@ public class DataCabExpedienteCalificarDTO implements Serializable {
 
     @Column(name = "N_INCIDENTE")
     private String nIncidente;
+
+    private List<String> archivos = new ArrayList<>();
 }

@@ -2,6 +2,8 @@ package pj.gob.pe.judicial.service;
 
 import pj.gob.pe.judicial.model.sybase.dto.*;
 import pj.gob.pe.judicial.utils.beans.InputCabExpediente;
+import pj.gob.pe.judicial.utils.beans.InputCabExpedienteCalifica;
+import pj.gob.pe.judicial.utils.beans.InputObtenerPdf;
 
 import java.util.List;
 
@@ -9,7 +11,7 @@ public interface ExpedienteService {
 
     List<DataCabExpedienteDTO> findCabExpedientes(InputCabExpediente input) throws Exception;
 
-    List<DataCabExpedienteCalificarDTO> findCabExpedientesCalificar(InputCabExpediente input) throws Exception;
+    List<DataCabExpedienteCalificarDTO> findCabExpedientesCalificar(String SessionId, InputCabExpedienteCalifica input) throws Exception;
 
     List<DataExpedienteDTO> getDataExpediente(Long nUnico,String numIncidente) throws Exception;
 
@@ -19,4 +21,5 @@ public interface ExpedienteService {
 
     List<ResumenExpedienteParteDTO> getResumenExpedienteYPartes(Long nUnico);
 
+    byte[] obtenerPdfDesdeFtp(InputObtenerPdf input) throws Exception;
 }

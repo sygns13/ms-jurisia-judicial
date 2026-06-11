@@ -1,7 +1,9 @@
 package pj.gob.pe.judicial.dao.sybase;
 
 import pj.gob.pe.judicial.model.sybase.dto.*;
+import pj.gob.pe.judicial.utils.beans.UserLogin;
 import pj.gob.pe.judicial.utils.beans.InputCabExpediente;
+import pj.gob.pe.judicial.utils.beans.InputCabExpedienteCalifica;
 
 import java.util.List;
 
@@ -9,7 +11,7 @@ public interface ExpedienteDAO {
 
     List<DataCabExpedienteDTO> findCabExpedientes(InputCabExpediente input) throws Exception;
 
-    List<DataCabExpedienteCalificarDTO> findCabExpedientesCalificar(InputCabExpediente input) throws Exception;
+    List<DataCabExpedienteCalificarDTO> findCabExpedientesCalificar(InputCabExpedienteCalifica input, UserLogin user) throws Exception;
 
     List<DataExpedienteDTO> getDataExpediente(Long nUnico, String numIncidente) throws Exception;
 
