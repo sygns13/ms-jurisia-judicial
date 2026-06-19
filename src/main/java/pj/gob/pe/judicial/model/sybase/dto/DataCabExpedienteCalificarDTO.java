@@ -83,5 +83,17 @@ public class DataCabExpedienteCalificarDTO implements Serializable {
     @Column(name = "N_INCIDENTE")
     private String nIncidente;
 
+    @Column(name = "X_DESC_DEMANDADO")
+    private String xDescDemandado;
+
+    @Column(name = "X_DESC_DEMANDANTE")
+    private String xDescDemandante;
+
+    @Column(name = "X_DESC_JUEZ")
+    private String xDescJuez;
+
+    @Column(name = "X_DESC_ESPECIALISTA")
+    private String xDescEspecialista;
+
     private List<String> archivos = new ArrayList<>();
 }
