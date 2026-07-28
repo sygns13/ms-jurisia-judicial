@@ -67,6 +67,9 @@ api:
     post:
       process:
         path: /v1/chatgpt/documento
+      # Procesamiento de documentos con Gemini (reemplaza al flujo OpenAI en GenDocumentoServiceImpl)
+      processgemini:
+        path: /v1/gemini-chat/documento
   apichatbot:
     url: https://tan-goose-839396.hostingersite.com
     get:
