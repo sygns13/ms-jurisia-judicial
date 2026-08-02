@@ -23,6 +23,7 @@ import pj.gob.pe.judicial.repository.mysql.TemplateRepository;
 import pj.gob.pe.judicial.repository.mysql.TipoDocumentoRepository;
 import pj.gob.pe.judicial.service.ExpedienteService;
 import pj.gob.pe.judicial.service.GenDocumentoService;
+import pj.gob.pe.judicial.service.externals.ConsultaiaGeminiService;
 import pj.gob.pe.judicial.service.externals.ConsultaiaService;
 import pj.gob.pe.judicial.service.externals.SecurityService;
 import pj.gob.pe.judicial.utils.Constantes;
@@ -45,6 +46,7 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
 
     private final ExpedienteService expedienteService;
     private final ConsultaiaService consultaiaService;
+    private final ConsultaiaGeminiService consultaiaGeminiService;
     private final TemplateRepository templateRepository;
     private final SectionTemplateRepository sectionTemplateRepository;
     private final SecurityService securityService;
@@ -605,7 +607,25 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
         inputDocument.setNUnico(nUnico);
         inputDocument.setSectionTemplates(sections);
 
-        ResponseDocument responseDocument = consultaiaService.ProcessDocument(inputDocument);
+        //Flujo anterior con OpenAI (chat_gpt_2), reemplazado por el procesamiento con Gemini:
+        //ResponseDocument responseDocument = consultaiaService.ProcessDocument(inputDocument);
+
+        // Procesamiento con Gemini (gemini_document_1): mismo contrato de entrada; la respuesta
+        // Gemini se mapea al ResponseDocument local para que el resto del flujo (HTML, DOCX y
+        // Kafka) se mantenga sin cambios. Los campos de tokens propios de OpenAI quedan en null.
+        ResponseDocumentGemini responseDocumentGemini = consultaiaGeminiService.ProcessDocumentGemini(inputDocument);
+
+        ResponseDocument responseDocument = new ResponseDocument();
+
+        responseDocument.setNUnico(responseDocumentGemini.getNUnico());
+        responseDocument.setCodeTemplate(responseDocumentGemini.getCodeTemplate());
+        responseDocument.setSectionTemplates(responseDocumentGemini.getSectionTemplates());
+        responseDocument.setModel(responseDocumentGemini.getModel());
+        responseDocument.setRoleSystem(responseDocumentGemini.getRoleSystem());
+        responseDocument.setTemperature(responseDocumentGemini.getTemperature());
+        responseDocument.setModelResponse(responseDocumentGemini.getModel());
+        responseDocument.setConfigurationsId(responseDocumentGemini.getConfigurationsId());
+        responseDocument.setSessionUID(responseDocumentGemini.getSessionUID());
 
         return responseDocument;
     }
