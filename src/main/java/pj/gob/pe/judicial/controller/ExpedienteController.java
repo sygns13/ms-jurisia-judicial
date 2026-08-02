@@ -12,6 +12,7 @@ import pj.gob.pe.judicial.model.sybase.dto.*;
 import pj.gob.pe.judicial.service.ExpedienteService;
 import pj.gob.pe.judicial.utils.beans.InputCabExpediente;
 import pj.gob.pe.judicial.utils.beans.InputCabExpedienteCalifica;
+import pj.gob.pe.judicial.utils.beans.InputDocumentoDigital;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import pj.gob.pe.judicial.utils.beans.InputObtenerPdf;
@@ -105,6 +106,38 @@ public class ExpedienteController {
             throw new ModeloNotFoundException("Expedientes no encontrados");
         }
         return new ResponseEntity<>(expedientes, HttpStatus.OK);
+    }
+
+//    ---------------------EXPEDIENTES POR SENTENCIAR-----------------------
+    @Operation(summary = "Obtener Cabecera de expediente a sentenciar", description = "Obtener la cabecera de un expediente (por Sede/Instancia/Especialidad/Número/Año) para sentenciar")
+    @PostMapping("/listar/cabecerassentenciar")
+    public ResponseEntity<List<DataCabExpedienteCalificarDTO>> listarExpedientesSentenciar(
+            @RequestHeader("SessionId") String SessionId,
+            @Valid @RequestBody InputCabExpediente input) throws Exception {
+        List<DataCabExpedienteCalificarDTO> expedientes =
+                expedienteService.findCabExpedientesSentenciar(SessionId, input);
+        if (expedientes == null) {
+            throw new ModeloNotFoundException("Expedientes no encontrados");
+        }
+        return new ResponseEntity<>(expedientes, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Listar documentos de Resoluciones del expediente", description = "Documentos digitales tipo Resolución (l_tipo_doc = 'R')")
+    @PostMapping("/listar/documentos/resoluciones")
+    public ResponseEntity<List<DataDocumentoDigitalDTO>> listarResoluciones(
+            @Valid @RequestBody InputDocumentoDigital input) throws Exception {
+        List<DataDocumentoDigitalDTO> documentos =
+                expedienteService.findDocumentosResoluciones(input.getNUnico(), input.getNIncidente());
+        return new ResponseEntity<>(documentos, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Listar documentos Digitalizados del expediente", description = "Documentos digitales tipo Digitalizado (l_tipo_doc IN ('EXP','ESC'))")
+    @PostMapping("/listar/documentos/digitalizados")
+    public ResponseEntity<List<DataDocumentoDigitalDTO>> listarDigitalizados(
+            @Valid @RequestBody InputDocumentoDigital input) throws Exception {
+        List<DataDocumentoDigitalDTO> documentos =
+                expedienteService.findDocumentosDigitalizados(input.getNUnico(), input.getNIncidente());
+        return new ResponseEntity<>(documentos, HttpStatus.OK);
     }
 
     @Operation(summary = "Obtener PDF de expediente desde FTP", description = "Descarga un archivo PDF desde el servidor FTP")

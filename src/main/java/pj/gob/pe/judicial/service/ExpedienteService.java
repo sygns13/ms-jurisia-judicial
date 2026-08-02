@@ -13,6 +13,12 @@ public interface ExpedienteService {
 
     List<DataCabExpedienteCalificarDTO> findCabExpedientesCalificar(String SessionId, InputCabExpedienteCalifica input) throws Exception;
 
+    List<DataCabExpedienteCalificarDTO> findCabExpedientesSentenciar(String SessionId, InputCabExpediente input) throws Exception;
+
+    List<DataDocumentoDigitalDTO> findDocumentosResoluciones(Long nUnico, String nIncidente) throws Exception;
+
+    List<DataDocumentoDigitalDTO> findDocumentosDigitalizados(Long nUnico, String nIncidente) throws Exception;
+
     List<DataExpedienteDTO> getDataExpediente(Long nUnico,String numIncidente) throws Exception;
 
     List<CabExpedienteChatDTO> getDataExpedientePorNumero(String numeroExpediente);

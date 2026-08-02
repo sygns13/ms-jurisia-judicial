@@ -49,6 +49,43 @@ public class ExpedienteServiceImpl implements ExpedienteService {
     }
 
     @Override
+    public List<DataCabExpedienteCalificarDTO> findCabExpedientesSentenciar(String SessionId, InputCabExpediente input) throws Exception {
+        String errorValidacion = "";
+        if (SessionId == null || SessionId.isEmpty()) {
+            errorValidacion = "La sessión remitida es inválida";
+            throw new ValidationSessionServiceException(errorValidacion);
+        }
+        ResponseLogin responseLogin = securityService.GetSessionData(SessionId);
+        if (responseLogin == null || !responseLogin.isSuccess() || !responseLogin.isItemFound() || responseLogin.getUser() == null) {
+            errorValidacion = "La sessión remitida es inválida";
+            throw new ValidationSessionServiceException(errorValidacion);
+        }
+
+        // 1) Resolver el nUnico del expediente a partir de Sede/Instancia/Especialidad/Número/Año
+        //    reutilizando la consulta de cabecera de expediente ya existente.
+        List<DataCabExpedienteDTO> cabecera = expedienteDAO.findCabExpedientes(input);
+        if (cabecera == null || cabecera.isEmpty() || cabecera.get(0).getNUnico() == null) {
+            return new java.util.ArrayList<>();
+        }
+
+        // 2) Listar la cabecera del expediente para sentenciar filtrando por ese nUnico.
+        Long nUnico = cabecera.get(0).getNUnico();
+        return expedienteDAO.findCabExpedientesSentenciarPorNunico(nUnico);
+    }
+
+    @Override
+    public List<DataDocumentoDigitalDTO> findDocumentosResoluciones(Long nUnico, String nIncidente) throws Exception {
+        // Resoluciones = documentos generados por el juzgado (l_tipo_doc = 'R')
+        return expedienteDAO.findDocumentosDigitales(nUnico, nIncidente, java.util.List.of("R"));
+    }
+
+    @Override
+    public List<DataDocumentoDigitalDTO> findDocumentosDigitalizados(Long nUnico, String nIncidente) throws Exception {
+        // Digitalizados = documentos presentados por las partes (l_tipo_doc IN ('EXP','ESC'))
+        return expedienteDAO.findDocumentosDigitales(nUnico, nIncidente, java.util.List.of("EXP", "ESC"));
+    }
+
+    @Override
     public List<DataExpedienteDTO> getDataExpediente(Long nUnico,String numIncidente) throws Exception {
         return expedienteDAO.getDataExpediente(nUnico, numIncidente);
     }

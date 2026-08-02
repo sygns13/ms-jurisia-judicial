@@ -354,6 +354,217 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
 
         return new ArrayList<>(expedienteMap.values());
     }
+
+    @Override
+    public List<DataCabExpedienteCalificarDTO> findCabExpedientesSentenciarPorNunico(Long nUnico) throws Exception {
+
+        // Basado en la consulta de expedientes por calificar, pero para SENTENCIAR:
+        // - No se restringe por ee.c_estado (se traen todos los estados).
+        // - Se lista un único expediente, filtrando por el n_unico ya resuelto
+        //   (a partir de Sede/Instancia/Especialidad/Número/Año) en el servicio.
+        // - No se hace join con documento_digital (los PDF de Resoluciones/Digitalizados
+        //   se cargan bajo demanda con findDocumentosDigitales al presionar cada botón).
+        Map<Long, DataCabExpedienteCalificarDTO> expedienteMap = new LinkedHashMap<>();
+
+        List<Object[]> resultList = entityManager.createNativeQuery(
+                        "SELECT DISTINCT \n" +
+                                "    e.n_unico, \n" +                               // 0
+                                "    SUBSTRING(e.n_unico, 1, 4) AS ANIO, \n" +      // 1
+                                "    SUBSTRING(e.n_unico, 5, 5) AS EXPNRO, \n" +    // 2
+                                "    e.X_FORMATO, \n" +                            // 3
+                                "    m.c_materia, \n" +                           // 4
+                                "    e.c_especialidad, \n" +                      // 5
+                                "    i.c_instancia, \n" +                         // 6
+                                "    i.x_nom_instancia, \n" +                     // 7
+                                "    mm.X_DESC_MATERIA, \n" +                     // 8
+                                "    u_juez.x_nom_usuario AS nombre_juez, \n" +   // 9
+                                "    u_esp.x_nom_usuario AS nombre_especialista, \n" + // 10
+                                "    e.F_INICIO, \n" +                            // 11
+                                "    em.X_DESC_ESTADO, \n" +                      // 12
+                                "    eu.c_ubicacion, \n" +                        // 13
+                                "    ue.x_desc_ubicacion, \n" +                   // 14
+                                "    CASE \n" +
+                                "        WHEN ie.l_ind_digital = 'N' THEN 'Físico' \n" +
+                                "        WHEN ie.l_ind_digital = 'S' THEN 'Digital' \n" +
+                                "        ELSE 'Desconocido' \n" +
+                                "    END AS tipo_expediente, \n" +                 // 15
+                                "    SUBSTRING(e.X_FORMATO, 12, 1) AS n_incidente \n" + // 16
+                                "FROM expediente e \n" +
+                                "INNER JOIN instancia_expediente ie \n" +
+                                "    ON ie.n_unico = e.n_unico \n" +
+                                "   AND ie.c_especialidad = 'FC' \n" +
+                                "   AND ie.l_ultimo = 'S' \n" +
+                                "   AND ie.n_incidente = '0' \n" +
+                                "INNER JOIN instancia i \n" +
+                                "    ON ie.c_instancia = i.c_instancia \n" +
+                                "INNER JOIN asignado_a aa \n" +
+                                "    ON e.n_unico = aa.n_unico \n" +
+                                "   AND e.n_incidente = aa.n_incidente \n" +
+                                "   AND aa.l_ultimo = 'S' \n" +
+                                "INNER JOIN usuario u_esp \n" +
+                                "    ON u_esp.c_usuario = aa.c_usuario \n" +
+                                "INNER JOIN usuario_instancia ui \n" +
+                                "    ON i.c_instancia = ui.c_instancia \n" +
+                                "   AND ui.l_activo = 'S' \n" +
+                                "LEFT JOIN usuario_instancia uj \n" +
+                                "    ON uj.c_usuario = ( \n" +
+                                "        SELECT TOP 1 ui2.c_usuario \n" +
+                                "        FROM usuario_instancia ui2, usuario u2 \n" +
+                                "        WHERE ui2.c_usuario = u2.c_usuario \n" +
+                                "          AND ui2.c_instancia = i.c_instancia \n" +
+                                "          AND ui2.l_activo = 'S' \n" +
+                                "          AND u2.c_perfil = '01' \n" +
+                                "        ORDER BY ui2.l_titular DESC \n" +
+                                "    ) \n" +
+                                "LEFT JOIN usuario u_juez \n" +
+                                "    ON u_juez.c_usuario = uj.c_usuario \n" +
+                                "INNER JOIN proceso_maestro pm \n" +
+                                "    ON ie.c_proceso = pm.c_proceso \n" +
+                                "   AND ie.c_proceso = '064' \n" +
+                                "INNER JOIN motivo_ingreso_maestro mim \n" +
+                                "    ON ie.c_motivo_ingreso = mim.c_motivo_ingreso \n" +
+                                "   AND ie.c_motivo_ingreso = 'LO2' \n" +
+                                "INNER JOIN materia_expediente m \n" +
+                                "    ON m.n_unico = ie.n_unico \n" +
+                                "   AND ie.n_incidente = m.n_incidente \n" +
+                                "   AND m.l_activo = 'S' \n" +
+                                "INNER JOIN materia_maestro mm \n" +
+                                "    ON m.c_materia = mm.c_materia \n" +
+                                "   AND m.c_materia IN ('551','569','637','652','654') \n" +
+                                "INNER JOIN expediente_estado ee \n" +
+                                "    ON ee.n_unico = e.n_unico \n" +
+                                "   AND ee.n_incidente = e.n_incidente \n" +
+                                "   AND ee.l_ultimo = 'S' \n" +
+                                "   AND ee.c_estado IN (SELECT c_estado FROM estado_maestro) \n" +
+                                "INNER JOIN estado_maestro em \n" +
+                                "    ON em.c_estado = ee.c_estado \n" +
+                                "INNER JOIN expediente_ubicacion eu \n" +
+                                "    ON eu.n_unico = e.n_unico \n" +
+                                "   AND eu.n_incidente = e.n_incidente \n" +
+                                "   AND eu.l_ultimo = 'S' \n" +
+                                "INNER JOIN ubicacion_expediente ue \n" +
+                                "    ON eu.c_ubicacion = ue.c_ubicacion \n" +
+                                "WHERE e.l_anulado = 'N' \n" +
+                                "  AND e.l_acumulado = 'N' \n" +
+                                "  AND e.n_incidente = 0 \n" +
+                                "  AND e.n_unico = :nUnico"
+                )
+                .setParameter("nUnico", nUnico)
+                .getResultList();
+
+        if (!resultList.isEmpty()) {
+            resultList.forEach(row -> {
+                Long nunico = row[0] != null ? ((Number) row[0]).longValue() : null;
+                if (nunico == null || expedienteMap.containsKey(nunico)) {
+                    return;
+                }
+
+                DataCabExpedienteCalificarDTO dto = new DataCabExpedienteCalificarDTO();
+
+                dto.setNUnico(nunico);
+                dto.setAnio(row[1] != null ? String.valueOf(row[1]) : null);
+                dto.setExpNro(row[2] != null ? String.valueOf(row[2]) : null);
+                dto.setXFormato(row[3] != null ? String.valueOf(row[3]) : null);
+                dto.setCMateria(row[4] != null ? String.valueOf(row[4]) : null);
+                dto.setCEspecialidad(row[5] != null ? String.valueOf(row[5]) : null);
+                dto.setCInstancia(row[6] != null ? String.valueOf(row[6]) : null);
+                dto.setXNomInstancia(row[7] != null ? String.valueOf(row[7]) : null);
+                dto.setXDescMateria(row[8] != null ? String.valueOf(row[8]) : null);
+                dto.setXDescJuez(row[9] != null ? String.valueOf(row[9]) : null);
+                dto.setXDescEspecialista(row[10] != null ? String.valueOf(row[10]) : null);
+
+                if (row[11] != null) {
+                    if (row[11] instanceof Timestamp) {
+                        dto.setFInicio(((Timestamp) row[11]).toLocalDateTime());
+                    } else {
+                        dto.setFInicio(((java.util.Date) row[11]).toInstant()
+                                .atZone(java.time.ZoneId.systemDefault())
+                                .toLocalDateTime());
+                    }
+                }
+
+                dto.setXDescEstado(row[12] != null ? String.valueOf(row[12]) : null);
+                dto.setCUbicacion(row[13] != null ? String.valueOf(row[13]) : null);
+                dto.setXDescUbicacion(row[14] != null ? String.valueOf(row[14]) : null);
+                dto.setTipoExpediente(row[15] != null ? String.valueOf(row[15]) : null);
+                dto.setNIncidente(row[16] != null ? String.valueOf(row[16]) : null);
+
+                dto.setArchivos(new ArrayList<>());
+                completarPartes(dto, nunico);
+                expedienteMap.put(nunico, dto);
+            });
+        }
+
+        return new ArrayList<>(expedienteMap.values());
+    }
+
+    @Override
+    public List<DataDocumentoDigitalDTO> findDocumentosDigitales(Long nUnico, String nIncidente, List<String> tiposDoc) throws Exception {
+
+        List<DataDocumentoDigitalDTO> documentos = new ArrayList<>();
+
+        int incidente = 0;
+        if (nIncidente != null && !nIncidente.trim().isEmpty()) {
+            try {
+                incidente = Integer.parseInt(nIncidente.trim());
+            } catch (NumberFormatException ex) {
+                incidente = 0;
+            }
+        }
+
+        List<Object[]> resultList = entityManager.createNativeQuery(
+                        "SELECT DISTINCT \n" +
+                                "    e.n_unico, \n" +              // 0
+                                "    e.X_FORMATO, \n" +           // 1
+                                "    dd.l_tipo_doc, \n" +         // 2
+                                "    sf.x_ip, \n" +               // 3
+                                "    sf.c_usuario, \n" +          // 4
+                                "    sf.c_clave, \n" +            // 5
+                                "    dd.x_ruta_archivo, \n" +     // 6
+                                "    dd.x_nombre_archivo, \n" +   // 7
+                                "    CASE \n" +
+                                "        WHEN sf.x_ip IS NULL THEN NULL \n" +
+                                "        ELSE 'ftp://' + sf.c_usuario + ':' + sf.c_clave + '@' + \n" +
+                                "             sf.x_ip + '/' + dd.x_ruta_archivo + '/' + dd.x_nombre_archivo \n" +
+                                "    END AS RUTA \n" +             // 8
+                                "FROM expediente e \n" +
+                                "INNER JOIN documento_digital dd \n" +
+                                "    ON e.n_unico = dd.n_unico \n" +
+                                "   AND e.n_incidente = dd.n_incidente \n" +
+                                "   AND dd.l_tipo_doc IN (:tiposDoc) \n" +
+                                "   AND dd.l_estado <> 'A' \n" +
+                                "LEFT JOIN servidor_ftp sf \n" +
+                                "    ON sf.n_item = dd.n_servicio_ftp \n" +
+                                "   AND sf.n_correlativo_ftp = dd.n_correlativo_ftp \n" +
+                                "   AND sf.l_activo = 'S' \n" +
+                                "WHERE e.l_anulado = 'N' \n" +
+                                "  AND e.n_unico = :nUnico \n" +
+                                "  AND e.n_incidente = :nIncidente \n" +
+                                "  AND dd.x_nombre_archivo IS NOT NULL \n" +
+                                "ORDER BY dd.x_nombre_archivo"
+                )
+                .setParameter("tiposDoc", tiposDoc)
+                .setParameter("nUnico", nUnico)
+                .setParameter("nIncidente", incidente)
+                .getResultList();
+
+        for (Object[] row : resultList) {
+            DataDocumentoDigitalDTO dto = new DataDocumentoDigitalDTO();
+            dto.setNUnico(row[0] != null ? ((Number) row[0]).longValue() : null);
+            dto.setXFormato(row[1] != null ? String.valueOf(row[1]) : null);
+            dto.setLTipoDoc(row[2] != null ? String.valueOf(row[2]) : null);
+            dto.setXip(row[3] != null ? String.valueOf(row[3]) : null);
+            dto.setCusuario(row[4] != null ? String.valueOf(row[4]) : null);
+            dto.setCclave(row[5] != null ? String.valueOf(row[5]) : null);
+            dto.setXrutaArchivo(row[6] != null ? String.valueOf(row[6]) : null);
+            dto.setXnombreArchivo(row[7] != null ? String.valueOf(row[7]) : null);
+            dto.setRutaCompleta(row[8] != null ? String.valueOf(row[8]) : null);
+            documentos.add(dto);
+        }
+
+        return documentos;
+    }
+
     @Override
     public List<DataExpedienteDTO> getDataExpediente(Long nUnico, String numIncidente) throws Exception {
 

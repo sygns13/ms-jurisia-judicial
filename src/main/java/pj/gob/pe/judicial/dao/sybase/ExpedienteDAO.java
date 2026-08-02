@@ -13,6 +13,10 @@ public interface ExpedienteDAO {
 
     List<DataCabExpedienteCalificarDTO> findCabExpedientesCalificar(InputCabExpedienteCalifica input, UserLogin user) throws Exception;
 
+    List<DataCabExpedienteCalificarDTO> findCabExpedientesSentenciarPorNunico(Long nUnico) throws Exception;
+
+    List<DataDocumentoDigitalDTO> findDocumentosDigitales(Long nUnico, String nIncidente, java.util.List<String> tiposDoc) throws Exception;
+
     List<DataExpedienteDTO> getDataExpediente(Long nUnico, String numIncidente) throws Exception;
 
     List<CabExpedienteChatDTO> findByNumeroExpediente(String numeroExpediente);
