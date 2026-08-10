@@ -35,7 +35,7 @@ public class JurisApiScheduler {
      * fixedRate = 1000 significa que se ejecutará cada 1000 milisegundos (1 segundo)
      * después de que la ejecución anterior haya comenzado.
      */
-    //@Scheduled(fixedDelay = 1500)
+    @Scheduled(fixedDelay = 1500)
     public void checkPendingConsultas() {
         log.info("Ejecutando scheduler para verificar consultas pendientes...");
 

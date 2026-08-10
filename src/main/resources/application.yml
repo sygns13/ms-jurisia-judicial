@@ -71,7 +71,7 @@ api:
       processgemini:
         path: /v1/gemini-chat/documento
   apichatbot:
-    url: https://tan-goose-839396.hostingersite.com
+    url: https://chatbot.csjan.org
     get:
       pending:
         path: /api/v1/consultas-pendientes
