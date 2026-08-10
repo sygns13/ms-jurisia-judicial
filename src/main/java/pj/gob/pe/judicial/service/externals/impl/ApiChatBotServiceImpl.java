@@ -31,19 +31,60 @@ public class ApiChatBotServiceImpl implements ApiChatBotService {
     public ApiChatBotServiceImpl(RestClient.Builder builder, ConfigProperties properties) {
         this.properties = properties;
 
-        if(properties.getProxyEnabled()){
-            HttpClient httpClient = HttpClient.newBuilder()
-                    .proxy(ProxySelector.of(new InetSocketAddress(properties.getProxyURL(), properties.getProxyPort())))
-                    //.proxy(ProxySelector.of(new InetSocketAddress("172.17.16.213", 8988)))
-                    .connectTimeout(Duration.ofSeconds(10))
-                    .build();
+        // Un único RestClient: todas las peticiones externas de este servicio (GET de consultas
+        // pendientes y POST de datos procesados) salen por el proxy configurado aquí.
+        HttpClient httpClient = buildHttpClient();
 
+        if (httpClient != null) {
             this.restClient = builder.baseUrl(properties.getUrlApiChatBot())
                     .requestFactory(new JdkClientHttpRequestFactory(httpClient))
                     .build();
         } else {
+            log.warn("ApiChatBot: proxy deshabilitado, las peticiones saldrán de forma directa.");
             this.restClient = builder.baseUrl(properties.getUrlApiChatBot()).build();
         }
+    }
+
+    // ------------------------------------------------------------------
+    // Proxy
+    // ------------------------------------------------------------------
+
+    /**
+     * Punto único de conmutación del proxy para el tráfico externo de este servicio.
+     * Hoy se usa el proxy NUEVO (PAC ADcsjan). Para volver al anterior basta cambiar esta
+     * única línea por {@code return buildHttpClientProxyAntiguo();}.
+     *
+     * @return el {@link HttpClient} con proxy, o {@code null} si el proxy elegido está deshabilitado.
+     */
+    private HttpClient buildHttpClient() {
+        return buildHttpClientProxyGoogle();
+    }
+
+    /** Proxy ANTERIOR (general SIJ, {@code sij.proxy.config} → 172.17.16.213:1598). */
+    private HttpClient buildHttpClientProxyAntiguo() {
+        if (Boolean.TRUE.equals(properties.getProxyEnabled())) {
+            log.info("ApiChatBot: usando proxy ANTERIOR {}:{}", properties.getProxyURL(), properties.getProxyPort());
+            return HttpClient.newBuilder()
+                    .proxy(ProxySelector.of(new InetSocketAddress(properties.getProxyURL(), properties.getProxyPort())))
+                    .connectTimeout(Duration.ofSeconds(10))
+                    .build();
+        }
+        return null;
+    }
+
+    /**
+     * Proxy NUEVO (PAC ADcsjan, {@code sij.proxy.google} → proxycsjan(2).pj.gob.pe:3128).
+     * Es el mismo proxy que usa ms-jurisia-consultaia para el egress hacia Internet.
+     */
+    private HttpClient buildHttpClientProxyGoogle() {
+        if (Boolean.TRUE.equals(properties.getProxyGoogleEnabled())) {
+            log.info("ApiChatBot: usando proxy NUEVO {}:{}", properties.getProxyGoogleHost(), properties.getProxyGooglePort());
+            return HttpClient.newBuilder()
+                    .proxy(ProxySelector.of(new InetSocketAddress(properties.getProxyGoogleHost(), properties.getProxyGooglePort())))
+                    .connectTimeout(Duration.ofSeconds(10))
+                    .build();
+        }
+        return null;
     }
 
     @Override
