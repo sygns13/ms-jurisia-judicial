@@ -21,12 +21,21 @@ public class DataDocumentoDigitalDTO implements Serializable {
     @JsonProperty("xFormato")
     private String xFormato;
 
-    // Tipo de documento: 'R' (Resolución), 'EXP'/'ESC' (Digitalizado)
     @JsonProperty("lTipoDoc")
     private String lTipoDoc;
 
-    // Claves en minúscula: las consume directamente el visor PDF del frontend
-    // (verPdf -> item.xip, item.cusuario, item.cclave, item.xrutaArchivo, xnombreArchivo).
+    @JsonProperty("fRegistro")
+    private String fRegistro;
+
+    @JsonProperty("actoProcesal")
+    private String actoProcesal;
+
+    @JsonProperty("descripcion")
+    private String descripcion;
+
+    @JsonProperty("sumilla")
+    private String sumilla;
+
     @JsonProperty("xip")
     private String xip;
 

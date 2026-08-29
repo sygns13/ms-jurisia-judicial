@@ -57,7 +57,7 @@ public class ApiChatBotServiceImpl implements ApiChatBotService {
      * @return el {@link HttpClient} con proxy, o {@code null} si el proxy elegido está deshabilitado.
      */
     private HttpClient buildHttpClient() {
-        return buildHttpClientProxyGoogle();
+        return buildHttpClientProxyAntiguo();
     }
 
     /** Proxy ANTERIOR (general SIJ, {@code sij.proxy.config} → 172.17.16.213:1598). */

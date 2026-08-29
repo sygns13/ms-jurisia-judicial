@@ -131,7 +131,7 @@ public class ExpedienteController {
         return new ResponseEntity<>(documentos, HttpStatus.OK);
     }
 
-    @Operation(summary = "Listar documentos Digitalizados del expediente", description = "Documentos digitales tipo Digitalizado (l_tipo_doc IN ('EXP','ESC'))")
+    @Operation(summary = "Listar documentos Digitalizados del expediente", description = "Documentos digitales tipo Digitalizado (l_tipo_doc IN (d))")
     @PostMapping("/listar/documentos/digitalizados")
     public ResponseEntity<List<DataDocumentoDigitalDTO>> listarDigitalizados(
             @Valid @RequestBody InputDocumentoDigital input) throws Exception {

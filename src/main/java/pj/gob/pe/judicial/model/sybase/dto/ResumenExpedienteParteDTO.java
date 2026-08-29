@@ -26,5 +26,18 @@ public class ResumenExpedienteParteDTO {
     private String parteNombreCompleto;
     private String tipoParte;
     private String descTipoParte;
+
+    // --- Campos añadidos para la opción "Información General" del chatbot ---
+    // Se agregan al final para no romper el orden posicional del @AllArgsConstructor
+    // que usa el DAO, ni el contrato del endpoint /v1/expedientes/resumen-partes/{nUnico}.
+
+    /** Descripción de la sede (sede.x_desc_sede), no solo el código. */
+    private String descSede;
+
+    /** Descripción de la especialidad (especialidad.x_desc_especialidad), no solo el código. */
+    private String descEspecialidad;
+
+    /** Número de incidente, extraído de la posición 12 del formato del expediente. */
+    private String nIncidente;
 }
 

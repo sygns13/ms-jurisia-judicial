@@ -25,4 +25,16 @@ public interface ExpedienteDAO {
 
     List<ResumenExpedienteParteDTO> getResumenExpedienteYPartes(Long nUnico);
 
+    /** Igual que el anterior, pero identificando el expediente por su número completo. */
+    List<ResumenExpedienteParteDTO> getResumenExpedienteYPartesPorNumero(String numeroExpediente);
+
+    // --- Consultas del chatbot. Se identifican por número de expediente (x_formato)
+    //     porque es el dato que ingresa el ciudadano y además fija el incidente. ---
+
+    List<EscritoExpedienteDTO> findEscritosByExpediente(String numeroExpediente);
+
+    List<AudienciaExpedienteDTO> findAudienciasRealizadas(String numeroExpediente);
+
+    List<AudienciaExpedienteDTO> findAudienciasProximas(String numeroExpediente);
+
 }

@@ -90,7 +90,7 @@ sij:
     config:
       enabled: true
       host: 172.17.16.213
-      port: 1598
+      port: 2026
     # Proxy NUEVO (PAC ADcsjan: http://proxypac.pj.gob.pe:9001/pac/ADcsjan.pac).
     # Usado por ApiChatBotServiceImpl para el egress a Internet.
     # Alterno (según paridad del último octeto de la IP local): proxycsjan2.pj.gob.pe:3128.

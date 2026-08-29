@@ -229,6 +229,21 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
             case "template_auto_30":
                 sections = this.ReemplazarSeccionesTemplate30(sections, expedienteDatos);
                 break;
+            case "template_auto_31":
+                sections = this.ReemplazarSeccionesTemplate31(sections, expedienteDatos);
+                break;
+            case "template_auto_32":
+                sections = this.ReemplazarSeccionesTemplate32(sections, expedienteDatos);
+                break;
+            case "template_auto_33":
+                sections = this.ReemplazarSeccionesTemplate33(sections, expedienteDatos);
+                break;
+            case "template_auto_34":
+                sections = this.ReemplazarSeccionesTemplate34(sections, expedienteDatos);
+                break;
+            case "template_auto_35":
+                sections = this.ReemplazarSeccionesTemplate35(sections, expedienteDatos);
+                break;
             default:
                 // Código si no coincide ningún caso
                 break;
@@ -442,8 +457,12 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
             case "template_auto_34":
                 sections = this.ReemplazarSeccionesTemplate34(sections, expedienteDatos);
                 break;
+            case "template_auto_35":
+                sections = this.ReemplazarSeccionesTemplate35(sections, expedienteDatos);
+                break;
+
             default:
-                // Código si no coincide ningún caso
+                // Código si no coincide ningún caso testing
             break;
         }
 
@@ -2597,13 +2616,23 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
         DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd 'de' MMMM 'del' yyyy", new Locale("es", "PE"));
         String fechaLetter = ahora.format(fecha);
 
+        DateTimeFormatter formatoLargo = DateTimeFormatter.ofPattern("dd 'de' MMMM", new Locale("es", "PE"));
+        DateTimeFormatter formatoAnio = DateTimeFormatter.ofPattern("'Del año' yyyy", new Locale("es", "PE"));
+
+        String diamesletter = ahora.format(formatoLargo);
+        String anioletter = ahora.format(formatoAnio);
+
         String ciudad = "Huaraz";
 
         for (SectionTemplate section : sections) {
             section.setContent(section.getContent().replace("${title.corte}", corte));
             section.setContent(section.getContent().replace("${title.juzgado}", juzgado));
+            section.setContent(section.getContent().replace("${title.demandado}", demandados));
+            section.setContent(section.getContent().replace("${title.demandante}", demandantes));
             section.setContent(section.getContent().replace("${title.nombreanio}", nombreanio));
             section.setContent(section.getContent().replace("${top.ciudad}", ciudad));
+            section.setContent(section.getContent().replace("${top.diamesletter}", diamesletter));
+            section.setContent(section.getContent().replace("${top.anioletter}", anioletter));
             section.setContent(section.getContent().replace("${top.fecha}", fechaLetter));
             section.setContent(section.getContent().replace("${title.oficio}", oficioNro));
             section.setContent(section.getContent().replace("${title.fiscalia}", fiscalia));
@@ -2662,13 +2691,23 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
         DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd 'de' MMMM 'del' yyyy", new Locale("es", "PE"));
         String fechaLetter = ahora.format(fecha);
 
+        DateTimeFormatter formatoLargo = DateTimeFormatter.ofPattern("dd 'de' MMMM", new Locale("es", "PE"));
+        DateTimeFormatter formatoAnio = DateTimeFormatter.ofPattern("'Del año' yyyy", new Locale("es", "PE"));
+
+        String diamesletter = ahora.format(formatoLargo);
+        String anioletter = ahora.format(formatoAnio);
+
         String ciudad = "Huaraz";
 
         for (SectionTemplate section : sections) {
             section.setContent(section.getContent().replace("${title.corte}", corte));
             section.setContent(section.getContent().replace("${title.juzgado}", juzgado));
+            section.setContent(section.getContent().replace("${title.demandado}", demandados));
+            section.setContent(section.getContent().replace("${title.demandante}", demandantes));
             section.setContent(section.getContent().replace("${title.nombreanio}", nombreanio));
             section.setContent(section.getContent().replace("${top.ciudad}", ciudad));
+            section.setContent(section.getContent().replace("${top.diamesletter}", diamesletter));
+            section.setContent(section.getContent().replace("${top.anioletter}", anioletter));
             section.setContent(section.getContent().replace("${top.fecha}", fechaLetter));
             section.setContent(section.getContent().replace("${title.oficio}", oficioNro));
             section.setContent(section.getContent().replace("${title.fiscalia}", fiscalia));
@@ -2727,13 +2766,23 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
         DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd 'de' MMMM 'del' yyyy", new Locale("es", "PE"));
         String fechaLetter = ahora.format(fecha);
 
+        DateTimeFormatter formatoLargo = DateTimeFormatter.ofPattern("dd 'de' MMMM", new Locale("es", "PE"));
+        DateTimeFormatter formatoAnio = DateTimeFormatter.ofPattern("'Del año' yyyy", new Locale("es", "PE"));
+
+        String diamesletter = ahora.format(formatoLargo);
+        String anioletter = ahora.format(formatoAnio);
+
         String ciudad = "Huaraz";
 
         for (SectionTemplate section : sections) {
             section.setContent(section.getContent().replace("${title.corte}", corte));
             section.setContent(section.getContent().replace("${title.juzgado}", juzgado));
+            section.setContent(section.getContent().replace("${title.demandado}", demandados));
+            section.setContent(section.getContent().replace("${title.demandante}", demandantes));
             section.setContent(section.getContent().replace("${title.nombreanio}", nombreanio));
             section.setContent(section.getContent().replace("${top.ciudad}", ciudad));
+            section.setContent(section.getContent().replace("${top.diamesletter}", diamesletter));
+            section.setContent(section.getContent().replace("${top.anioletter}", anioletter));
             section.setContent(section.getContent().replace("${top.fecha}", fechaLetter));
             section.setContent(section.getContent().replace("${title.oficio}", oficioNro));
             section.setContent(section.getContent().replace("${title.fiscalia}", fiscalia));
@@ -2787,8 +2836,14 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
 
         demandantes = dtes.toString();
         demandados = ddos.toString();
-
         LocalDate ahora = LocalDate.now();
+        // Definir el formato deseado
+        DateTimeFormatter formatoLargo = DateTimeFormatter.ofPattern("dd 'de' MMMM", new Locale("es", "PE"));
+        DateTimeFormatter formatoAnio = DateTimeFormatter.ofPattern("'Del año' yyyy", new Locale("es", "PE"));
+
+        String diamesletter = ahora.format(formatoLargo);
+        String anioletter = ahora.format(formatoAnio);
+
         DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd 'de' MMMM 'del' yyyy", new Locale("es", "PE"));
         String fechaLetter = ahora.format(fecha);
 
@@ -2797,8 +2852,12 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
         for (SectionTemplate section : sections) {
             section.setContent(section.getContent().replace("${title.corte}", corte));
             section.setContent(section.getContent().replace("${title.juzgado}", juzgado));
+            section.setContent(section.getContent().replace("${title.demandado}", demandados));
+            section.setContent(section.getContent().replace("${title.demandante}", demandantes));
             section.setContent(section.getContent().replace("${title.nombreanio}", nombreanio));
             section.setContent(section.getContent().replace("${top.ciudad}", ciudad));
+            section.setContent(section.getContent().replace("${top.diamesletter}", diamesletter));
+            section.setContent(section.getContent().replace("${top.anioletter}", anioletter));
             section.setContent(section.getContent().replace("${top.fecha}", fechaLetter));
             section.setContent(section.getContent().replace("${title.oficio}", oficioNro));
             section.setContent(section.getContent().replace("${title.fiscalia}", fiscalia));
@@ -2807,6 +2866,80 @@ public class GenDocumentoServiceImpl implements GenDocumentoService {
             section.setContent(section.getContent().replace("${title.resolucionprevia}", resolucionprevia));
             section.setContent(section.getContent().replace("${title.resolucionesprevia}", resolucionesprevia));
             section.setContent(section.getContent().replace("${title.juez}", juez));
+
+        }
+
+        return sections;
+    }
+    private List<SectionTemplate> ReemplazarSeccionesTemplate35(List<SectionTemplate> sections, List<DataExpedienteDTO> expedienteDatos) {
+
+        String juzgado = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getNombreInstancia() : "";
+        String expediente = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getFormato() : "";
+        String materia = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getDescMateria() : "";
+        String juez = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getNombreJuez() : "";
+        String especialista = expedienteDatos.get(0) != null ? expedienteDatos.get(0).getNombreSecretario() : "";
+        String fiscalia = "";
+
+        String plazoDias = "...";
+        String oficioNro = "...";
+        String carpetafiscal = "...";
+        String resolucionprevia = "...";
+        String resolucionesprevia = "...";
+        String corte = "CORTE SUPERIOR DE JUSTICIA DE ANCASH";
+        String nombreanio = "AÑO DE LA RECUPERACIÓN Y CONSOLIDACIÓN DE LA ECONOMÍA PERUANA";
+
+        String demandantes;
+        String demandados;
+
+        String resolucionNro = "...";
+
+        StringJoiner dtes = new StringJoiner(", ");
+        StringJoiner ddos = new StringJoiner(", ");
+
+        for (DataExpedienteDTO dto : expedienteDatos) {
+            if (dto.getTipoParteCodigo() == null || dto.getNombreParte() == null) continue;
+            String nombreParte = dto.getNombreParte().trim();
+
+            switch (dto.getTipoParteCodigo()) {
+                case "DTE":
+                    dtes.add(nombreParte);
+                    break;
+                case "DDO":
+                    ddos.add(nombreParte);
+                    break;
+            }
+        }
+
+        demandantes = dtes.toString();
+        demandados = ddos.toString();
+
+        LocalDate ahora = LocalDate.now();
+        DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd 'de' MMMM 'del' yyyy", new Locale("es", "PE"));
+        String fechaLetter = ahora.format(fecha);
+
+        // Definir el formato deseado
+        DateTimeFormatter formatoLargo = DateTimeFormatter.ofPattern("dd 'de' MMMM", new Locale("es", "PE"));
+        DateTimeFormatter formatoAnio = DateTimeFormatter.ofPattern("'Del año' yyyy", new Locale("es", "PE"));
+
+        String diamesletter = ahora.format(formatoLargo);
+        String anioletter = ahora.format(formatoAnio);
+
+        String ciudad = "Huaraz";
+
+        for (SectionTemplate section : sections) {
+            section.setContent(section.getContent().replace("${title.juzgado}", juzgado));
+            section.setContent(section.getContent().replace("${title.expediente}", expediente));
+            section.setContent(section.getContent().replace("${title.materia}", materia));
+            section.setContent(section.getContent().replace("${title.juez}", juez));
+            section.setContent(section.getContent().replace("${title.especialista}", especialista));
+            section.setContent(section.getContent().replace("${title.demandado}", demandados));
+            section.setContent(section.getContent().replace("${title.demandante}", demandantes));
+            section.setContent(section.getContent().replace("${top.numero}", resolucionNro));
+            section.setContent(section.getContent().replace("${top.ciudad}", ciudad));
+            section.setContent(section.getContent().replace("${top.diamesletter}", diamesletter));
+            section.setContent(section.getContent().replace("${top.anioletter}", anioletter));
+            section.setContent(section.getContent().replace("${body.main.demandante}", demandantes));
+            section.setContent(section.getContent().replace("${body.main.nombre.demandado}", demandados));
 
         }
 

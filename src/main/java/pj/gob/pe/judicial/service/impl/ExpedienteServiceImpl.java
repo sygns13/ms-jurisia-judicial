@@ -106,6 +106,26 @@ public class ExpedienteServiceImpl implements ExpedienteService {
     }
 
     @Override
+    public List<ResumenExpedienteParteDTO> getResumenExpedienteYPartesPorNumero(String numeroExpediente) {
+        return expedienteDAO.getResumenExpedienteYPartesPorNumero(numeroExpediente);
+    }
+
+    @Override
+    public List<EscritoExpedienteDTO> getEscritosPorNumero(String numeroExpediente) {
+        return expedienteDAO.findEscritosByExpediente(numeroExpediente);
+    }
+
+    @Override
+    public List<AudienciaExpedienteDTO> getAudienciasRealizadasPorNumero(String numeroExpediente) {
+        return expedienteDAO.findAudienciasRealizadas(numeroExpediente);
+    }
+
+    @Override
+    public List<AudienciaExpedienteDTO> getAudienciasProximasPorNumero(String numeroExpediente) {
+        return expedienteDAO.findAudienciasProximas(numeroExpediente);
+    }
+
+    @Override
     public byte[] obtenerPdfDesdeFtp(InputObtenerPdf input) throws Exception {
         FTPClient ftpClient = new FTPClient();
         try {

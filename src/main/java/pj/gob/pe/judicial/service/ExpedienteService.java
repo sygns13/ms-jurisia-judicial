@@ -27,5 +27,13 @@ public interface ExpedienteService {
 
     List<ResumenExpedienteParteDTO> getResumenExpedienteYPartes(Long nUnico);
 
+    List<ResumenExpedienteParteDTO> getResumenExpedienteYPartesPorNumero(String numeroExpediente);
+
+    List<EscritoExpedienteDTO> getEscritosPorNumero(String numeroExpediente);
+
+    List<AudienciaExpedienteDTO> getAudienciasRealizadasPorNumero(String numeroExpediente);
+
+    List<AudienciaExpedienteDTO> getAudienciasProximasPorNumero(String numeroExpediente);
+
     byte[] obtenerPdfDesdeFtp(InputObtenerPdf input) throws Exception;
 }
