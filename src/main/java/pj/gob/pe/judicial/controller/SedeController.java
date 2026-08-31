@@ -49,4 +49,17 @@ public class SedeController {
 
         return new ResponseEntity<List<SedeBaseDTO>>(sedes, HttpStatus.OK);
     }
+
+    @Operation(summary = "Obtener sedes activas del SIJ", description = "Obtener las sedes activas registradas en la BD del SIJ (Sybase), para el combo de registro de Sedes/Instancias")
+    @GetMapping("/sij")
+    public ResponseEntity<List<SedeBaseDTO>> listarSedesSij(@RequestHeader("SessionId") String SessionId) throws Exception{
+
+        List<SedeBaseDTO> sedes = sedeService.findSedesSij(SessionId);
+
+        if(sedes == null) {
+            throw new ModeloNotFoundException("Sedes no encontrada");
+        }
+
+        return new ResponseEntity<List<SedeBaseDTO>>(sedes, HttpStatus.OK);
+    }
 }

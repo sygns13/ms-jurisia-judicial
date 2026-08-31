@@ -60,4 +60,24 @@ public class SedeServiceImpl implements SedeService {
 
         return sedeDAO.getMasterSedes();
     }
+
+    @Override
+    public List<SedeBaseDTO> findSedesSij(String SessionId) throws Exception {
+
+        String errorValidacion = "";
+
+        if(SessionId == null || SessionId.isEmpty()){
+            errorValidacion = "La sessión remitida es inválida";
+            throw new ValidationSessionServiceException(errorValidacion);
+        }
+
+        ResponseLogin responseLogin = securityService.GetSessionData(SessionId);
+
+        if(responseLogin == null || !responseLogin.isSuccess() || !responseLogin.isItemFound() || responseLogin.getUser() == null){
+            errorValidacion = "La sessión remitida es inválida";
+            throw new ValidationSessionServiceException(errorValidacion);
+        }
+
+        return sedeDAO.findSedesSij();
+    }
 }

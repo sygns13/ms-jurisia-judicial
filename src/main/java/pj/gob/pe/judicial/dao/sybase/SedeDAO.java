@@ -11,4 +11,6 @@ public interface SedeDAO {
     List<DataSedeDTO> findActiveSedes(UserLogin user) throws Exception;
 
     List<SedeBaseDTO> getMasterSedes() throws Exception;
+
+    List<SedeBaseDTO> findSedesSij() throws Exception;
 }

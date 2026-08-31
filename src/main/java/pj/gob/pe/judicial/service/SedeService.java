@@ -10,4 +10,6 @@ public interface SedeService {
     List<DataSedeDTO> findActiveSedes(String SessionId) throws Exception;
 
     List<SedeBaseDTO> getMasterSedes(String SessionId) throws Exception;
+
+    List<SedeBaseDTO> findSedesSij(String SessionId) throws Exception;
 }

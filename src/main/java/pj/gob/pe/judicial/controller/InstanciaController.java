@@ -6,11 +6,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pj.gob.pe.judicial.exception.ModeloNotFoundException;
 import pj.gob.pe.judicial.model.sybase.dto.DataInstanciaDTO;
+import pj.gob.pe.judicial.model.sybase.dto.InstanciaBaseDTO;
 import pj.gob.pe.judicial.service.InstanciaService;
 
 import java.util.List;
@@ -47,5 +49,20 @@ public class InstanciaController {
         }
 
         return new ResponseEntity<List<DataInstanciaDTO>>(instancias, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Obtener instancias activas del SIJ por Sede", description = "Obtener las instancias vigentes de una Sede en la BD del SIJ (Sybase), para el combo anidado de registro de Sedes/Instancias")
+    @GetMapping("/sij/{codigoSede}")
+    public ResponseEntity<List<InstanciaBaseDTO>> listarInstanciasSijPorSede(
+            @RequestHeader("SessionId") String SessionId,
+            @PathVariable("codigoSede") String codigoSede) throws Exception{
+
+        List<InstanciaBaseDTO> instancias = instanciaService.findInstanciasSijPorSede(SessionId, codigoSede);
+
+        if(instancias == null) {
+            throw new ModeloNotFoundException("Instancias no encontrada");
+        }
+
+        return new ResponseEntity<List<InstanciaBaseDTO>>(instancias, HttpStatus.OK);
     }
 }

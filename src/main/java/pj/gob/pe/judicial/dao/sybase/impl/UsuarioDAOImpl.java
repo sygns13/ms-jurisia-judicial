@@ -4,10 +4,12 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+import pj.gob.pe.judicial.dao.mysql.InstanciaHabilitadaDAO;
 import pj.gob.pe.judicial.dao.sybase.UsuarioDAO;
 import pj.gob.pe.judicial.model.sybase.dto.DataUsuarioDTO;
 import pj.gob.pe.judicial.model.sybase.dto.UsuarioDTO;
@@ -15,10 +17,13 @@ import pj.gob.pe.judicial.model.sybase.dto.UsuarioDTO;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class UsuarioDAOImpl implements UsuarioDAO {
 
     @PersistenceContext(unitName = "sybase")
     EntityManager entityManager;
+
+    private final InstanciaHabilitadaDAO instanciaHabilitadaDAO;
 
     Logger logger = LoggerFactory.getLogger(UsuarioDAOImpl.class);
 
@@ -87,7 +92,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
                                 "\tWHERE ui.l_activo = 'S' \n" +
                                 "\tAND trim(u.c_dni)=:password \n" +
                                 "\tAND trim(u.c_usuario)=:username " +
-                                "\tAND ui.c_instancia IN ('301', '302', '702','701', '044', '118', '024', '025') " +
+                                "\tAND ui.c_instancia IN (" + instanciaHabilitadaDAO.obtenerFiltroInstancias() + ") " +
                                 "\tGROUP BY u.c_dni, u.c_ape_paterno, u.c_ape_materno, u.c_nombres, u.c_usuario"
                 )
                 .setParameter("username", username)

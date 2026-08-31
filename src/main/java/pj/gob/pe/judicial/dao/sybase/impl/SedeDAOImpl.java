@@ -98,13 +98,47 @@ public class SedeDAOImpl implements SedeDAO {
         return listSedes;
     }
 
+    @Override
+    public List<SedeBaseDTO> findSedesSij() throws Exception {
+
+        List<SedeBaseDTO> listSedes = new ArrayList<>();
+
+        List<Object[]> resultList = entityManager.createNativeQuery(
+                        " SELECT s.c_sede, s.x_desc_sede, s.l_activo, s.c_distrito, s.x_direccion \n" +
+                                " FROM sede s \n" +
+                                " WHERE s.l_activo = 'S' \n" +
+                                " ORDER BY s.c_sede "
+                )
+                .getResultList();
+
+        if (!resultList.isEmpty()) {
+            resultList.forEach(row -> {
+                SedeBaseDTO sede = new SedeBaseDTO(
+                        getValorTexto(row[0]),
+                        getValorTexto(row[1]),
+                        getValorTexto(row[2]),
+                        getValorTexto(row[3]),
+                        getValorTexto(row[4]),
+                        null
+                );
+
+                listSedes.add(sede);
+            });
+        }
+        return listSedes;
+    }
+
+    private String getValorTexto(Object valor) {
+        return (valor == null) ? null : String.valueOf(valor).trim();
+    }
+
     private List<InstanciaBaseDTO> getInstanciasMaster() throws Exception {
 
         List<InstanciaBaseDTO> listInstancias = new ArrayList<>();
 
         List<Object[]> resultList = entityManager.createNativeQuery(
                         " SELECT i.c_instancia, i.c_distrito, i.c_provincia, i.c_org_jurisd, i.x_nom_instancia, i.n_instancia, i.x_ubicacion_fisica, i.x_corto, i.c_sede, \n" +
-                                "i.c_ubigeo, i.l_ind_baja from instancia i where i.l_ind_baja = 'S' \n" +
+                                "i.c_ubigeo, i.l_ind_baja from instancia i where i.l_ind_baja = 'N' \n" +
                                 "order by c_instancia "
                 )
                 .getResultList();

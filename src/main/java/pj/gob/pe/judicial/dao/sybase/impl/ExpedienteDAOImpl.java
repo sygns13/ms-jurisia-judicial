@@ -2,9 +2,11 @@ package pj.gob.pe.judicial.dao.sybase.impl;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import pj.gob.pe.judicial.dao.mysql.InstanciaHabilitadaDAO;
 import pj.gob.pe.judicial.dao.sybase.ExpedienteDAO;
 import pj.gob.pe.judicial.model.sybase.dto.*;
 import pj.gob.pe.judicial.utils.beans.InputCabExpediente;
@@ -17,10 +19,13 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @Repository
+@RequiredArgsConstructor
 public class ExpedienteDAOImpl implements ExpedienteDAO {
 
     @PersistenceContext(unitName = "sybase")
     EntityManager entityManager;
+
+    private final InstanciaHabilitadaDAO instanciaHabilitadaDAO;
 
     Logger logger = LoggerFactory.getLogger(UsuarioDAOImpl.class);
 
@@ -122,7 +127,7 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                                 "INNER JOIN instancia_expediente ie ON ie.n_unico = e.n_unico and ie.l_ultimo='S' \n" +
                                 "INNER JOIN instancia i ON ie.c_instancia = i.c_instancia \n" +
                                 "WHERE\n" +
-                                "    ie.c_instancia in('301','302','701','702','044','118','024', '025') AND \n" +
+                                "    ie.c_instancia in(" + instanciaHabilitadaDAO.obtenerFiltroInstancias() + ") AND \n" +
                                 "    ee.l_ultimo='S'     \n" +
                                 "AND e.l_anulado='N'    \n" +
                                 "AND ie.l_ind_digital IN ('S','N')    \n" +
@@ -722,7 +727,7 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                                 "        e.l_anulado = 'N'\n" +
                                 "    AND ie.l_ultimo = 'S'\n" +
                                 "    AND i.l_ind_baja = 'N'\n" +
-                                "    AND i.c_instancia in('301','302','701','702','044','118','024', '025')--Alcance 02 juzgados de familia y 03 juzgados de paz letrado de Huaraz y civil transitorio huaraz \n" +
+                                "    AND i.c_instancia in(" + instanciaHabilitadaDAO.obtenerFiltroInstancias() + ")--Alcance de las instancias habilitadas en MySQL \n" +
                                 "    AND e.x_formato = :numeroExpediente"
                 ).setParameter("numeroExpediente", numeroExpediente)
                 .getResultList();
@@ -807,7 +812,7 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
 
         List<Object[]> cabeceras = entityManager.createNativeQuery(
                         SELECT_CABECERA_RESUMEN +
-                                "WHERE e.c_instancia in('301','302','701','702','044','118','024','025') " +
+                                "WHERE e.c_instancia in(" + instanciaHabilitadaDAO.obtenerFiltroInstancias() + ") " +
                                 "AND e.n_unico = :nUnico"
                 )
                 .setParameter("nUnico", nUnico)
@@ -836,12 +841,12 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
         // flujo actual se ejecuta antes. Se duplica a propósito: esta información se publica
         // a la ciudadanía por Telegram/WhatsApp, y si alguien reutilizara este método sin
         // pasar por esa validación se expondrían expedientes fuera del alcance autorizado
-        // (las 2 salas de familia, 3 juzgados de paz letrado y el civil transitorio).
+        // (las instancias habilitadas en JURISDB_JUDICIAL.Instancias).
         // Se usa ie.c_instancia y no e.c_instancia porque no siempre coinciden.
         List<Object[]> cabeceras = entityManager.createNativeQuery(
                         SELECT_CABECERA_RESUMEN +
                                 "WHERE e.x_formato = :numeroExpediente " +
-                                "AND ie.c_instancia in('301','302','701','702','044','118','024','025')"
+                                "AND ie.c_instancia in(" + instanciaHabilitadaDAO.obtenerFiltroInstancias() + ")"
                 )
                 .setParameter("numeroExpediente", numeroExpediente)
                 .getResultList();
@@ -1034,15 +1039,16 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
 
     /**
      * Restringe las consultas del chatbot a las instancias dentro del alcance del servicio:
-     * los 2 juzgados de familia, los 3 juzgados de paz letrado y el civil transitorio.
+     * las habilitadas en MySQL (JURISDB_JUDICIAL.Instancias con activo = 1 y borrado = 0).
      *
      * Repite el filtro que ya aplica findByNumeroExpediente antes de llegar aquí. Se duplica
      * a propósito: estos datos se publican a la ciudadanía por Telegram y WhatsApp, y si
      * alguien reutilizara estos métodos sin pasar por esa validación previa se expondrían
      * expedientes fuera del alcance autorizado.
      */
-    private static final String FILTRO_INSTANCIAS_CHATBOT =
-            "AND iexp.c_instancia in('301','302','701','702','044','118','024','025') ";
+    private String filtroInstanciasChatbot() {
+        return "AND iexp.c_instancia in(" + instanciaHabilitadaDAO.obtenerFiltroInstancias() + ") ";
+    }
 
     @Override
     public List<EscritoExpedienteDTO> findEscritosByExpediente(String numeroExpediente) {
@@ -1074,7 +1080,7 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                                 JOINS_CABECERA_CHATBOT +
                                 "INNER JOIN escrito esc ON e.n_unico = esc.n_unico AND e.n_incidente = esc.n_incidente " +
                                 "WHERE e.x_formato = :numeroExpediente " +
-                                FILTRO_INSTANCIAS_CHATBOT +
+                                filtroInstanciasChatbot() +
                                 "ORDER BY esc.f_ingreso_acto DESC, esc.n_sec_ingreso DESC"
                 )
                 .setParameter("numeroExpediente", numeroExpediente)
@@ -1133,7 +1139,7 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                                 JOINS_CABECERA_CHATBOT +
                                 "INNER JOIN audiencia_programacion ap ON e.n_unico = ap.n_unico AND e.n_incidente = ap.n_incidente " +
                                 "WHERE e.x_formato = :numeroExpediente " +
-                                FILTRO_INSTANCIAS_CHATBOT +
+                                filtroInstanciasChatbot() +
                                 "  AND ap.l_estado = 'REAL' " +
                                 "ORDER BY 10 DESC"
                 )
@@ -1170,7 +1176,7 @@ public class ExpedienteDAOImpl implements ExpedienteDAO {
                                 JOINS_CABECERA_CHATBOT +
                                 "INNER JOIN audiencia_programacion ap ON e.n_unico = ap.n_unico AND e.n_incidente = ap.n_incidente " +
                                 "WHERE e.x_formato = :numeroExpediente " +
-                                FILTRO_INSTANCIAS_CHATBOT +
+                                filtroInstanciasChatbot() +
                                 "  AND ap.l_estado = 'PROG' " +
                                 "  AND ap.f_ini_prog >= CONVERT(DATE, GETDATE()) " +
                                 "ORDER BY ap.f_ini_prog ASC"
