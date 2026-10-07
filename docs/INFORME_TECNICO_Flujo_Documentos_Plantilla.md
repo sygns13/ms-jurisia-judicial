@@ -249,10 +249,10 @@ Las tablas existentes `TipoDocumento` y `Documento` se reutilizaron sin cambios 
 ### 9.2 Carga y versionado de plantillas
 
 - Validaciones del archivo: extensión `.docx`, tamaño máximo de 20 MB y apertura correcta con docx4j.
-- Al cargar o reemplazar el Word se detectan las variables (`${...}`) y se sincroniza `PlantillaVariable`:
-  - se crean las variables nuevas;
-  - las existentes conservan su configuración;
-  - las ausentes quedan con `detectada = 0`.
+- Al cargar o reemplazar el Word se detectan las variables (`${...}`), **se eliminan físicamente todas las variables de la plantilla** y se registran de nuevo (comportamiento vigente desde el ajuste del 07/10/2026, sección 11.4):
+  - `SISTEMA` si el nombre existe en `VariableSistema`, con `campoSistema` = clave del catálogo y la descripción del catálogo;
+  - `MANUAL` en otro caso, solo con el nombre;
+  - nunca `IA`; la configuración manual previa no se conserva.
 - Cada reemplazo del archivo incrementa `version`, que viaja a métricas.
 - El detalle de la plantilla devuelve **advertencias**: variables sin dato, de IA sin instrucción, apuntando a campos inexistentes o ausentes del Word.
 
@@ -359,6 +359,25 @@ Se implementó como endpoint reutilizable en otros entornos: `POST /v1/admin/pla
 | Nueva variable `fecha_larga_del` (`dd 'de' MMMM 'del' yyyy`) | Formato de fecha usado en 19 reemplazos del flujo anterior |
 | Se eliminó la conversión a mayúsculas de las descripciones de tipos de documento y documentos | Evitar transformaciones de datos no solicitadas |
 | Se eliminó el header `Access-Control-Expose-Headers` del controller de generación | Pasó a gestionarlo el gateway (sección 11.1), evitando duplicarlo |
+
+### 11.4 Ajuste posterior: regeneración de variables y eliminación física (07/10/2026)
+
+**Requerimiento:** al registrar una plantilla o reemplazar su Word, eliminar físicamente las variables de la plantilla y registrarlas automáticamente según el documento, sin conservar la configuración previa y sin registrar variables de origen IA. Además, la eliminación de variables debe ser física. La pérdida de la configuración manual previa al reemplazar el Word, incluida la de las plantillas migradas, fue confirmada expresamente por el usuario.
+
+| Archivo | Cambio |
+|---|---|
+| `repository/mysql/PlantillaVariableRepository.java` | Nuevo método `eliminarPorPlantilla` (`DELETE` JPQL con `@Modifying`), que elimina todas las variables de la plantilla, incluidas las borradas lógicamente |
+| `service/mysql/impl/PlantillaDocumentoServiceImpl.java` | Se reescribió `sincronizarVariables`: eliminación física y registro limpio, `SISTEMA` (con `campoSistema` y `descripcion` del catálogo) o `MANUAL` (solo el nombre), con `detectada = 1` y `orden` por aparición. Se registra en el log la cantidad eliminada y registrada. `eliminarVariable` pasó de borrado lógico a `delete` físico |
+| `controller/PlantillaDocumentoController.java` | Descripciones de Swagger actualizadas |
+
+**Prueba** (instancia paralela de judicial, puerto 18012, con datos desechables eliminados al finalizar):
+
+| Paso | Resultado |
+|---|---|
+| `POST /v1/admin/plantillas` con el Word migrado de `template_auto_15` | HTTP 201. 7 variables: `title.juzgado` y `top.ciudad` como `SISTEMA` (con `campoSistema` y descripción); `top.fecha`, `title.oficio` y 3 variables `body.*` como `MANUAL` (sin `campoSistema`, valor por defecto ni instrucción) |
+| Configuración manual previa | `valorDefecto` asignado a `top.fecha` y una variable `IA` agregada (8 registros) |
+| `PUT /v1/admin/plantillas/{id}/archivo` con el Word migrado de `template_auto_12` | HTTP 200, `version = 2`. Se eliminaron los 8 registros y se crearon 7 con identificadores nuevos: 0 de origen `IA`, 0 con valor por defecto, 0 borrados lógicamente |
+| `DELETE /v1/admin/plantillas/{id}/variables/{idVariable}` | HTTP 204, el registro ya no existe en la tabla. Una segunda llamada responde HTTP 404 |
 
 ---
 
@@ -499,7 +518,7 @@ El usuario responsable probó los endpoints implementados y confirmó su correct
 - `utils/beans/plantilla/`: `ApiResponseProcesarPlantillaIA`, `BloquePlantillaIA`, `InputAdminDocumento`, `InputAdminTipoDocumento`, `InputPlantillaDocumento`, `InputPlantillaVariable`, `InputProcesarPlantillaIA`, `ParrafoPlantillaIA`, `ResponseDocumentoGenerable`, `ResponseDocumentoPlantillaHTML`, `ResponseMigracionPlantillas`, `ResponsePlantillaDetalle`, `ResponseProcesarPlantillaIA`, `ResponseVariableSistema`, `ResultadoDocumentoPlantilla`, `ResultadoMigracionDocumento`
 - `resources/data/plantillas_docx.sql`
 - `resources/migracion/mapeo_variables_secciones.json`
-- `docs/ENDPOINTS_Flujo_Documentos_Plantilla.md`, `docs/INFORME_TECNICO_Flujo_Documentos_Plantilla.md`
+- `docs/INFORME_TECNICO_Flujo_Documentos_Plantilla.md` (el documento de endpoints se ubica en la raíz del workspace: `ENDPOINTS_Flujo_Documentos_Plantilla.md`)
 
 **Modificados (solo agregados):** `configuration/ConfigProperties.java`, `resources/application.yml`, `resources/messages.properties`
 
@@ -547,7 +566,7 @@ El usuario responsable probó los endpoints implementados y confirmó su correct
 
 ## Anexo B: endpoints
 
-Se implementaron **33 endpoints**, documentados con ejemplos `curl` en `docs/ENDPOINTS_Flujo_Documentos_Plantilla.md`:
+Se implementaron **33 endpoints**, documentados con ejemplos `curl` en `ENDPOINTS_Flujo_Documentos_Plantilla.md` (raíz del workspace):
 
 | Grupo | Ruta base | Cantidad | Microservicio |
 |---|---|---|---|

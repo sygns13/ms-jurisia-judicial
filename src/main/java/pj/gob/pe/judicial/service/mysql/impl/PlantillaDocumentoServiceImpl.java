@@ -35,11 +35,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HexFormat;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -354,20 +352,13 @@ public class PlantillaDocumentoServiceImpl implements PlantillaDocumentoService 
     @Transactional
     public void eliminarVariable(String SessionId, Long idPlantilla, Long idVariable) {
 
-        ResponseLogin responseLogin = validarSesion(SessionId);
+        validarSesion(SessionId);
         obtenerNoBorrada(idPlantilla);
 
         PlantillaVariable variable = obtenerVariable(idPlantilla, idVariable);
 
-        LocalDateTime ahora = LocalDateTime.now();
-        variable.setActivo(Constantes.REGISTRO_INACTIVO);
-        variable.setBorrado(Constantes.REGISTRO_BORRADO);
-        variable.setUpdDate(ahora.toLocalDate());
-        variable.setUpdDatetime(ahora);
-        variable.setUpdTimestamp(ahora.toEpochSecond(ZoneOffset.UTC));
-        variable.setUpdUserId(responseLogin.getUser().getIdUser());
-
-        plantillaVariableRepository.save(variable);
+        // Eliminación física: un borrado lógico solo acumularía registros sin uso
+        plantillaVariableRepository.delete(variable);
     }
 
     @Override
@@ -385,55 +376,52 @@ public class PlantillaDocumentoServiceImpl implements PlantillaDocumentoService 
     // ====================================================================
 
     /**
-     * Alinea PlantillaVariable con las variables del .docx: crea las nuevas, marca detectada/orden
-     * en las existentes y deja detectada = 0 en las que ya no están (se conserva su configuración
-     * por si vuelven en una versión posterior).
+     * Regenera las variables de la plantilla a partir del .docx cargado: elimina físicamente todas
+     * las existentes (la configuración previa no se conserva) y registra cada variable detectada
+     * como SISTEMA si su nombre existe en el catálogo {@link VariableSistema}, o como MANUAL en otro
+     * caso. Nunca se registran variables IA: las configura después el administrador.
      */
     private void sincronizarVariables(Long idPlantilla, Set<String> detectadas, Long idUser) {
 
-        List<PlantillaVariable> existentes = plantillaVariableRepository
-                .findByIdPlantillaAndBorradoOrderByOrdenAscIdVariableAsc(idPlantilla, Constantes.REGISTRO_NO_BORRADO);
-
-        Map<String, PlantillaVariable> porNombre = new HashMap<>();
-        existentes.forEach(v -> porNombre.put(v.getNombre(), v));
+        int eliminadas = plantillaVariableRepository.eliminarPorPlantilla(idPlantilla);
 
         LocalDateTime ahora = LocalDateTime.now();
         List<PlantillaVariable> guardar = new ArrayList<>();
 
         int orden = 1;
         for (String nombre : detectadas) {
-            PlantillaVariable variable = porNombre.remove(nombre);
-            if (variable == null) {
-                Optional<VariableSistema> sistema = VariableSistema.buscar(nombre);
+            Optional<VariableSistema> sistema = VariableSistema.buscar(nombre);
 
-                variable = new PlantillaVariable();
-                variable.setIdPlantilla(idPlantilla);
-                variable.setNombre(nombre);
-                variable.setOrigen(sistema.isPresent() ? ConstantesPlantilla.ORIGEN_SISTEMA : ConstantesPlantilla.ORIGEN_MANUAL);
-                variable.setDescripcion(sistema.map(VariableSistema::getDescripcion).orElse(null));
-                variable.setRegDate(ahora.toLocalDate());
-                variable.setRegDatetime(ahora);
-                variable.setRegTimestamp(ahora.toEpochSecond(ZoneOffset.UTC));
-                variable.setRegUserId(idUser);
-                variable.setActivo(Constantes.REGISTRO_ACTIVO);
-                variable.setBorrado(Constantes.REGISTRO_NO_BORRADO);
+            PlantillaVariable variable = new PlantillaVariable();
+            variable.setIdPlantilla(idPlantilla);
+            variable.setNombre(nombre);
+
+            // Solo los campos que aplican a cada origen
+            if (sistema.isPresent()) {
+                variable.setOrigen(ConstantesPlantilla.ORIGEN_SISTEMA);
+                variable.setCampoSistema(sistema.get().getClave());
+                variable.setDescripcion(sistema.get().getDescripcion());
             } else {
-                variable.setUpdDate(ahora.toLocalDate());
-                variable.setUpdDatetime(ahora);
-                variable.setUpdTimestamp(ahora.toEpochSecond(ZoneOffset.UTC));
-                variable.setUpdUserId(idUser);
+                variable.setOrigen(ConstantesPlantilla.ORIGEN_MANUAL);
             }
+
             variable.setDetectada(Constantes.REGISTRO_ACTIVO);
             variable.setOrden(orden++);
+            variable.setRegDate(ahora.toLocalDate());
+            variable.setRegDatetime(ahora);
+            variable.setRegTimestamp(ahora.toEpochSecond(ZoneOffset.UTC));
+            variable.setRegUserId(idUser);
+            variable.setActivo(Constantes.REGISTRO_ACTIVO);
+            variable.setBorrado(Constantes.REGISTRO_NO_BORRADO);
             guardar.add(variable);
         }
 
-        for (PlantillaVariable ausente : porNombre.values()) {
-            ausente.setDetectada(Constantes.REGISTRO_INACTIVO);
-            guardar.add(ausente);
-        }
-
         plantillaVariableRepository.saveAll(guardar);
+
+        logger.info("[Plantilla] variables regeneradas idPlantilla={} eliminadas={} registradas={} (sistema={}, manuales={})",
+                idPlantilla, eliminadas, guardar.size(),
+                guardar.stream().filter(v -> ConstantesPlantilla.ORIGEN_SISTEMA.equals(v.getOrigen())).count(),
+                guardar.stream().filter(v -> ConstantesPlantilla.ORIGEN_MANUAL.equals(v.getOrigen())).count());
     }
 
     private ResponsePlantillaDetalle armarDetalle(PlantillaDocumento plantilla) {

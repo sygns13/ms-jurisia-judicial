@@ -59,7 +59,8 @@ public class PlantillaDocumentoController {
 
     @Operation(summary = "Registrar plantilla",
             description = "multipart/form-data: campos idDocumento, codigo, nombreOut, descripcion, corregirIA y el archivo .docx en 'archivo'. " +
-                    "Las variables ${...} del Word se detectan y registran automáticamente")
+                    "Las variables ${...} del Word se detectan y registran automáticamente: SISTEMA si existen en el catálogo, " +
+                    "MANUAL en otro caso (nunca IA)")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResponsePlantillaDetalle> registrar(
             @RequestHeader("SessionId") String SessionId,
@@ -84,7 +85,9 @@ public class PlantillaDocumentoController {
         return new ResponseEntity<>(plantillaDocumentoService.modificar(SessionId, id, input), HttpStatus.OK);
     }
 
-    @Operation(summary = "Reemplazar archivo .docx", description = "Sube una nueva versión del Word (incrementa version) y vuelve a detectar las variables, conservando la configuración de las existentes")
+    @Operation(summary = "Reemplazar archivo .docx", description = "Sube una nueva versión del Word (incrementa version). Elimina físicamente todas las variables de la plantilla " +
+                    "y las vuelve a registrar según el Word: SISTEMA si existen en el catálogo, MANUAL en otro caso (nunca IA). " +
+                    "La configuración manual previa no se conserva")
     @PutMapping(value = "/{id}/archivo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResponsePlantillaDetalle> reemplazarArchivo(
             @RequestHeader("SessionId") String SessionId,
@@ -188,7 +191,7 @@ public class PlantillaDocumentoController {
         return new ResponseEntity<>(plantillaDocumentoService.modificarVariable(SessionId, id, idVariable, input), HttpStatus.OK);
     }
 
-    @Operation(summary = "Eliminar variable", description = "Borrado lógico de la configuración de la variable (si sigue en el Word, se resolverá por catálogo o quedará como '...')")
+    @Operation(summary = "Eliminar variable", description = "Eliminación física de la variable (si sigue en el Word, se resolverá por catálogo o quedará como '...')")
     @DeleteMapping("/{id}/variables/{idVariable}")
     public ResponseEntity<Void> eliminarVariable(
             @RequestHeader("SessionId") String SessionId,
