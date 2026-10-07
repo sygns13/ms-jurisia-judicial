@@ -19,6 +19,9 @@ public class ConfigProperties {
     @Value("${api.consultaia.post.processgemini.path}")
     private String pathProcessDocumentGemini;
 
+    @Value("${api.consultaia.post.processplantilla.path}")
+    private String pathProcessPlantillaGemini;
+
     @Value("${api.security.url}")
     private String urlSecurityAPI;
 

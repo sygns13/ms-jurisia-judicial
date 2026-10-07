@@ -6,6 +6,11 @@ spring:
   docker:
     compose:
       enabled: false
+  # Carga de plantillas .docx desde el administrador (ConstantesPlantilla.TAMANIO_MAXIMO_BYTES = 20MB)
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 25MB
   # ==== FUENTES DE DATOS ====
   datasource:
     sybase:
@@ -70,6 +75,9 @@ api:
       # Procesamiento de documentos con Gemini (reemplaza al flujo OpenAI en GenDocumentoServiceImpl)
       processgemini:
         path: /v1/gemini-chat/documento
+      # Generación de documentos por plantilla completa (.docx con variables): una sola llamada por documento
+      processplantilla:
+        path: /v1/gemini-documento/procesar
   apichatbot:
     url: https://chatbot.csjan.org
     get:

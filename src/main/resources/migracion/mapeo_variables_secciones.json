@@ -1,0 +1,1828 @@
+{
+    "template_auto_01":  {
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.expediente":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "expediente"
+                                                  },
+                             "title.materia":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "materia"
+                                               },
+                             "title.juez":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "juez"
+                                            },
+                             "title.especialista":  {
+                                                        "origen":  "SISTEMA",
+                                                        "campoSistema":  "especialista"
+                                                    },
+                             "title.demandado":  {
+                                                     "origen":  "SISTEMA",
+                                                     "campoSistema":  "demandados"
+                                                 },
+                             "title.demandante":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "demandantes"
+                                                  },
+                             "top.numero":  {
+                                                "origen":  "MANUAL"
+                                            },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.diamesletter":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "fecha_dia_mes"
+                                                  },
+                             "top.anioletter":  {
+                                                    "origen":  "SISTEMA",
+                                                    "campoSistema":  "top.anioletter"
+                                                },
+                             "body.quinto.otrosi.demanda":  {
+                                                                "origen":  "MANUAL"
+                                                            },
+                             "body.quinto.menor":  {
+                                                       "origen":  "MANUAL"
+                                                   },
+                             "body.quinto.empresa":  {
+                                                         "origen":  "MANUAL"
+                                                     },
+                             "body.resolve.uno.demandante":  {
+                                                                 "origen":  "SISTEMA",
+                                                                 "campoSistema":  "demandantes"
+                                                             },
+                             "body.resolve.uno.menor.parentesco":  {
+                                                                       "origen":  "MANUAL"
+                                                                   },
+                             "body.resolve.uno.hija.demandante":  {
+                                                                      "origen":  "MANUAL"
+                                                                  },
+                             "body.resolve.uno.edad.hija":  {
+                                                                "origen":  "MANUAL"
+                                                            },
+                             "body.resolve.uno.fecha.nacimiento":  {
+                                                                       "origen":  "MANUAL"
+                                                                   },
+                             "body.resolve.uno.demandado":  {
+                                                                "origen":  "SISTEMA",
+                                                                "campoSistema":  "demandados"
+                                                            },
+                             "body.resolve.uno.motivo.demanda":  {
+                                                                     "origen":  "SISTEMA",
+                                                                     "campoSistema":  "materia"
+                                                                 },
+                             "body.resolve.uno.tipo.proceso":  {
+                                                                   "origen":  "MANUAL",
+                                                                   "valorDefecto":  "UNICO"
+                                                               },
+                             "body.resolve.uno.casilla.electronica":  {
+                                                                          "origen":  "MANUAL"
+                                                                      },
+                             "body.resolve.cuatro.fecha.audiencia":  {
+                                                                         "origen":  "MANUAL"
+                                                                     },
+                             "body.resolve.cuatro.hora.letras.audiencia":  {
+                                                                               "origen":  "MANUAL"
+                                                                           },
+                             "body.resolve.cuatro.hora.audiencia":  {
+                                                                        "origen":  "MANUAL"
+                                                                    },
+                             "body.resolve.cuatro.link.meets":  {
+                                                                    "origen":  "MANUAL"
+                                                                },
+                             "body.resolve.cinco.demandante":  {
+                                                                   "origen":  "SISTEMA",
+                                                                   "campoSistema":  "demandantes"
+                                                               },
+                             "body.resolve.cinco.menor.parentesco":  {
+                                                                         "origen":  "MANUAL"
+                                                                     },
+                             "body.resolve.cinco.hija.demandante":  {
+                                                                        "origen":  "MANUAL"
+                                                                    },
+                             "body.resolve.cinco.monto.pension":  {
+                                                                      "origen":  "MANUAL"
+                                                                  }
+                         },
+    "template_auto_02":  {
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.expediente":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "expediente"
+                                                  },
+                             "title.materia":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "materia"
+                                               },
+                             "title.juez":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "juez"
+                                            },
+                             "title.especialista":  {
+                                                        "origen":  "SISTEMA",
+                                                        "campoSistema":  "especialista"
+                                                    },
+                             "title.demandado":  {
+                                                     "origen":  "SISTEMA",
+                                                     "campoSistema":  "demandados"
+                                                 },
+                             "title.demandante":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "demandantes"
+                                                  },
+                             "top.numero":  {
+                                                "origen":  "MANUAL"
+                                            },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.diamesletter":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "fecha_dia_mes"
+                                                  },
+                             "top.anioletter":  {
+                                                    "origen":  "SISTEMA",
+                                                    "campoSistema":  "top.anioletter"
+                                                },
+                             "body.uno.resolucion.numero":  {
+                                                                "origen":  "MANUAL"
+                                                            },
+                             "body.uno.resolucion.fecha":  {
+                                                               "origen":  "MANUAL"
+                                                           },
+                             "body.dos.sentencia.fecha":  {
+                                                              "origen":  "MANUAL"
+                                                          },
+                             "body.resolve.resolucion.numero":  {
+                                                                    "origen":  "MANUAL"
+                                                                },
+                             "body.resolve.resolucion.fecha":  {
+                                                                   "origen":  "MANUAL"
+                                                               },
+                             "body.resolve.fojas":  {
+                                                        "origen":  "MANUAL"
+                                                    }
+                         },
+    "template_auto_03":  {
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.expediente":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "expediente"
+                                                  },
+                             "title.materia":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "materia"
+                                               },
+                             "title.juez":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "juez"
+                                            },
+                             "title.especialista":  {
+                                                        "origen":  "SISTEMA",
+                                                        "campoSistema":  "especialista"
+                                                    },
+                             "title.demandado":  {
+                                                     "origen":  "SISTEMA",
+                                                     "campoSistema":  "demandados"
+                                                 },
+                             "title.demandante":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "demandantes"
+                                                  },
+                             "top.numero":  {
+                                                "origen":  "MANUAL"
+                                            },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.diamesletter":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "fecha_dia_mes"
+                                                  },
+                             "top.anioletter":  {
+                                                    "origen":  "SISTEMA",
+                                                    "campoSistema":  "top.anioletter"
+                                                },
+                             "body.dos.resolucion.notificacion.numero":  {
+                                                                             "origen":  "MANUAL"
+                                                                         },
+                             "body.dos.fojas":  {
+                                                    "origen":  "MANUAL"
+                                                },
+                             "body.dos.resolucion.notificacion.fecha":  {
+                                                                            "origen":  "MANUAL"
+                                                                        },
+                             "body.dos.resolucion.apercibimiento.numero":  {
+                                                                               "origen":  "MANUAL"
+                                                                           },
+                             "body.resolve.demandado":  {
+                                                            "origen":  "SISTEMA",
+                                                            "campoSistema":  "demandados"
+                                                        }
+                         },
+    "template_auto_04":  {
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.expediente":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "expediente"
+                                                  },
+                             "title.materia":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "materia"
+                                               },
+                             "title.juez":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "juez"
+                                            },
+                             "title.especialista":  {
+                                                        "origen":  "SISTEMA",
+                                                        "campoSistema":  "especialista"
+                                                    },
+                             "title.demandado":  {
+                                                     "origen":  "SISTEMA",
+                                                     "campoSistema":  "demandados"
+                                                 },
+                             "title.demandante":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "demandantes"
+                                                  },
+                             "top.numero":  {
+                                                "origen":  "MANUAL"
+                                            },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.diamesletter":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "fecha_dia_mes"
+                                                  },
+                             "top.anioletter":  {
+                                                    "origen":  "SISTEMA",
+                                                    "campoSistema":  "top.anioletter"
+                                                },
+                             "body.dos.resolucion.numero":  {
+                                                                "origen":  "MANUAL"
+                                                            },
+                             "body.dos.fojas":  {
+                                                    "origen":  "MANUAL"
+                                                },
+                             "body.tres.resolucion.notificacion.fecha":  {
+                                                                             "origen":  "MANUAL"
+                                                                         },
+                             "body.tres.resolucion.notificacion.constancias":  {
+                                                                                   "origen":  "MANUAL"
+                                                                               }
+                         },
+    "template_auto_05":  {
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.expediente":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "expediente"
+                                                  },
+                             "title.materia":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "materia"
+                                               },
+                             "title.juez":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "juez"
+                                            },
+                             "title.especialista":  {
+                                                        "origen":  "SISTEMA",
+                                                        "campoSistema":  "especialista"
+                                                    },
+                             "title.demandado":  {
+                                                     "origen":  "SISTEMA",
+                                                     "campoSistema":  "demandados"
+                                                 },
+                             "title.demandante":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "demandantes"
+                                                  },
+                             "top.numero":  {
+                                                "origen":  "MANUAL"
+                                            },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.diamesletter":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "fecha_dia_mes"
+                                                  },
+                             "top.anioletter":  {
+                                                    "origen":  "SISTEMA",
+                                                    "campoSistema":  "top.anioletter"
+                                                },
+                             "body.uno.solicitud.fecha":  {
+                                                              "origen":  "MANUAL"
+                                                          },
+                             "body.uno.solicitud.fojas":  {
+                                                              "origen":  "MANUAL"
+                                                          },
+                             "body.uno.solicitud.monto":  {
+                                                              "origen":  "MANUAL"
+                                                          },
+                             "body.dos.liquidacion.fojas":  {
+                                                                "origen":  "MANUAL"
+                                                            },
+                             "body.resolve.resolucion.numero":  {
+                                                                    "origen":  "MANUAL"
+                                                                },
+                             "body.resolve.resolucion.fecha":  {
+                                                                   "origen":  "MANUAL"
+                                                               },
+                             "body.resolve.monto":  {
+                                                        "origen":  "MANUAL"
+                                                    },
+                             "body.resolve.demandado":  {
+                                                            "origen":  "SISTEMA",
+                                                            "campoSistema":  "demandados"
+                                                        }
+                         },
+    "template_auto_06":  {
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.expediente":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "expediente"
+                                                  },
+                             "title.materia":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "materia"
+                                               },
+                             "title.juez":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "juez"
+                                            },
+                             "title.especialista":  {
+                                                        "origen":  "SISTEMA",
+                                                        "campoSistema":  "especialista"
+                                                    },
+                             "title.demandado":  {
+                                                     "origen":  "SISTEMA",
+                                                     "campoSistema":  "demandados"
+                                                 },
+                             "title.demandante":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "demandantes"
+                                                  },
+                             "top.numero":  {
+                                                "origen":  "MANUAL"
+                                            },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.diamesletter":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "fecha_dia_mes"
+                                                  },
+                             "top.anioletter":  {
+                                                    "origen":  "SISTEMA",
+                                                    "campoSistema":  "top.anioletter"
+                                                }
+                         },
+    "template_auto_07":  {
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.expediente":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "expediente"
+                                                  },
+                             "title.materia":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "materia"
+                                               },
+                             "title.juez":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "juez"
+                                            },
+                             "title.especialista":  {
+                                                        "origen":  "SISTEMA",
+                                                        "campoSistema":  "especialista"
+                                                    },
+                             "title.demandado":  {
+                                                     "origen":  "SISTEMA",
+                                                     "campoSistema":  "demandados"
+                                                 },
+                             "title.demandante":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "demandantes"
+                                                  },
+                             "top.numero":  {
+                                                "origen":  "MANUAL"
+                                            },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.diamesletter":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "fecha_dia_mes"
+                                                  },
+                             "top.anioletter":  {
+                                                    "origen":  "SISTEMA",
+                                                    "campoSistema":  "top.anioletter"
+                                                },
+                             "body.inicio.demandado":  {
+                                                           "origen":  "SISTEMA",
+                                                           "campoSistema":  "demandados"
+                                                       }
+                         },
+    "template_auto_08":  {
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.expediente":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "expediente"
+                                                  },
+                             "title.materia":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "materia"
+                                               },
+                             "title.juez":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "juez"
+                                            },
+                             "title.especialista":  {
+                                                        "origen":  "SISTEMA",
+                                                        "campoSistema":  "especialista"
+                                                    },
+                             "title.demandado":  {
+                                                     "origen":  "SISTEMA",
+                                                     "campoSistema":  "demandados"
+                                                 },
+                             "title.demandante":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "demandantes"
+                                                  },
+                             "top.numero":  {
+                                                "origen":  "MANUAL"
+                                            },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.diamesletter":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "fecha_dia_mes"
+                                                  },
+                             "top.anioletter":  {
+                                                    "origen":  "SISTEMA",
+                                                    "campoSistema":  "top.anioletter"
+                                                }
+                         },
+    "template_auto_09":  {
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.expediente":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "expediente"
+                                                  },
+                             "title.materia":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "materia"
+                                               },
+                             "title.juez":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "juez"
+                                            },
+                             "title.especialista":  {
+                                                        "origen":  "SISTEMA",
+                                                        "campoSistema":  "especialista"
+                                                    },
+                             "title.demandado":  {
+                                                     "origen":  "SISTEMA",
+                                                     "campoSistema":  "demandados"
+                                                 },
+                             "title.demandante":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "demandantes"
+                                                  },
+                             "top.numero":  {
+                                                "origen":  "MANUAL"
+                                            },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.diamesletter":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "fecha_dia_mes"
+                                                  },
+                             "top.anioletter":  {
+                                                    "origen":  "SISTEMA",
+                                                    "campoSistema":  "top.anioletter"
+                                                },
+                             "body.final.cuenta":  {
+                                                       "origen":  "MANUAL"
+                                                   },
+                             "body.final.actora":  {
+                                                       "origen":  "MANUAL"
+                                                   }
+                         },
+    "template_auto_10":  {
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.expediente":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "expediente"
+                                                  },
+                             "title.materia":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "materia"
+                                               },
+                             "title.juez":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "juez"
+                                            },
+                             "title.especialista":  {
+                                                        "origen":  "SISTEMA",
+                                                        "campoSistema":  "especialista"
+                                                    },
+                             "title.demandado":  {
+                                                     "origen":  "SISTEMA",
+                                                     "campoSistema":  "demandados"
+                                                 },
+                             "title.demandante":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "demandantes"
+                                                  },
+                             "top.numero":  {
+                                                "origen":  "MANUAL"
+                                            },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.diamesletter":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "fecha_dia_mes"
+                                                  },
+                             "top.anioletter":  {
+                                                    "origen":  "SISTEMA",
+                                                    "campoSistema":  "top.anioletter"
+                                                },
+                             "body.dos.fojas":  {
+                                                    "origen":  "MANUAL"
+                                                },
+                             "body.dos.resolucion.numero":  {
+                                                                "origen":  "MANUAL"
+                                                            },
+                             "body.dos.resolucion.fecha":  {
+                                                               "origen":  "MANUAL"
+                                                           },
+                             "body.final.demandado":  {
+                                                          "origen":  "SISTEMA",
+                                                          "campoSistema":  "demandados"
+                                                      }
+                         },
+    "template_auto_11":  {
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.expediente":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "expediente"
+                                                  },
+                             "title.materia":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "materia"
+                                               },
+                             "title.juez":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "juez"
+                                            },
+                             "title.especialista":  {
+                                                        "origen":  "SISTEMA",
+                                                        "campoSistema":  "especialista"
+                                                    },
+                             "title.demandado":  {
+                                                     "origen":  "SISTEMA",
+                                                     "campoSistema":  "demandados"
+                                                 },
+                             "title.demandante":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "demandantes"
+                                                  },
+                             "top.numero":  {
+                                                "origen":  "MANUAL"
+                                            },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.diamesletter":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "fecha_dia_mes"
+                                                  },
+                             "top.anioletter":  {
+                                                    "origen":  "SISTEMA",
+                                                    "campoSistema":  "top.anioletter"
+                                                },
+                             "body.uno.demandado":  {
+                                                        "origen":  "SISTEMA",
+                                                        "campoSistema":  "demandados"
+                                                    },
+                             "body.uno.notificacion.fecha":  {
+                                                                 "origen":  "MANUAL"
+                                                             },
+                             "body.dos.resolucion":  {
+                                                         "origen":  "MANUAL"
+                                                     },
+                             "body.final.demandado":  {
+                                                          "origen":  "SISTEMA",
+                                                          "campoSistema":  "demandados"
+                                                      }
+                         },
+    "template_auto_12":  {
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.fecha":  {
+                                               "origen":  "SISTEMA",
+                                               "campoSistema":  "fecha_larga_del"
+                                           },
+                             "title.oficio":  {
+                                                  "origen":  "MANUAL"
+                                              },
+                             "body.main.demandado":  {
+                                                         "origen":  "SISTEMA",
+                                                         "campoSistema":  "demandados"
+                                                     },
+                             "body.main.demandante":  {
+                                                          "origen":  "SISTEMA",
+                                                          "campoSistema":  "demandantes"
+                                                      },
+                             "body.main.expediente":  {
+                                                          "origen":  "SISTEMA",
+                                                          "campoSistema":  "expediente"
+                                                      }
+                         },
+    "template_auto_13":  {
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.fecha":  {
+                                               "origen":  "SISTEMA",
+                                               "campoSistema":  "fecha_larga_del"
+                                           },
+                             "title.oficio":  {
+                                                  "origen":  "MANUAL"
+                                              },
+                             "body.main.nombre.demandado":  {
+                                                                "origen":  "SISTEMA",
+                                                                "campoSistema":  "demandados"
+                                                            },
+                             "body.main.dni.demandado":  {
+                                                             "origen":  "SISTEMA",
+                                                             "campoSistema":  "dni_demandados"
+                                                         },
+                             "body.main.demandante":  {
+                                                          "origen":  "SISTEMA",
+                                                          "campoSistema":  "demandantes"
+                                                      },
+                             "body.main.materia":  {
+                                                       "origen":  "SISTEMA",
+                                                       "campoSistema":  "materia"
+                                                   },
+                             "body.main.expediente":  {
+                                                          "origen":  "SISTEMA",
+                                                          "campoSistema":  "expediente"
+                                                      }
+                         },
+    "template_auto_14":  {
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.fecha":  {
+                                               "origen":  "SISTEMA",
+                                               "campoSistema":  "fecha_larga_del"
+                                           },
+                             "title.oficio":  {
+                                                  "origen":  "MANUAL"
+                                              },
+                             "body.main.nombre.demandante":  {
+                                                                 "origen":  "SISTEMA",
+                                                                 "campoSistema":  "demandantes"
+                                                             },
+                             "body.main.dni.demandante":  {
+                                                              "origen":  "SISTEMA",
+                                                              "campoSistema":  "dni_demandantes"
+                                                          },
+                             "body.main.dni.demandado":  {
+                                                             "origen":  "SISTEMA",
+                                                             "campoSistema":  "demandados"
+                                                         },
+                             "body.main.expediente":  {
+                                                          "origen":  "SISTEMA",
+                                                          "campoSistema":  "expediente"
+                                                      }
+                         },
+    "template_auto_15":  {
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.fecha":  {
+                                               "origen":  "SISTEMA",
+                                               "campoSistema":  "fecha_larga_del"
+                                           },
+                             "title.oficio":  {
+                                                  "origen":  "MANUAL"
+                                              },
+                             "body.main.nombre.demandado":  {
+                                                                "origen":  "SISTEMA",
+                                                                "campoSistema":  "demandados"
+                                                            },
+                             "body.main.nombre.demandante":  {
+                                                                 "origen":  "SISTEMA",
+                                                                 "campoSistema":  "demandantes"
+                                                             },
+                             "body.main.expediente":  {
+                                                          "origen":  "SISTEMA",
+                                                          "campoSistema":  "expediente"
+                                                      }
+                         },
+    "template_auto_16":  {
+                             "title.corte":  {
+                                                 "origen":  "MANUAL",
+                                                 "valorDefecto":  "CORTE SUPERIOR DE JUSTICIA DE ANCASH"
+                                             },
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.nombreanio":  {
+                                                      "origen":  "MANUAL",
+                                                      "valorDefecto":  "AÑO DE LA RECUPERACIÓN Y CONSOLIDACIÓN DE LA ECONOMÍA PERUANA"
+                                                  },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.fecha":  {
+                                               "origen":  "SISTEMA",
+                                               "campoSistema":  "fecha_larga_del"
+                                           },
+                             "title.oficio":  {
+                                                  "origen":  "MANUAL"
+                                              },
+                             "body.main.fojas":  {
+                                                     "origen":  "MANUAL"
+                                                 },
+                             "body.main.expediente":  {
+                                                          "origen":  "SISTEMA",
+                                                          "campoSistema":  "expediente"
+                                                      },
+                             "body.main.demandante":  {
+                                                          "origen":  "SISTEMA",
+                                                          "campoSistema":  "demandantes"
+                                                      },
+                             "body.main.demandado":  {
+                                                         "origen":  "SISTEMA",
+                                                         "campoSistema":  "demandados"
+                                                     },
+                             "body.main.resolucion":  {
+                                                          "origen":  "MANUAL"
+                                                      }
+                         },
+    "template_auto_17":  {
+                             "title.corte":  {
+                                                 "origen":  "MANUAL",
+                                                 "valorDefecto":  "CORTE SUPERIOR DE JUSTICIA DE ANCASH"
+                                             },
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.nombreanio":  {
+                                                      "origen":  "MANUAL",
+                                                      "valorDefecto":  "AÑO DE LA RECUPERACIÓN Y CONSOLIDACIÓN DE LA ECONOMÍA PERUANA"
+                                                  },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.fecha":  {
+                                               "origen":  "SISTEMA",
+                                               "campoSistema":  "fecha_larga_del"
+                                           },
+                             "title.oficio":  {
+                                                  "origen":  "MANUAL"
+                                              },
+                             "body.main.nombre.menor":  {
+                                                            "origen":  "MANUAL"
+                                                        },
+                             "body.main.edad.menor":  {
+                                                          "origen":  "MANUAL"
+                                                      },
+                             "body.main.resolucion":  {
+                                                          "origen":  "MANUAL"
+                                                      },
+                             "body.main.nombre.demandante":  {
+                                                                 "origen":  "SISTEMA",
+                                                                 "campoSistema":  "demandantes"
+                                                             },
+                             "body.main.nombre.demandado":  {
+                                                                "origen":  "SISTEMA",
+                                                                "campoSistema":  "demandados"
+                                                            },
+                             "body.main.expediente":  {
+                                                          "origen":  "SISTEMA",
+                                                          "campoSistema":  "expediente"
+                                                      }
+                         },
+    "template_auto_18":  {
+                             "title.corte":  {
+                                                 "origen":  "MANUAL",
+                                                 "valorDefecto":  "CORTE SUPERIOR DE JUSTICIA DE ANCASH"
+                                             },
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.nombreanio":  {
+                                                      "origen":  "MANUAL",
+                                                      "valorDefecto":  "AÑO DE LA RECUPERACIÓN Y CONSOLIDACIÓN DE LA ECONOMÍA PERUANA"
+                                                  },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.fecha":  {
+                                               "origen":  "SISTEMA",
+                                               "campoSistema":  "fecha_larga_del"
+                                           },
+                             "title.oficio":  {
+                                                  "origen":  "MANUAL"
+                                              },
+                             "body.main.nombre.demandado":  {
+                                                                "origen":  "SISTEMA",
+                                                                "campoSistema":  "demandados"
+                                                            },
+                             "body.main.demandado.dni":  {
+                                                             "origen":  "MANUAL"
+                                                         },
+                             "body.main.nombre.demandante":  {
+                                                                 "origen":  "SISTEMA",
+                                                                 "campoSistema":  "demandantes"
+                                                             },
+                             "body.main.expediente":  {
+                                                          "origen":  "SISTEMA",
+                                                          "campoSistema":  "expediente"
+                                                      }
+                         },
+    "template_auto_19":  {
+                             "title.corte":  {
+                                                 "origen":  "MANUAL",
+                                                 "valorDefecto":  "CORTE SUPERIOR DE JUSTICIA DE ANCASH"
+                                             },
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.nombreanio":  {
+                                                      "origen":  "MANUAL",
+                                                      "valorDefecto":  "AÑO DE LA RECUPERACIÓN Y CONSOLIDACIÓN DE LA ECONOMÍA PERUANA"
+                                                  },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.fecha":  {
+                                               "origen":  "SISTEMA",
+                                               "campoSistema":  "fecha_larga_del"
+                                           },
+                             "title.oficio":  {
+                                                  "origen":  "MANUAL"
+                                              },
+                             "body.main.nombre.demandado":  {
+                                                                "origen":  "SISTEMA",
+                                                                "campoSistema":  "demandados"
+                                                            },
+                             "body.main.demandado.dni":  {
+                                                             "origen":  "MANUAL"
+                                                         },
+                             "body.main.nombre.demandante":  {
+                                                                 "origen":  "SISTEMA",
+                                                                 "campoSistema":  "demandantes"
+                                                             },
+                             "body.main.expediente":  {
+                                                          "origen":  "SISTEMA",
+                                                          "campoSistema":  "expediente"
+                                                      }
+                         },
+    "template_auto_20":  {
+                             "title.corte":  {
+                                                 "origen":  "MANUAL",
+                                                 "valorDefecto":  "CORTE SUPERIOR DE JUSTICIA DE ANCASH"
+                                             },
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.nombreanio":  {
+                                                      "origen":  "MANUAL",
+                                                      "valorDefecto":  "AÑO DE LA RECUPERACIÓN Y CONSOLIDACIÓN DE LA ECONOMÍA PERUANA"
+                                                  },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.fecha":  {
+                                               "origen":  "SISTEMA",
+                                               "campoSistema":  "fecha_larga_del"
+                                           },
+                             "title.oficio":  {
+                                                  "origen":  "MANUAL"
+                                              },
+                             "body.main.nombre.demandante":  {
+                                                                 "origen":  "SISTEMA",
+                                                                 "campoSistema":  "demandantes"
+                                                             },
+                             "body.main.demandante.dni":  {
+                                                              "origen":  "MANUAL"
+                                                          },
+                             "body.main.nombre.demandado":  {
+                                                                "origen":  "SISTEMA",
+                                                                "campoSistema":  "demandados"
+                                                            },
+                             "body.main.expediente":  {
+                                                          "origen":  "SISTEMA",
+                                                          "campoSistema":  "expediente"
+                                                      }
+                         },
+    "template_auto_21":  {
+                             "title.corte":  {
+                                                 "origen":  "MANUAL",
+                                                 "valorDefecto":  "CORTE SUPERIOR DE JUSTICIA DE ANCASH"
+                                             },
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.nombreanio":  {
+                                                      "origen":  "MANUAL",
+                                                      "valorDefecto":  "AÑO DE LA RECUPERACIÓN Y CONSOLIDACIÓN DE LA ECONOMÍA PERUANA"
+                                                  },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.fecha":  {
+                                               "origen":  "SISTEMA",
+                                               "campoSistema":  "fecha_larga_del"
+                                           },
+                             "title.oficio":  {
+                                                  "origen":  "MANUAL"
+                                              },
+                             "body.main.nombre.demandado":  {
+                                                                "origen":  "SISTEMA",
+                                                                "campoSistema":  "demandados"
+                                                            },
+                             "body.main.demandado.dni":  {
+                                                             "origen":  "MANUAL"
+                                                         },
+                             "body.main.nombre.demandante":  {
+                                                                 "origen":  "SISTEMA",
+                                                                 "campoSistema":  "demandantes"
+                                                             },
+                             "body.main.expediente":  {
+                                                          "origen":  "SISTEMA",
+                                                          "campoSistema":  "expediente"
+                                                      }
+                         },
+    "template_auto_22":  {
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.expediente":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "expediente"
+                                                  },
+                             "title.materia":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "materia"
+                                               },
+                             "title.juez":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "juez"
+                                            },
+                             "title.especialista":  {
+                                                        "origen":  "SISTEMA",
+                                                        "campoSistema":  "especialista"
+                                                    },
+                             "title.fiscalia":  {
+                                                    "origen":  "MANUAL"
+                                                },
+                             "title.demandado":  {
+                                                     "origen":  "SISTEMA",
+                                                     "campoSistema":  "demandados"
+                                                 },
+                             "title.demandante":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "demandantes"
+                                                  },
+                             "top.numero":  {
+                                                "origen":  "MANUAL"
+                                            },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.diamesletter":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "fecha_dia_mes"
+                                                  },
+                             "top.anioletter":  {
+                                                    "origen":  "SISTEMA",
+                                                    "campoSistema":  "top.anioletter"
+                                                },
+                             "body.main.tiempotranscurrido":  {
+                                                                  "origen":  "MANUAL"
+                                                              },
+                             "body.main.resolucion":  {
+                                                          "origen":  "MANUAL"
+                                                      },
+                             "body.main.resolucionfecha":  {
+                                                               "origen":  "MANUAL"
+                                                           }
+                         },
+    "template_auto_23":  {
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.expediente":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "expediente"
+                                                  },
+                             "title.materia":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "materia"
+                                               },
+                             "title.juez":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "juez"
+                                            },
+                             "title.especialista":  {
+                                                        "origen":  "SISTEMA",
+                                                        "campoSistema":  "especialista"
+                                                    },
+                             "title.fiscalia":  {
+                                                    "origen":  "MANUAL"
+                                                },
+                             "title.demandado":  {
+                                                     "origen":  "SISTEMA",
+                                                     "campoSistema":  "demandados"
+                                                 },
+                             "title.demandante":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "demandantes"
+                                                  },
+                             "top.numero":  {
+                                                "origen":  "MANUAL"
+                                            },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.diamesletter":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "fecha_dia_mes"
+                                                  },
+                             "top.anioletter":  {
+                                                    "origen":  "SISTEMA",
+                                                    "campoSistema":  "top.anioletter"
+                                                },
+                             "body.main.fechaescrito":  {
+                                                            "origen":  "MANUAL"
+                                                        },
+                             "body.main.anioescrito":  {
+                                                           "origen":  "MANUAL"
+                                                       },
+                             "body.main.nroresolucionletras":  {
+                                                                   "origen":  "MANUAL"
+                                                               },
+                             "body.main.fojasresolucion":  {
+                                                               "origen":  "MANUAL"
+                                                           },
+                             "body.main.nombre.demandado":  {
+                                                                "origen":  "SISTEMA",
+                                                                "campoSistema":  "demandados"
+                                                            },
+                             "body.main.fecharestosconstancias":  {
+                                                                      "origen":  "MANUAL"
+                                                                  },
+                             "body.main.rangofojas":  {
+                                                          "origen":  "MANUAL"
+                                                      }
+                         },
+    "template_auto_24":  {
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.expediente":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "expediente"
+                                                  },
+                             "title.materia":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "materia"
+                                               },
+                             "title.juez":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "juez"
+                                            },
+                             "title.especialista":  {
+                                                        "origen":  "SISTEMA",
+                                                        "campoSistema":  "especialista"
+                                                    },
+                             "title.abogado":  {
+                                                   "origen":  "MANUAL"
+                                               },
+                             "title.fiscalia":  {
+                                                    "origen":  "MANUAL"
+                                                },
+                             "title.demandado":  {
+                                                     "origen":  "SISTEMA",
+                                                     "campoSistema":  "demandados"
+                                                 },
+                             "title.demandante":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "demandantes"
+                                                  },
+                             "top.numero":  {
+                                                "origen":  "MANUAL"
+                                            },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.diamesletter":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "fecha_dia_mes"
+                                                  },
+                             "top.anioletter":  {
+                                                    "origen":  "SISTEMA",
+                                                    "campoSistema":  "top.anioletter"
+                                                },
+                             "body.main.nroresolucionletras":  {
+                                                                   "origen":  "MANUAL"
+                                                               },
+                             "body.main.resolucionfecha":  {
+                                                               "origen":  "MANUAL"
+                                                           },
+                             "body.main.tiempoacumulado":  {
+                                                               "origen":  "MANUAL"
+                                                           }
+                         },
+    "template_auto_25":  {
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.expediente":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "expediente"
+                                                  },
+                             "title.materia":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "materia"
+                                               },
+                             "title.juez":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "juez"
+                                            },
+                             "title.especialista":  {
+                                                        "origen":  "SISTEMA",
+                                                        "campoSistema":  "especialista"
+                                                    },
+                             "title.fiscalia":  {
+                                                    "origen":  "MANUAL"
+                                                },
+                             "title.perito":  {
+                                                  "origen":  "MANUAL"
+                                              },
+                             "title.demandado":  {
+                                                     "origen":  "SISTEMA",
+                                                     "campoSistema":  "demandados"
+                                                 },
+                             "title.demandante":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "demandantes"
+                                                  },
+                             "top.numero":  {
+                                                "origen":  "MANUAL"
+                                            },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.diamesletter":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "fecha_dia_mes"
+                                                  },
+                             "top.anioletter":  {
+                                                    "origen":  "SISTEMA",
+                                                    "campoSistema":  "top.anioletter"
+                                                },
+                             "body.main.nroresolucionletras":  {
+                                                                   "origen":  "MANUAL"
+                                                               },
+                             "body.main.fechasresolucionletras":  {
+                                                                      "origen":  "MANUAL"
+                                                                  },
+                             "body.main.fojasresolucion":  {
+                                                               "origen":  "MANUAL"
+                                                           },
+                             "body.main.nombre.demandado":  {
+                                                                "origen":  "SISTEMA",
+                                                                "campoSistema":  "demandados"
+                                                            },
+                             "body.main.montoletras":  {
+                                                           "origen":  "MANUAL"
+                                                       },
+                             "body.main.montonumero":  {
+                                                           "origen":  "MANUAL"
+                                                       },
+                             "body.main.plazodias":  {
+                                                         "origen":  "MANUAL"
+                                                     }
+                         },
+    "template_auto_26":  {
+                             "title.corte":  {
+                                                 "origen":  "MANUAL",
+                                                 "valorDefecto":  "CORTE SUPERIOR DE JUSTICIA DE ANCASH"
+                                             },
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.nombreanio":  {
+                                                      "origen":  "MANUAL",
+                                                      "valorDefecto":  "AÑO DE LA RECUPERACIÓN Y CONSOLIDACIÓN DE LA ECONOMÍA PERUANA"
+                                                  },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.fecha":  {
+                                               "origen":  "SISTEMA",
+                                               "campoSistema":  "fecha_larga_del"
+                                           },
+                             "title.oficio":  {
+                                                  "origen":  "MANUAL"
+                                              },
+                             "title.fechainspeccion":  {
+                                                           "origen":  "MANUAL"
+                                                       },
+                             "title.horainspeccion":  {
+                                                          "origen":  "MANUAL"
+                                                      },
+                             "title.horatxtinspeccion":  {
+                                                             "origen":  "MANUAL"
+                                                         },
+                             "title.predioinspeccion":  {
+                                                            "origen":  "MANUAL"
+                                                        },
+                             "title.direccioninspeccion":  {
+                                                               "origen":  "MANUAL"
+                                                           },
+                             "title.demandante":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "demandantes"
+                                                  },
+                             "title.expediente":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "expediente"
+                                                  },
+                             "title.juez":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "juez"
+                                            }
+                         },
+    "template_auto_27":  {
+                             "title.corte":  {
+                                                 "origen":  "MANUAL",
+                                                 "valorDefecto":  "CORTE SUPERIOR DE JUSTICIA DE ANCASH"
+                                             },
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.nombreanio":  {
+                                                      "origen":  "MANUAL",
+                                                      "valorDefecto":  "AÑO DE LA RECUPERACIÓN Y CONSOLIDACIÓN DE LA ECONOMÍA PERUANA"
+                                                  },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.fecha":  {
+                                               "origen":  "SISTEMA",
+                                               "campoSistema":  "fecha_larga_del"
+                                           },
+                             "title.oficio":  {
+                                                  "origen":  "MANUAL"
+                                              },
+                             "title.expediente":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "expediente"
+                                                  },
+                             "title.resolucioneleva":  {
+                                                           "origen":  "MANUAL"
+                                                       },
+                             "title.fecharesolucioneleva":  {
+                                                                "origen":  "MANUAL"
+                                                            },
+                             "title.resolucionapela":  {
+                                                           "origen":  "MANUAL"
+                                                       },
+                             "title.juez":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "juez"
+                                            }
+                         },
+    "template_auto_28":  {
+                             "title.corte":  {
+                                                 "origen":  "MANUAL",
+                                                 "valorDefecto":  "CORTE SUPERIOR DE JUSTICIA DE ANCASH"
+                                             },
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.nombreanio":  {
+                                                      "origen":  "MANUAL",
+                                                      "valorDefecto":  "AÑO DE LA RECUPERACIÓN Y CONSOLIDACIÓN DE LA ECONOMÍA PERUANA"
+                                                  },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.fecha":  {
+                                               "origen":  "SISTEMA",
+                                               "campoSistema":  "fecha_larga_del"
+                                           },
+                             "title.oficio":  {
+                                                  "origen":  "MANUAL"
+                                              },
+                             "title.expediente":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "expediente"
+                                                  },
+                             "title.resolucioneleva":  {
+                                                           "origen":  "MANUAL"
+                                                       },
+                             "title.fecharesolucioneleva":  {
+                                                                "origen":  "MANUAL"
+                                                            },
+                             "title.resolucionapela":  {
+                                                           "origen":  "MANUAL"
+                                                       },
+                             "title.juez":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "juez"
+                                            }
+                         },
+    "template_auto_29":  {
+                             "title.corte":  {
+                                                 "origen":  "MANUAL",
+                                                 "valorDefecto":  "CORTE SUPERIOR DE JUSTICIA DE ANCASH"
+                                             },
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.nombreanio":  {
+                                                      "origen":  "MANUAL",
+                                                      "valorDefecto":  "AÑO DE LA RECUPERACIÓN Y CONSOLIDACIÓN DE LA ECONOMÍA PERUANA"
+                                                  },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.fecha":  {
+                                               "origen":  "SISTEMA",
+                                               "campoSistema":  "fecha_larga_del"
+                                           },
+                             "title.oficio":  {
+                                                  "origen":  "MANUAL"
+                                              },
+                             "title.nroperitos":  {
+                                                      "origen":  "MANUAL"
+                                                  },
+                             "title.especialidadperito":  {
+                                                              "origen":  "MANUAL"
+                                                          },
+                             "title.demandante":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "demandantes"
+                                                  },
+                             "title.expediente":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "expediente"
+                                                  },
+                             "title.juez":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "juez"
+                                            }
+                         },
+    "template_auto_30":  {
+                             "title.corte":  {
+                                                 "origen":  "MANUAL",
+                                                 "valorDefecto":  "CORTE SUPERIOR DE JUSTICIA DE ANCASH"
+                                             },
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.nombreanio":  {
+                                                      "origen":  "MANUAL",
+                                                      "valorDefecto":  "AÑO DE LA RECUPERACIÓN Y CONSOLIDACIÓN DE LA ECONOMÍA PERUANA"
+                                                  },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.fecha":  {
+                                               "origen":  "SISTEMA",
+                                               "campoSistema":  "fecha_larga_del"
+                                           },
+                             "title.oficio":  {
+                                                  "origen":  "MANUAL"
+                                              },
+                             "title.fiscalia":  {
+                                                    "origen":  "MANUAL"
+                                                },
+                             "title.carpetafiscal":  {
+                                                         "origen":  "MANUAL"
+                                                     },
+                             "title.expediente":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "expediente"
+                                                  },
+                             "title.resolucionprevia":  {
+                                                            "origen":  "MANUAL"
+                                                        },
+                             "title.resolucionesprevia":  {
+                                                              "origen":  "MANUAL"
+                                                          },
+                             "title.juez":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "juez"
+                                            }
+                         },
+    "template_auto_31":  {
+                             "title.corte":  {
+                                                 "origen":  "MANUAL",
+                                                 "valorDefecto":  "CORTE SUPERIOR DE JUSTICIA DE ANCASH"
+                                             },
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.demandado":  {
+                                                     "origen":  "SISTEMA",
+                                                     "campoSistema":  "demandados"
+                                                 },
+                             "title.demandante":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "demandantes"
+                                                  },
+                             "title.nombreanio":  {
+                                                      "origen":  "MANUAL",
+                                                      "valorDefecto":  "AÑO DE LA RECUPERACIÓN Y CONSOLIDACIÓN DE LA ECONOMÍA PERUANA"
+                                                  },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.diamesletter":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "fecha_dia_mes"
+                                                  },
+                             "top.anioletter":  {
+                                                    "origen":  "SISTEMA",
+                                                    "campoSistema":  "top.anioletter"
+                                                },
+                             "top.fecha":  {
+                                               "origen":  "SISTEMA",
+                                               "campoSistema":  "fecha_larga_del"
+                                           },
+                             "title.oficio":  {
+                                                  "origen":  "MANUAL"
+                                              },
+                             "title.fiscalia":  {
+                                                    "origen":  "MANUAL"
+                                                },
+                             "title.carpetafiscal":  {
+                                                         "origen":  "MANUAL"
+                                                     },
+                             "title.expediente":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "expediente"
+                                                  },
+                             "title.resolucionprevia":  {
+                                                            "origen":  "MANUAL"
+                                                        },
+                             "title.resolucionesprevia":  {
+                                                              "origen":  "MANUAL"
+                                                          },
+                             "title.juez":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "juez"
+                                            }
+                         },
+    "template_auto_32":  {
+                             "title.corte":  {
+                                                 "origen":  "MANUAL",
+                                                 "valorDefecto":  "CORTE SUPERIOR DE JUSTICIA DE ANCASH"
+                                             },
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.demandado":  {
+                                                     "origen":  "SISTEMA",
+                                                     "campoSistema":  "demandados"
+                                                 },
+                             "title.demandante":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "demandantes"
+                                                  },
+                             "title.nombreanio":  {
+                                                      "origen":  "MANUAL",
+                                                      "valorDefecto":  "AÑO DE LA RECUPERACIÓN Y CONSOLIDACIÓN DE LA ECONOMÍA PERUANA"
+                                                  },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.diamesletter":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "fecha_dia_mes"
+                                                  },
+                             "top.anioletter":  {
+                                                    "origen":  "SISTEMA",
+                                                    "campoSistema":  "top.anioletter"
+                                                },
+                             "top.fecha":  {
+                                               "origen":  "SISTEMA",
+                                               "campoSistema":  "fecha_larga_del"
+                                           },
+                             "title.oficio":  {
+                                                  "origen":  "MANUAL"
+                                              },
+                             "title.fiscalia":  {
+                                                    "origen":  "MANUAL"
+                                                },
+                             "title.carpetafiscal":  {
+                                                         "origen":  "MANUAL"
+                                                     },
+                             "title.expediente":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "expediente"
+                                                  },
+                             "title.resolucionprevia":  {
+                                                            "origen":  "MANUAL"
+                                                        },
+                             "title.resolucionesprevia":  {
+                                                              "origen":  "MANUAL"
+                                                          },
+                             "title.juez":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "juez"
+                                            }
+                         },
+    "template_auto_33":  {
+                             "title.corte":  {
+                                                 "origen":  "MANUAL",
+                                                 "valorDefecto":  "CORTE SUPERIOR DE JUSTICIA DE ANCASH"
+                                             },
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.demandado":  {
+                                                     "origen":  "SISTEMA",
+                                                     "campoSistema":  "demandados"
+                                                 },
+                             "title.demandante":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "demandantes"
+                                                  },
+                             "title.nombreanio":  {
+                                                      "origen":  "MANUAL",
+                                                      "valorDefecto":  "AÑO DE LA RECUPERACIÓN Y CONSOLIDACIÓN DE LA ECONOMÍA PERUANA"
+                                                  },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.diamesletter":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "fecha_dia_mes"
+                                                  },
+                             "top.anioletter":  {
+                                                    "origen":  "SISTEMA",
+                                                    "campoSistema":  "top.anioletter"
+                                                },
+                             "top.fecha":  {
+                                               "origen":  "SISTEMA",
+                                               "campoSistema":  "fecha_larga_del"
+                                           },
+                             "title.oficio":  {
+                                                  "origen":  "MANUAL"
+                                              },
+                             "title.fiscalia":  {
+                                                    "origen":  "MANUAL"
+                                                },
+                             "title.carpetafiscal":  {
+                                                         "origen":  "MANUAL"
+                                                     },
+                             "title.expediente":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "expediente"
+                                                  },
+                             "title.resolucionprevia":  {
+                                                            "origen":  "MANUAL"
+                                                        },
+                             "title.resolucionesprevia":  {
+                                                              "origen":  "MANUAL"
+                                                          },
+                             "title.juez":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "juez"
+                                            }
+                         },
+    "template_auto_34":  {
+                             "title.corte":  {
+                                                 "origen":  "MANUAL",
+                                                 "valorDefecto":  "CORTE SUPERIOR DE JUSTICIA DE ANCASH"
+                                             },
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.demandado":  {
+                                                     "origen":  "SISTEMA",
+                                                     "campoSistema":  "demandados"
+                                                 },
+                             "title.demandante":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "demandantes"
+                                                  },
+                             "title.nombreanio":  {
+                                                      "origen":  "MANUAL",
+                                                      "valorDefecto":  "AÑO DE LA RECUPERACIÓN Y CONSOLIDACIÓN DE LA ECONOMÍA PERUANA"
+                                                  },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.diamesletter":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "fecha_dia_mes"
+                                                  },
+                             "top.anioletter":  {
+                                                    "origen":  "SISTEMA",
+                                                    "campoSistema":  "top.anioletter"
+                                                },
+                             "top.fecha":  {
+                                               "origen":  "SISTEMA",
+                                               "campoSistema":  "fecha_larga_del"
+                                           },
+                             "title.oficio":  {
+                                                  "origen":  "MANUAL"
+                                              },
+                             "title.fiscalia":  {
+                                                    "origen":  "MANUAL"
+                                                },
+                             "title.carpetafiscal":  {
+                                                         "origen":  "MANUAL"
+                                                     },
+                             "title.expediente":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "expediente"
+                                                  },
+                             "title.resolucionprevia":  {
+                                                            "origen":  "MANUAL"
+                                                        },
+                             "title.resolucionesprevia":  {
+                                                              "origen":  "MANUAL"
+                                                          },
+                             "title.juez":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "juez"
+                                            }
+                         },
+    "template_auto_35":  {
+                             "title.juzgado":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "juzgado"
+                                               },
+                             "title.expediente":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "expediente"
+                                                  },
+                             "title.materia":  {
+                                                   "origen":  "SISTEMA",
+                                                   "campoSistema":  "materia"
+                                               },
+                             "title.juez":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "juez"
+                                            },
+                             "title.especialista":  {
+                                                        "origen":  "SISTEMA",
+                                                        "campoSistema":  "especialista"
+                                                    },
+                             "title.demandado":  {
+                                                     "origen":  "SISTEMA",
+                                                     "campoSistema":  "demandados"
+                                                 },
+                             "title.demandante":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "demandantes"
+                                                  },
+                             "top.numero":  {
+                                                "origen":  "MANUAL"
+                                            },
+                             "top.ciudad":  {
+                                                "origen":  "SISTEMA",
+                                                "campoSistema":  "ciudad"
+                                            },
+                             "top.diamesletter":  {
+                                                      "origen":  "SISTEMA",
+                                                      "campoSistema":  "fecha_dia_mes"
+                                                  },
+                             "top.anioletter":  {
+                                                    "origen":  "SISTEMA",
+                                                    "campoSistema":  "top.anioletter"
+                                                },
+                             "body.main.demandante":  {
+                                                          "origen":  "SISTEMA",
+                                                          "campoSistema":  "demandantes"
+                                                      },
+                             "body.main.nombre.demandado":  {
+                                                                "origen":  "SISTEMA",
+                                                                "campoSistema":  "demandados"
+                                                            }
+                         }
+}
